@@ -31862,8 +31862,14 @@ Expected a subset of: ${expected.join(", ")}
 var import_core24 = require("@tamagui/core");
 
 // tamagui.config.ts
+var darkBackground = "#10121E";
+var darkBackgroundHover = "#161C2E";
+var darkBackgroundPress = "#0C101C";
+var baseTokens = defaultConfig.tokens;
 var customTokens = (0, import_core24.createTokens)({
+  ...defaultConfig.tokens,
   color: {
+    ...baseTokens.color,
     purple1: "#faf5ff",
     purple2: "#f3e8ff",
     purple3: "#e9d5ff",
@@ -31875,12 +31881,9 @@ var customTokens = (0, import_core24.createTokens)({
     purple9: "#904BFF",
     purple10: "#6b21a8",
     purple11: "#581c87",
-    purple12: "#3b0764"
-  },
-  radius: defaultConfig.tokens.radius,
-  zIndex: defaultConfig.tokens.zIndex,
-  space: defaultConfig.tokens.space,
-  size: defaultConfig.tokens.size
+    purple12: "#3b0764",
+    cleanerDarkBg: darkBackground
+  }
 });
 var baseTheme = defaultConfig.themes.light_blue;
 var config = {
@@ -31888,7 +31891,6 @@ var config = {
   tokens: customTokens,
   themes: {
     ...defaultConfig.themes,
-    // Create purple theme with same structure as blue
     purple: {
       ...baseTheme,
       background: "#904BFF",
@@ -31903,6 +31905,14 @@ var config = {
       borderColorHover: "#7e22ce",
       borderColorPress: "#6b21a8",
       borderColorFocus: "#904BFF"
+    },
+    dark: {
+      ...defaultConfig.themes.dark,
+      background: darkBackground,
+      backgroundHover: darkBackgroundHover,
+      backgroundPress: darkBackgroundPress,
+      backgroundFocus: darkBackground,
+      backgroundStrong: darkBackgroundHover
     }
   }
 };

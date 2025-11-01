@@ -1,9 +1,18 @@
 import { defaultConfig } from "@tamagui/config/v4";
 import { createTamagui, createTokens } from "tamagui";
 
-// Create custom purple color tokens
+const darkBackground = "#10121E";
+const darkBackgroundHover = "#161C2E";
+const darkBackgroundPress = "#0C101C";
+
+const baseTokens = defaultConfig.tokens as unknown as {
+  color: Record<string, string>;
+};
+
 const customTokens = createTokens({
+  ...defaultConfig.tokens,
   color: {
+    ...baseTokens.color,
     purple1: "#faf5ff",
     purple2: "#f3e8ff",
     purple3: "#e9d5ff",
@@ -16,14 +25,10 @@ const customTokens = createTokens({
     purple10: "#6b21a8",
     purple11: "#581c87",
     purple12: "#3b0764",
+    cleanerDarkBg: darkBackground,
   },
-  radius: defaultConfig.tokens.radius,
-  zIndex: defaultConfig.tokens.zIndex,
-  space: defaultConfig.tokens.space,
-  size: defaultConfig.tokens.size,
 });
 
-// Get a base theme to copy structure from
 const baseTheme = defaultConfig.themes.light_blue;
 
 const config = {
@@ -31,7 +36,6 @@ const config = {
   tokens: customTokens,
   themes: {
     ...defaultConfig.themes,
-    // Create purple theme with same structure as blue
     purple: {
       ...baseTheme,
       background: "#904BFF",
@@ -46,6 +50,14 @@ const config = {
       borderColorHover: "#7e22ce",
       borderColorPress: "#6b21a8",
       borderColorFocus: "#904BFF",
+    },
+    dark: {
+      ...defaultConfig.themes.dark,
+      background: darkBackground,
+      backgroundHover: darkBackgroundHover,
+      backgroundPress: darkBackgroundPress,
+      backgroundFocus: darkBackground,
+      backgroundStrong: darkBackgroundHover,
     },
   },
 };

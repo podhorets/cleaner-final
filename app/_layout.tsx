@@ -9,6 +9,7 @@ import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
 
+import { SafeAreaView } from "react-native-safe-area-context";
 import { tamaguiConfig } from "../tamagui.config";
 
 export default function RootLayout() {
@@ -16,13 +17,22 @@ export default function RootLayout() {
 
   return (
     // add this
-    <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        </Stack>
-      </ThemeProvider>
-    </TamaguiProvider>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colorScheme === "dark" ? "#000" : "green",
+      }}
+    >
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          </Stack>
+        </ThemeProvider>
+      </TamaguiProvider>
+    </SafeAreaView>
   );
 }
