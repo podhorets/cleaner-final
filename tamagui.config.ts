@@ -1,74 +1,62 @@
 import { defaultConfig } from "@tamagui/config/v4";
-import { createTamagui, createTokens } from "tamagui";
+import { createTamagui } from "tamagui";
+import { baseColors } from "./src/theme/base";
 
-const darkBackground = "#10121E";
-const darkBackgroundHover = "#161C2E";
-const darkBackgroundPress = "#0C101C";
-
-const baseTokens = defaultConfig.tokens as unknown as {
-  color: Record<string, string>;
+// generate our theme objects from base colors
+const themes = {
+  light: {
+    bg: baseColors.light.bg,
+    cardBg: baseColors.light.cardBg,
+    smartCleanerBg: baseColors.light.smartCleanerBg,
+    secretFolderBg: baseColors.light.secretFolderBg,
+    menuBg: baseColors.light.menuBg,
+    text: baseColors.light.text,
+  },
+  dark: {
+    bg: baseColors.dark.bg,
+    cardBg: baseColors.dark.cardBg,
+    smartCleanerBg: baseColors.dark.smartCleanerBg,
+    secretFolderBg: baseColors.dark.secretFolderBg,
+    menuBg: baseColors.dark.menuBg,
+    text: baseColors.dark.text,
+  },
 };
 
-const customTokens = createTokens({
-  ...defaultConfig.tokens,
-  color: {
-    ...baseTokens.color,
-    purple1: "#faf5ff",
-    purple2: "#f3e8ff",
-    purple3: "#e9d5ff",
-    purple4: "#d8b4fe",
-    purple5: "#c084fc",
-    purple6: "#a855f7",
-    purple7: "#9333ea",
-    purple8: "#7e22ce",
-    purple9: "#904BFF",
-    purple10: "#6b21a8",
-    purple11: "#581c87",
-    purple12: "#3b0764",
-    cleanerDarkBg: darkBackground,
+export const config = createTamagui({
+  ...defaultConfig,
+  tokens: {
+    ...defaultConfig.tokens,
+  },
+  themes: {
+    ...defaultConfig.themes,
+    ...themes,
+  },
+  shorthands: {
+    ...defaultConfig.shorthands,
+  },
+  fonts: {
+    ...defaultConfig.fonts,
+    heading: {
+      ...defaultConfig.fonts?.heading,
+    },
+    body: {
+      ...defaultConfig.fonts?.body,
+      weight: {
+        ...defaultConfig.fonts?.body?.weight,
+        light: "300",
+        regular: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+      },
+    },
   },
 });
 
-const baseTheme = defaultConfig.themes.light_blue;
-
-const config = {
-  ...defaultConfig,
-  tokens: customTokens,
-  themes: {
-    ...defaultConfig.themes,
-    purple: {
-      ...baseTheme,
-      background: "#904BFF",
-      backgroundHover: "#7e22ce",
-      backgroundPress: "#6b21a8",
-      backgroundFocus: "#904BFF",
-      color: "#ffffff",
-      colorHover: "#ffffff",
-      colorPress: "#ffffff",
-      colorFocus: "#ffffff",
-      borderColor: "#904BFF",
-      borderColorHover: "#7e22ce",
-      borderColorPress: "#6b21a8",
-      borderColorFocus: "#904BFF",
-    },
-    dark: {
-      ...defaultConfig.themes.dark,
-      background: darkBackground,
-      backgroundHover: darkBackgroundHover,
-      backgroundPress: darkBackgroundPress,
-      backgroundFocus: darkBackground,
-      backgroundStrong: darkBackgroundHover,
-    },
-  },
-};
-
-export const tamaguiConfig = createTamagui(config);
-
-export default tamaguiConfig;
-
-export type Conf = typeof tamaguiConfig;
+// now, make your types flow nicely back to your `tamagui` import:
+type OurConfig = typeof config;
 
 declare module "tamagui" {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  interface TamaguiCustomConfig extends Conf {}
+  interface TamaguiCustomConfig extends OurConfig {}
 }

@@ -1,54 +1,44 @@
+import { Image, Phone } from "@tamagui/lucide-icons";
 import { Card, Text, XStack, YStack } from "tamagui";
+import { Badge } from "./Badge";
 
-import type { ViewStyle } from "react-native";
+const tiles = [
+  { id: "img", label: "Images", count: "1 198", icon: Image },
+  { id: "ct", label: "Contacts", count: "198", icon: Phone },
+];
 
-type SecretTile = {
-  id: string;
-  label: string;
-  count: string;
-  emphasis?: "primary" | "secondary";
-  onPress?: () => void;
-};
-
-export type SecretFolderSectionProps = {
-  tiles: SecretTile[];
-};
-
-const headerStyle: ViewStyle = {
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-export function SecretFolderSection({ tiles }: SecretFolderSectionProps) {
+export function SecretFolderSection() {
   return (
-    <YStack space="$3">
-      <XStack style={headerStyle}>
-        <Text fontSize="$6" fontWeight="700">
+    <Card
+      py="$2.5"
+      px="$4"
+      borderRadius="$9"
+      bg="$secretFolderBg"
+      bordered
+      onPress={() => {}}
+    >
+      <YStack gap="$2.5">
+        <Text fontSize={24} fontWeight="500" color="$text">
           Secret Folder
         </Text>
-        <Text color="$color11">See all</Text>
-      </XStack>
-      <XStack space="$3">
         {tiles.map((tile) => (
-          <Card
-            key={tile.id}
-            flex={1}
-            padding="$4"
-            borderRadius="$6"
-            bordered
-            backgroundColor={tile.emphasis === "primary" ? "#3e2b7d" : undefined}
-          >
-            <YStack space="$1">
-              <Text fontSize="$2" color="$color11">
-                {tile.count}
-              </Text>
-              <Text fontSize="$5" fontWeight="700">
+          <YStack key={tile.id} gap="$2">
+            <XStack gap="$4">
+              {/* left side badge */}
+              <Badge
+                icon={tile.icon}
+                value={`${tile.count} items`}
+                useMinWidth={true}
+              />
+
+              {/* right side label */}
+              <Text fontSize={20} fontWeight="$medium" color="$text">
                 {tile.label}
               </Text>
-            </YStack>
-          </Card>
+            </XStack>
+          </YStack>
         ))}
-      </XStack>
-    </YStack>
+      </YStack>
+    </Card>
   );
 }

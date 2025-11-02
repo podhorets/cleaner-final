@@ -1,65 +1,28 @@
-import { Button, Card, Progress, Text, XStack, YStack } from "tamagui";
+import { Button, Card, Text, YStack } from "tamagui";
 
-import type { ViewStyle } from "react-native";
+export type UsageBreakdownCardProps = {};
 
-type UsageSlice = {
-  label: string;
-  value: number;
-  color: string;
-};
-
-export type UsageBreakdownCardProps = {
-  slices: UsageSlice[];
-  totalUsed: string;
-  totalCapacity: string;
-  onSmartCleanPress?: () => void;
-};
-
-const rowStyle: ViewStyle = { alignItems: "center" };
-const dotStyle: ViewStyle = {
-  width: 12,
-  height: 12,
-  borderRadius: 6,
-};
-const progressStyle: ViewStyle = {
-  height: 10,
-  borderRadius: 5,
-};
-const progressIndicatorStyle: ViewStyle = {
-  borderRadius: 5,
-};
-
-export function UsageBreakdownCard({
-  slices,
-  totalUsed,
-  totalCapacity,
-  onSmartCleanPress,
-}: UsageBreakdownCardProps) {
+export function UsageBreakdownCard({}: UsageBreakdownCardProps) {
   return (
-    <Card padding="$4" borderRadius="$6" space="$4" bordered>
-      <YStack space="$3">
-        <Text fontSize="$6" fontWeight="700">
-          Storage breakdown
-        </Text>
-        <YStack space="$2">
-          {slices.map((slice) => (
-            <XStack key={slice.label} style={rowStyle} space="$3">
-              <Card style={[dotStyle, { backgroundColor: slice.color }]} />
-              <Text flex={1}>{slice.label}</Text>
-              <Text color="$color11">{slice.value}%</Text>
-            </XStack>
-          ))}
-        </YStack>
-        <YStack space="$2">
-          <Text color="$color11">
-            {totalUsed} of {totalCapacity} used
-          </Text>
-          <Progress value={65} style={progressStyle}>
-            <Progress.Indicator style={progressIndicatorStyle} />
-          </Progress>
-        </YStack>
-        <Button onPress={onSmartCleanPress}>
-          Start smart clean
+    <Card px="$5" py="$2.5" borderRadius="$9" bg="$cardBg" bordered>
+      <YStack gap="$4.5">
+        {/* <YStack>
+          <Text height={180}>diagrams</Text>
+        </YStack> */}
+        <Button
+          onPress={() => {}}
+          bg="$smartCleanerBg"
+          borderRadius="$10"
+          size="$5"
+        >
+          <YStack gap="$1" items="center">
+            <Text fontSize={16} fontWeight="$medium" opacity={0.6}>
+              Use smart clean
+            </Text>
+            <Text fontSize={20} fontWeight="$medium">
+              START SMART CLEAN
+            </Text>
+          </YStack>
         </Button>
       </YStack>
     </Card>

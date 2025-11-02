@@ -1,31 +1,24 @@
-import { ScrollView, YStack } from "tamagui";
+import { useRouter } from "expo-router";
+import { ScrollView, useThemeName, YStack } from "tamagui";
 import { BottomNavigationBar } from "./components/BottomNavigationBar";
 import { QuickAccessRow } from "./components/QuickAccessRow";
 import { SecretFolderSection } from "./components/SecretFolderSection";
 import { StatusBanner } from "./components/StatusBanner";
 import { SystemOverviewCard } from "./components/SystemOverviewCard";
 import { UsageBreakdownCard } from "./components/UsageBreakdownCard";
-import { UtilityActionsRow } from "./components/UtilityActionsRow";
-import {
-  bottomNavigationMock,
-  quickAccessMock,
-  secretFolderMock,
-  statusBannerMock,
-  systemOverviewMock,
-  usageBreakdownMock,
-  utilityActionsMock,
-} from "./homeMockData";
+import { bottomNavigationMock } from "./homeMockData";
 
 export function HomeScreen() {
+  const themeName = useThemeName();
+  const router = useRouter();
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <YStack space="$4" style={{ padding: 16 }}>
-        <StatusBanner {...statusBannerMock} />
-        <UsageBreakdownCard {...usageBreakdownMock} />
-        <SystemOverviewCard {...systemOverviewMock} />
-        <QuickAccessRow {...quickAccessMock} />
-        <SecretFolderSection {...secretFolderMock} />
-        <UtilityActionsRow {...utilityActionsMock} />
+    <ScrollView showsVerticalScrollIndicator={false} bg="$bg">
+      <YStack gap="$4" style={{ padding: 16 }} flex={1}>
+        <StatusBanner />
+        <UsageBreakdownCard />
+        <QuickAccessRow />
+        <SystemOverviewCard />
+        <SecretFolderSection />
         <BottomNavigationBar {...bottomNavigationMock} />
       </YStack>
     </ScrollView>
