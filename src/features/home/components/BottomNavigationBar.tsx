@@ -9,10 +9,10 @@ type NavItem = {
 };
 
 export type BottomNavigationBarProps = {
-  items: NavItem[];
+  // items: NavItem[];
 };
 
-export function BottomNavigationBar({ items }: BottomNavigationBarProps) {
+export function BottomNavigationBar({}: BottomNavigationBarProps) {
   return (
     <XStack
       bg="$menuBg"

@@ -6,7 +6,6 @@ import { SecretFolderSection } from "./components/SecretFolderSection";
 import { StatusBanner } from "./components/StatusBanner";
 import { SystemOverviewCard } from "./components/SystemOverviewCard";
 import { UsageBreakdownCard } from "./components/UsageBreakdownCard";
-import { bottomNavigationMock } from "./homeMockData";
 
 export function HomeScreen() {
   const themeName = useThemeName();
@@ -19,7 +18,7 @@ export function HomeScreen() {
         <QuickAccessRow />
         <SystemOverviewCard />
         <SecretFolderSection />
-        <BottomNavigationBar {...bottomNavigationMock} />
+        <BottomNavigationBar />
       </YStack>
     </ScrollView>
   );
