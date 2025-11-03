@@ -1769,19 +1769,26 @@ Expected a subset of: ${expected.join(", ")}
 var baseColors = {
   light: {
     bg: "#FFFFFF",
-    homeScreenCardBg: "#F3F4F4",
+    mainCardBg: "#F3F4F4",
     homeScreenSmartCleanButtonBg: "#0074E3",
     homeScreenSecretFolderAreaBg: "#C5256B",
     homeScreenNavigationBarBg: "#DFD4FF",
-    homeScreenText: "#323232"
+    homeScreenText: "#323232",
+    smartCleanScreenPrimaryColor: "#0F77F0",
+    smartCleanScreenSecondaryColor: "#FFFFFF",
+    smartCleanScreenFullColor: "#F26B58"
   },
   dark: {
     bg: "#1B1B24",
+    mainCardBg: "#FFFFFF0D",
     homeScreenCardBg: "#262632",
     homeScreenSmartCleanButtonBg: "#0074E3",
     homeScreenSecretFolderAreaBg: "#C5256B",
     homeScreenNavigationBarBg: "#DFD4FF",
-    homeScreenText: "#FFFFFF"
+    homeScreenText: "#FFFFFF",
+    smartCleanScreenPrimaryColor: "#0F77F0",
+    smartCleanScreenSecondaryColor: "#FFFFFF",
+    smartCleanScreenFullColor: "#F26B58"
   }
 };
 
@@ -1789,19 +1796,27 @@ var baseColors = {
 var themes2 = {
   light: {
     bg: baseColors.light.bg,
+    mainCardBg: baseColors.dark.mainCardBg,
     hsCardBg: baseColors.light.homeScreenCardBg,
     hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
     hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
     hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
-    text: baseColors.light.homeScreenText
+    hsText: baseColors.light.homeScreenText,
+    scsPrimaryColor: baseColors.light.smartCleanScreenPrimaryColor,
+    scsSecondaryColor: baseColors.light.smartCleanScreenSecondaryColor,
+    scsFullColor: baseColors.light.smartCleanScreenFullColor
   },
   dark: {
     bg: baseColors.dark.bg,
+    mainCardBg: baseColors.dark.mainCardBg,
     hsCardBg: baseColors.dark.homeScreenCardBg,
     hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
     hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
     hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,
-    hsText: baseColors.dark.homeScreenText
+    hsText: baseColors.dark.homeScreenText,
+    scsPrimaryColor: baseColors.dark.smartCleanScreenPrimaryColor,
+    scsSecondaryColor: baseColors.dark.smartCleanScreenSecondaryColor,
+    scsFullColor: baseColors.dark.smartCleanScreenFullColor
   }
 };
 var config = createTamagui({

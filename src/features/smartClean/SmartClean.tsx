@@ -55,14 +55,14 @@ export function SmartClean() {
 
   return (
     <ScrollView>
-      <YStack gap="$4" style={{ padding: 16 }}>
+      <YStack gap="$4" p="$3">
         {/* Header */}
         <XStack ai="center" gap="$3">
           <Text
             onPress={() => router.back()}
             fs={16}
             fw="$medium"
-            color="$hsText"
+            color="$scsSecondaryColor"
             o={0.7}
           >
             {"< Back"}
@@ -71,13 +71,13 @@ export function SmartClean() {
 
         {/* Title and usage */}
         <YStack gap="$2" items="center" mt="$1">
-          <Text color="$hsSmartCleanButtonBg" fs={28} fw="$bold">
+          <Text color="$scsPrimaryColor" fs={28} fw="$bold">
             Smart Cleaner
           </Text>
-          <Text color="$hsText" o={0.6} fs={12} fw="$medium">
+          <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$medium">
             YOUR SYSTEM IS LOADED ON
           </Text>
-          <Text color="$hsText" fs={44} fw="$bold">
+          <Text color="$scsSecondaryColor" fs={44} fw="$bold">
             226.00
             <Text fs={18} fw="$regular">
               {" "}
@@ -86,27 +86,27 @@ export function SmartClean() {
           </Text>
           <Stack w="100%" mt="$2">
             <Progress value={76} br="$10" height={14}>
-              <Progress.Indicator br="$10" bg="$hsSmartCleanButtonBg" />
+              <Progress.Indicator br="$10" bg="$scsPrimaryColor" />
             </Progress>
           </Stack>
           <XStack gap="$2" mt="$2" ai="center">
-            <Text color="$hsText" o={0.6} fs={12} fw="$medium">
+            <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$medium">
               LAST CLEARING
             </Text>
-            <Text color="$hsText" fs={12} fw="$medium">
+            <Text color="$scsSecondaryColor" fs={12} fw="$medium">
               2 NOV
             </Text>
           </XStack>
         </YStack>
 
         {/* Clean-up files */}
-        <Card p="$4" br="$9" bg="$hsCardBg" bordered>
+        <Card p="$4" br="$9" bg="#FFFFFF05">
           <YStack gap="$3">
             <YStack gap="$1">
-              <Text color="$hsText" o={0.8} fs={12} fw="$medium">
+              <Text color="$scsSecondaryColor" o={0.8} fs={12} fw="$medium">
                 CLEAN-UP FILES
               </Text>
-              <Text color="$hsText" o={0.6} fs={12} fw="$light">
+              <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$light">
                 You can go to the section and see the files found.
               </Text>
             </YStack>
@@ -120,8 +120,8 @@ export function SmartClean() {
         </Card>
 
         {/* Bottom action */}
-        <Button bg="$hsCardBg" br="$10" size="$5" onPress={() => {}}>
-          <Text fs={16} fw="$medium" color="$hsText" o={0.85}>
+        <Button bg="$mainCardBg" br="$10" size="$5" onPress={() => {}}>
+          <Text fs={16} fw="$medium" color="$scsSecondaryColor" o={0.85}>
             Cleaning files
           </Text>
         </Button>
@@ -134,7 +134,7 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
   return (
     <Card
       bordered
-      bg="$hsCardBg"
+      bg="$mainCardBg"
       br="$9"
       p="$4"
       w="48%"
@@ -146,23 +146,23 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
         {/* Top row with icon and checkbox placeholder */}
         <XStack jc="space-between" ai="center">
           <XStack height={30} width={30} br="$6" ai="center" jc="center">
-            <Icon size={22} color="$hsSmartCleanButtonBg" />
+            <Icon size={22} color="$scsPrimaryColor" />
           </XStack>
           <Stack height={18} width={18} br="$2" bg="$bg" o={0.25} bordered />
         </XStack>
 
         {/* Count and size */}
         <XStack gap="$1.5" ai="baseline">
-          <Text color="$hsSmartCleanButtonBg" fs={20} fw="$bold">
+          <Text color="$scsPrimaryColor" fs={20} fw="$bold">
             {count}
           </Text>
-          <Text color="$hsText" o={0.6} fs={12} fw="$regular">
+          <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$regular">
             ({size})
           </Text>
         </XStack>
 
         {/* Label */}
-        <Text color="$hsText" fs={14} fw="$medium">
+        <Text color="$scsSecondaryColor" fs={14} fw="$medium">
           {label}
         </Text>
       </YStack>

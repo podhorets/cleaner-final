@@ -5,7 +5,7 @@ import { Badge } from "../../../shared/components/Badge";
 
 export function Hardware() {
   return (
-    <Card p="$2.5" br="$9" bg="$hsCardBg" gap="$3" bordered>
+    <Card p="$2.5" br="$9" bg="$mainCardBg" gap="$3" bordered>
       <Text fs={24} fw="$medium" color="$hsText">
         System
       </Text>

@@ -24,7 +24,7 @@ export function ImagesAndContacts() {
 
 function QuickLinkCard({ label, count, onPress }: QuickLink) {
   return (
-    <Card flex={1} p="$4" br="$9" bg="$hsCardBg" bordered onPress={onPress}>
+    <Card flex={1} p="$4" br="$9" bg="$mainCardBg" bordered onPress={onPress}>
       <YStack gap="$2">
         <Text color="$hsText" fs={20} fw="$medium">
           {label}

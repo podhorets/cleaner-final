@@ -5,7 +5,7 @@ export function MemoryUsage() {
   const router = useRouter();
 
   return (
-    <Card px="$5" py="$2.5" br="$9" bg="$hsCardBg" bordered>
+    <Card px="$5" py="$2.5" br="$9" bg="$mainCardBg" bordered>
       <YStack gap="$4.5">
         {/* <YStack>
           <Text height={180}>diagrams</Text>

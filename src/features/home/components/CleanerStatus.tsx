@@ -2,7 +2,7 @@ import { Card, Text, XStack, YStack } from "tamagui";
 
 export function CleanerStatus() {
   return (
-    <Card p="$2.5" br="$9" bg="$hsCardBg" bordered>
+    <Card p="$2.5" br="$9" bg="$mainCardBg" bordered>
       <XStack items="center" gap="$3.5">
         <Text width={44} height={38}>
           X
