@@ -1,6 +1,6 @@
 import { Card, Text, XStack, YStack } from "tamagui";
 
-export function StatusBanner() {
+export function CleanerStatus() {
   return (
     <Card p="$2.5" br="$9" bg="$cardBg" bordered>
       <XStack items="center" gap="$3.5">

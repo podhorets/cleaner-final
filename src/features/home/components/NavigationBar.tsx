@@ -2,7 +2,7 @@ import { XStack, YStack } from "tamagui";
 
 import { AlertCircle, Grid2x2Plus, Rss, Shield } from "@tamagui/lucide-icons";
 
-export function BottomNavigationBar() {
+export function NavigationBar() {
   return (
     <XStack
       bg="$menuBg"

@@ -26,11 +26,12 @@ export default function RootLayout() {
         defaultTheme={"dark"}
       >
         <ThemeProvider value={colorScheme === "dark" ? navDark : navLight}>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-            <Stack.Screen name="dark" options={{ headerShown: false }} />
-          </Stack>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: safeAreaBgColor },
+            }}
+          ></Stack>
         </ThemeProvider>
       </TamaguiProvider>
     </SafeAreaView>

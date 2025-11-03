@@ -1,13 +1,13 @@
 import { Image, Phone } from "@tamagui/lucide-icons";
 import { Card, Text, XStack, YStack } from "tamagui";
-import { Badge } from "./Badge";
+import { Badge } from "../../../shared/components/Badge";
 
 const tiles = [
   { id: "img", label: "Images", count: "1 198", icon: Image },
   { id: "ct", label: "Contacts", count: "198", icon: Phone },
 ];
 
-export function SecretFolderSection() {
+export function SecretFolder() {
   return (
     <Card
       py="$2.5"

@@ -12,7 +12,7 @@ const links = [
   { id: "contacts", label: "Contacts", count: "842", onPress: () => {} },
 ] as QuickLink[];
 
-export function QuickAccessRow() {
+export function ImagesAndContacts() {
   return (
     <XStack gap="$3.5">
       {links.map((item) => (

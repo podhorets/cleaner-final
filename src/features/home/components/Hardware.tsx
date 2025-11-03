@@ -1,9 +1,9 @@
 import { Cpu, MemoryStick, Thermometer } from "@tamagui/lucide-icons";
 import { Card, Progress, Stack, Text, XStack, YStack } from "tamagui";
 
-import { Badge } from "./Badge";
+import { Badge } from "../../../shared/components/Badge";
 
-export function SystemOverviewCard() {
+export function Hardware() {
   return (
     <Card p="$2.5" br="$9" bg="$cardBg" gap="$3" bordered>
       <Text fs={24} fw="$medium" color="$text">

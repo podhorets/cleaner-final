@@ -1,6 +1,9 @@
+import { useRouter } from "expo-router";
 import { Button, Card, Text, YStack } from "tamagui";
 
-export function UsageBreakdownCard() {
+export function MemoryUsage() {
+  const router = useRouter();
+
   return (
     <Card px="$5" py="$2.5" br="$9" bg="$cardBg" bordered>
       <YStack gap="$4.5">
@@ -8,7 +11,11 @@ export function UsageBreakdownCard() {
           <Text height={180}>diagrams</Text>
         </YStack> */}
         <Button onPress={() => {}} bg="$smartCleanerBg" br="$10" size="$5">
-          <YStack gap="$1" items="center">
+          <YStack
+            gap="$1"
+            items="center"
+            onPress={() => router.push("/smart-clean")}
+          >
             <Text fs={16} fw="$medium" o={0.6}>
               Use smart clean
             </Text>
