@@ -34,6 +34,9 @@ export const config = createTamagui({
   shorthands: {
     ...defaultConfig.shorthands,
     br: "borderRadius",
+    fs: "fontSize",
+    fw: "fontWeight",
+    o: "opacity",
   },
   fonts: {
     ...defaultConfig.fonts,
