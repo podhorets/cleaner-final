@@ -2,17 +2,7 @@ import { XStack, YStack } from "tamagui";
 
 import { AlertCircle, Grid2x2Plus, Rss, Shield } from "@tamagui/lucide-icons";
 
-type NavItem = {
-  id: string;
-  label: string;
-  active?: boolean;
-};
-
-export type BottomNavigationBarProps = {
-  // items: NavItem[];
-};
-
-export function BottomNavigationBar({}: BottomNavigationBarProps) {
+export function BottomNavigationBar() {
   return (
     <XStack
       bg="$menuBg"
@@ -37,7 +27,7 @@ function Action({ icon: Icon }: { icon: any }) {
       height={58}
       width={58}
       bg="$text"
-      borderRadius="$8"
+      br="$8"
       p="$3"
       items="center"
       justify="center"

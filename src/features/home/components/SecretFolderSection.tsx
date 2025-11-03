@@ -12,13 +12,13 @@ export function SecretFolderSection() {
     <Card
       py="$2.5"
       px="$4"
-      borderRadius="$9"
+      br="$9"
       bg="$secretFolderBg"
       bordered
       onPress={() => {}}
     >
       <YStack gap="$2.5">
-        <Text fontSize={24} fontWeight="500" color="$text">
+        <Text fs={24} fw="500" color="$text">
           Secret Folder
         </Text>
         {tiles.map((tile) => (
@@ -32,7 +32,7 @@ export function SecretFolderSection() {
               />
 
               {/* right side label */}
-              <Text fontSize={20} fontWeight="$medium" color="$text">
+              <Text fs={20} fw="$medium" color="$text">
                 {tile.label}
               </Text>
             </XStack>

@@ -36026,7 +36026,8 @@
       "bxs": "boxSizing",
       "bxsh": "boxShadow",
       "ox": "overflowX",
-      "oy": "overflowY"
+      "oy": "overflowY",
+      "br": "borderRadius"
     },
     "themes": {
       "light": {
@@ -50647,7 +50648,7 @@
       "paddingHorizontal": "px",
       "paddingVertical": "py",
       "right": "r",
-      "borderRadius": "rounded",
+      "borderRadius": "br",
       "userSelect": "select",
       "alignSelf": "self",
       "flexShrink": "shrink",

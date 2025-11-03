@@ -24,16 +24,9 @@ export function QuickAccessRow() {
 
 function QuickLinkCard({ label, count, onPress }: QuickLink) {
   return (
-    <Card
-      flex={1}
-      padding="$4"
-      borderRadius="$9"
-      bg="$cardBg"
-      bordered
-      onPress={onPress}
-    >
+    <Card flex={1} p="$4" br="$9" bg="$cardBg" bordered onPress={onPress}>
       <YStack gap="$2">
-        <Text color="$text" fontSize={20} fontWeight="$medium">
+        <Text color="$text" fs={20} fw="$medium">
           {label}
         </Text>
 
@@ -41,11 +34,11 @@ function QuickLinkCard({ label, count, onPress }: QuickLink) {
           alignSelf="flex-start"
           p="$2"
           bg="$text"
-          borderRadius="$6"
+          br="$6"
           ai="center"
-          opacity={0.8}
+          o={0.8}
         >
-          <Text color="$background" fontSize={12} fontWeight="$regular">
+          <Text color="$bg" fs={12} fw="$regular">
             {count} items
           </Text>
         </XStack>

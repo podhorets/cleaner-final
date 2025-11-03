@@ -1814,7 +1814,8 @@ var config = createTamagui({
     ...themes2
   },
   shorthands: {
-    ...defaultConfig.shorthands
+    ...defaultConfig.shorthands,
+    br: "borderRadius"
   },
   fonts: {
     ...defaultConfig.fonts,

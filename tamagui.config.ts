@@ -33,6 +33,7 @@ export const config = createTamagui({
   },
   shorthands: {
     ...defaultConfig.shorthands,
+    br: "borderRadius",
   },
   fonts: {
     ...defaultConfig.fonts,
@@ -52,11 +53,3 @@ export const config = createTamagui({
     },
   },
 });
-
-// now, make your types flow nicely back to your `tamagui` import:
-type OurConfig = typeof config;
-
-declare module "tamagui" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  interface TamaguiCustomConfig extends OurConfig {}
-}

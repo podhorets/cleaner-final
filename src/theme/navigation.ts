@@ -10,12 +10,12 @@ const defaultFonts = {
 export const navLight = {
   dark: false,
   colors: {
-    background: baseColors.light.background,
-    card: baseColors.light.surface,
+    background: baseColors.light.bg,
+    card: baseColors.light.cardBg,
     text: baseColors.light.text,
-    border: baseColors.light.border,
-    primary: baseColors.light.primary,
-    notification: baseColors.light.danger,
+    border: baseColors.light.cardBg,
+    primary: baseColors.light.smartCleanerBg,
+    notification: baseColors.light.secretFolderBg,
   },
   fonts: defaultFonts,
 };
@@ -24,11 +24,11 @@ export const navDark = {
   dark: true,
   colors: {
     background: baseColors.dark.bg,
-    card: baseColors.dark.surface,
+    card: baseColors.dark.cardBg,
     text: baseColors.dark.text,
-    border: baseColors.dark.border,
-    primary: baseColors.dark.primary,
-    notification: baseColors.dark.danger,
+    border: baseColors.dark.cardBg,
+    primary: baseColors.dark.smartCleanerBg,
+    notification: baseColors.dark.secretFolderBg,
   },
   fonts: defaultFonts,
 };
