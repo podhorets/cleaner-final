@@ -6,19 +6,19 @@ import { baseColors } from "./src/theme/base";
 const themes = {
   light: {
     bg: baseColors.light.bg,
-    cardBg: baseColors.light.cardBg,
-    smartCleanerBg: baseColors.light.smartCleanerBg,
-    secretFolderBg: baseColors.light.secretFolderBg,
-    menuBg: baseColors.light.menuBg,
-    text: baseColors.light.text,
+    hsCardBg: baseColors.light.homeScreenCardBg,
+    hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
+    hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
+    hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
+    text: baseColors.light.homeScreenText,
   },
   dark: {
     bg: baseColors.dark.bg,
-    cardBg: baseColors.dark.cardBg,
-    smartCleanerBg: baseColors.dark.smartCleanerBg,
-    secretFolderBg: baseColors.dark.secretFolderBg,
-    menuBg: baseColors.dark.menuBg,
-    text: baseColors.dark.text,
+    hsCardBg: baseColors.dark.homeScreenCardBg,
+    hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
+    hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
+    hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,
+    hsText: baseColors.dark.homeScreenText,
   },
 };
 

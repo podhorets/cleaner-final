@@ -24,16 +24,16 @@ export function ImagesAndContacts() {
 
 function QuickLinkCard({ label, count, onPress }: QuickLink) {
   return (
-    <Card flex={1} p="$4" br="$9" bg="$cardBg" bordered onPress={onPress}>
+    <Card flex={1} p="$4" br="$9" bg="$hsCardBg" bordered onPress={onPress}>
       <YStack gap="$2">
-        <Text color="$text" fs={20} fw="$medium">
+        <Text color="$hsText" fs={20} fw="$medium">
           {label}
         </Text>
 
         <XStack
           alignSelf="flex-start"
           p="$2"
-          bg="$text"
+          bg="$hsText"
           br="$6"
           ai="center"
           o={0.8}

@@ -13,12 +13,12 @@ export function SecretFolder() {
       py="$2.5"
       px="$4"
       br="$9"
-      bg="$secretFolderBg"
+      bg="$hsSecretFolderAreaBg"
       bordered
       onPress={() => {}}
     >
       <YStack gap="$2.5">
-        <Text fs={24} fw="500" color="$text">
+        <Text fs={24} fw="500" color="$hsText">
           Secret Folder
         </Text>
         {tiles.map((tile) => (
@@ -32,7 +32,7 @@ export function SecretFolder() {
               />
 
               {/* right side label */}
-              <Text fs={20} fw="$medium" color="$text">
+              <Text fs={20} fw="$medium" color="$hsText">
                 {tile.label}
               </Text>
             </XStack>

@@ -15,7 +15,7 @@ export function Badge({
       gap="$2"
       px="$3"
       py="$2"
-      bg="$text"
+      bg="$hsText"
       br="$6"
       o={0.8}
       minW={useMinWidth ? "$11" : undefined}

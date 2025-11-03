@@ -5,15 +5,15 @@ import { Badge } from "../../../shared/components/Badge";
 
 export function Hardware() {
   return (
-    <Card p="$2.5" br="$9" bg="$cardBg" gap="$3" bordered>
-      <Text fs={24} fw="$medium" color="$text">
+    <Card p="$2.5" br="$9" bg="$hsCardBg" gap="$3" bordered>
+      <Text fs={24} fw="$medium" color="$hsText">
         System
       </Text>
       <YStack gap="$2" flex={1} flexDirection="row">
-        <Text color="$text" fs={14} fw="$medium">
+        <Text color="$hsText" fs={14} fw="$medium">
           Occupied
         </Text>
-        <Text color="$text" fs={14} fw="$light">
+        <Text color="$hsText" fs={14} fw="$light">
           123.8 GB / 216 GB{" "}
         </Text>
       </YStack>
@@ -27,7 +27,7 @@ export function Hardware() {
         <Badge icon={Cpu} value="32%" />
         <Badge icon={MemoryStick} value="32 Gb" />
       </XStack>
-      <Text color="$text" fs={12} fw="$light">
+      <Text color="$hsText" fs={12} fw="$light">
         IPhone 15 Pro Max - iOS 17
       </Text>
     </Card>

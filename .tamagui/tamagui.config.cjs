@@ -1769,19 +1769,19 @@ Expected a subset of: ${expected.join(", ")}
 var baseColors = {
   light: {
     bg: "#FFFFFF",
-    cardBg: "#F3F4F4",
-    smartCleanerBg: "#0074E3",
-    secretFolderBg: "#C5256B",
-    menuBg: "#DFD4FF",
-    text: "#323232"
+    homeScreenCardBg: "#F3F4F4",
+    homeScreenSmartCleanButtonBg: "#0074E3",
+    homeScreenSecretFolderAreaBg: "#C5256B",
+    homeScreenNavigationBarBg: "#DFD4FF",
+    homeScreenText: "#323232"
   },
   dark: {
     bg: "#1B1B24",
-    cardBg: "#262632",
-    smartCleanerBg: "#0074E3",
-    secretFolderBg: "#C5256B",
-    menuBg: "#DFD4FF",
-    text: "#FFFFFF"
+    homeScreenCardBg: "#262632",
+    homeScreenSmartCleanButtonBg: "#0074E3",
+    homeScreenSecretFolderAreaBg: "#C5256B",
+    homeScreenNavigationBarBg: "#DFD4FF",
+    homeScreenText: "#FFFFFF"
   }
 };
 
@@ -1789,19 +1789,19 @@ var baseColors = {
 var themes2 = {
   light: {
     bg: baseColors.light.bg,
-    cardBg: baseColors.light.cardBg,
-    smartCleanerBg: baseColors.light.smartCleanerBg,
-    secretFolderBg: baseColors.light.secretFolderBg,
-    menuBg: baseColors.light.menuBg,
-    text: baseColors.light.text
+    hsCardBg: baseColors.light.homeScreenCardBg,
+    hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
+    hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
+    hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
+    text: baseColors.light.homeScreenText
   },
   dark: {
     bg: baseColors.dark.bg,
-    cardBg: baseColors.dark.cardBg,
-    smartCleanerBg: baseColors.dark.smartCleanerBg,
-    secretFolderBg: baseColors.dark.secretFolderBg,
-    menuBg: baseColors.dark.menuBg,
-    text: baseColors.dark.text
+    hsCardBg: baseColors.dark.homeScreenCardBg,
+    hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
+    hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
+    hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,
+    hsText: baseColors.dark.homeScreenText
   }
 };
 var config = createTamagui({

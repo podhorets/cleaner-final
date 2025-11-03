@@ -5,7 +5,7 @@ import { AlertCircle, Grid2x2Plus, Rss, Shield } from "@tamagui/lucide-icons";
 export function NavigationBar() {
   return (
     <XStack
-      bg="$menuBg"
+      bg="$hsNavigationBarBg"
       borderRadius="$9"
       p="$4"
       gap="$5"
@@ -26,7 +26,7 @@ function Action({ icon: Icon }: { icon: any }) {
     <YStack
       height={58}
       width={58}
-      bg="$text"
+      bg="$hsText"
       br="$8"
       p="$3"
       items="center"

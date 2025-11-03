@@ -5,12 +5,17 @@ export function MemoryUsage() {
   const router = useRouter();
 
   return (
-    <Card px="$5" py="$2.5" br="$9" bg="$cardBg" bordered>
+    <Card px="$5" py="$2.5" br="$9" bg="$hsCardBg" bordered>
       <YStack gap="$4.5">
         {/* <YStack>
           <Text height={180}>diagrams</Text>
         </YStack> */}
-        <Button onPress={() => {}} bg="$smartCleanerBg" br="$10" size="$5">
+        <Button
+          onPress={() => {}}
+          bg="$hsSmartCleanButtonBg"
+          br="$10"
+          size="$5"
+        >
           <YStack
             gap="$1"
             items="center"
