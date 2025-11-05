@@ -8,6 +8,7 @@
   },
   "include": [
     "tamagui.d.ts",
+    "images.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",

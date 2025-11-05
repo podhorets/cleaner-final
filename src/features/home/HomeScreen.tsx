@@ -1,10 +1,11 @@
 import { ScrollView, YStack } from "tamagui";
-import { CleanerStatus } from "./components/CleanerStatus";
-import { Hardware } from "./components/Hardware";
-import { ImagesAndContacts } from "./components/ImagesAndContacts";
-import { MemoryUsage } from "./components/MemoryUsage";
-import { NavigationBar } from "./components/NavigationBar";
-import { SecretFolder } from "./components/SecretFolder";
+
+import { CleanerStatus } from "@/src/features/home/components/CleanerStatus";
+import { Hardware } from "@/src/features/home/components/Hardware";
+import { ImagesAndContacts } from "@/src/features/home/components/ImagesAndContacts";
+import { NavigationBar } from "@/src/features/home/components/NavigationBar";
+import { SecretFolder } from "@/src/features/home/components/SecretFolder";
+import { SmartClean } from "@/src/features/home/components/SmartClean";
 
 export function HomeScreen() {
   // const themeName = useThemeName();
@@ -13,7 +14,7 @@ export function HomeScreen() {
     <ScrollView>
       <YStack gap="$4" style={{ padding: 16 }} flex={1}>
         <CleanerStatus />
-        <MemoryUsage />
+        <SmartClean />
         <ImagesAndContacts />
         <Hardware />
         <SecretFolder />

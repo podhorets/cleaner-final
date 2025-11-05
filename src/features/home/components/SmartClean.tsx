@@ -1,11 +1,11 @@
 import { useRouter } from "expo-router";
 import { Button, Card, Text, YStack } from "tamagui";
 
-export function MemoryUsage() {
+export function SmartClean() {
   const router = useRouter();
 
   return (
-    <Card px="$5" py="$2.5" br="$9" bg="$mainCardBg" bordered>
+    <Card px="$5" py="$2.5" br="$9" bg="#4248654d" bordered>
       <YStack gap="$4.5">
         {/* <YStack>
           <Text height={180}>diagrams</Text>

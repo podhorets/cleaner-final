@@ -1781,7 +1781,6 @@ var baseColors = {
   dark: {
     bg: "#1B1B24",
     mainCardBg: "#FFFFFF0D",
-    homeScreenCardBg: "#262632",
     homeScreenSmartCleanButtonBg: "#0074E3",
     homeScreenSecretFolderAreaBg: "#C5256B",
     homeScreenNavigationBarBg: "#DFD4FF",
@@ -1796,8 +1795,7 @@ var baseColors = {
 var themes2 = {
   light: {
     bg: baseColors.light.bg,
-    mainCardBg: baseColors.dark.mainCardBg,
-    hsCardBg: baseColors.light.homeScreenCardBg,
+    mainCardBg: baseColors.light.mainCardBg,
     hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
     hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
     hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
@@ -1809,7 +1807,6 @@ var themes2 = {
   dark: {
     bg: baseColors.dark.bg,
     mainCardBg: baseColors.dark.mainCardBg,
-    hsCardBg: baseColors.dark.homeScreenCardBg,
     hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
     hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
     hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,

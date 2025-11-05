@@ -28576,7 +28576,7 @@
     "themes": {
       "light": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28600,7 +28600,7 @@
       },
       "light_accent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28702,7 +28702,7 @@
       },
       "light_black": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28753,7 +28753,7 @@
       },
       "light_white": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28804,7 +28804,7 @@
       },
       "light_blue": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28855,7 +28855,7 @@
       },
       "light_red": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28906,7 +28906,7 @@
       },
       "light_yellow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -28957,7 +28957,7 @@
       },
       "light_green": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29314,7 +29314,7 @@
       },
       "light_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29340,7 +29340,7 @@
       },
       "light_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29366,7 +29366,7 @@
       },
       "light_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29392,7 +29392,7 @@
       },
       "light_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29418,7 +29418,7 @@
       },
       "light_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29444,7 +29444,7 @@
       },
       "light_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29470,7 +29470,7 @@
       },
       "light_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29496,7 +29496,7 @@
       },
       "light_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29522,7 +29522,7 @@
       },
       "light_white_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29573,7 +29573,7 @@
       },
       "light_white_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29624,7 +29624,7 @@
       },
       "light_white_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29675,7 +29675,7 @@
       },
       "light_white_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29726,7 +29726,7 @@
       },
       "light_white_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29777,7 +29777,7 @@
       },
       "light_white_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29828,7 +29828,7 @@
       },
       "light_white_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29879,7 +29879,7 @@
       },
       "light_white_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29930,7 +29930,7 @@
       },
       "light_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29956,7 +29956,7 @@
       },
       "light_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -29982,7 +29982,7 @@
       },
       "light_white_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30033,7 +30033,7 @@
       },
       "light_white_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30084,7 +30084,7 @@
       },
       "light_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30110,7 +30110,7 @@
       },
       "light_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30136,7 +30136,7 @@
       },
       "light_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30162,7 +30162,7 @@
       },
       "light_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30188,7 +30188,7 @@
       },
       "light_white_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30239,7 +30239,7 @@
       },
       "light_white_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30290,7 +30290,7 @@
       },
       "light_white_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30341,7 +30341,7 @@
       },
       "light_white_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30392,7 +30392,7 @@
       },
       "light_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30443,7 +30443,7 @@
       },
       "light_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30494,7 +30494,7 @@
       },
       "light_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30545,7 +30545,7 @@
       },
       "light_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30596,7 +30596,7 @@
       },
       "light_white_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30647,7 +30647,7 @@
       },
       "light_white_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30698,7 +30698,7 @@
       },
       "light_white_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -30749,7 +30749,7 @@
       },
       "light_white_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32286,7 +32286,7 @@
       },
       "light_accent_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32337,7 +32337,7 @@
       },
       "light_accent_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32388,7 +32388,7 @@
       },
       "light_accent_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32439,7 +32439,7 @@
       },
       "light_accent_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32490,7 +32490,7 @@
       },
       "light_accent_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32541,7 +32541,7 @@
       },
       "light_accent_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32592,7 +32592,7 @@
       },
       "light_accent_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32643,7 +32643,7 @@
       },
       "light_accent_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32694,7 +32694,7 @@
       },
       "light_black_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32745,7 +32745,7 @@
       },
       "light_black_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32796,7 +32796,7 @@
       },
       "light_black_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32847,7 +32847,7 @@
       },
       "light_black_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32898,7 +32898,7 @@
       },
       "light_black_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -32949,7 +32949,7 @@
       },
       "light_black_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33000,7 +33000,7 @@
       },
       "light_black_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33051,7 +33051,7 @@
       },
       "light_black_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33102,7 +33102,7 @@
       },
       "light_accent_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33153,7 +33153,7 @@
       },
       "light_accent_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33204,7 +33204,7 @@
       },
       "light_black_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33255,7 +33255,7 @@
       },
       "light_black_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33306,7 +33306,7 @@
       },
       "light_accent_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33357,7 +33357,7 @@
       },
       "light_accent_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33408,7 +33408,7 @@
       },
       "light_accent_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33459,7 +33459,7 @@
       },
       "light_accent_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33510,7 +33510,7 @@
       },
       "light_black_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33561,7 +33561,7 @@
       },
       "light_black_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33612,7 +33612,7 @@
       },
       "light_black_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33663,7 +33663,7 @@
       },
       "light_black_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33714,7 +33714,7 @@
       },
       "light_accent_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33765,7 +33765,7 @@
       },
       "light_accent_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33816,7 +33816,7 @@
       },
       "light_accent_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -33867,7 +33867,7 @@
       },
       "light_accent_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35550,7 +35550,7 @@
       },
       "light_black_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35601,7 +35601,7 @@
       },
       "light_black_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35652,7 +35652,7 @@
       },
       "light_black_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35703,7 +35703,7 @@
       },
       "light_black_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35754,7 +35754,7 @@
       },
       "light_blue_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35805,7 +35805,7 @@
       },
       "light_blue_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35856,7 +35856,7 @@
       },
       "light_blue_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35907,7 +35907,7 @@
       },
       "light_blue_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -35958,7 +35958,7 @@
       },
       "light_blue_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36009,7 +36009,7 @@
       },
       "light_blue_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36060,7 +36060,7 @@
       },
       "light_blue_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36111,7 +36111,7 @@
       },
       "light_blue_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36162,7 +36162,7 @@
       },
       "light_blue_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36213,7 +36213,7 @@
       },
       "light_blue_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36264,7 +36264,7 @@
       },
       "light_blue_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36315,7 +36315,7 @@
       },
       "light_blue_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36366,7 +36366,7 @@
       },
       "light_blue_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36417,7 +36417,7 @@
       },
       "light_blue_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36468,7 +36468,7 @@
       },
       "light_blue_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36519,7 +36519,7 @@
       },
       "light_blue_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36570,7 +36570,7 @@
       },
       "light_blue_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36621,7 +36621,7 @@
       },
       "light_blue_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36672,7 +36672,7 @@
       },
       "light_red_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36723,7 +36723,7 @@
       },
       "light_red_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36774,7 +36774,7 @@
       },
       "light_red_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36825,7 +36825,7 @@
       },
       "light_red_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36876,7 +36876,7 @@
       },
       "light_red_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36927,7 +36927,7 @@
       },
       "light_red_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -36978,7 +36978,7 @@
       },
       "light_red_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37029,7 +37029,7 @@
       },
       "light_red_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37080,7 +37080,7 @@
       },
       "light_red_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37131,7 +37131,7 @@
       },
       "light_red_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37182,7 +37182,7 @@
       },
       "light_red_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37233,7 +37233,7 @@
       },
       "light_red_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37284,7 +37284,7 @@
       },
       "light_red_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37335,7 +37335,7 @@
       },
       "light_red_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37386,7 +37386,7 @@
       },
       "light_red_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37437,7 +37437,7 @@
       },
       "light_red_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37488,7 +37488,7 @@
       },
       "light_red_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37539,7 +37539,7 @@
       },
       "light_red_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37590,7 +37590,7 @@
       },
       "light_yellow_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37641,7 +37641,7 @@
       },
       "light_yellow_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37692,7 +37692,7 @@
       },
       "light_yellow_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37743,7 +37743,7 @@
       },
       "light_yellow_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37794,7 +37794,7 @@
       },
       "light_yellow_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37845,7 +37845,7 @@
       },
       "light_yellow_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37896,7 +37896,7 @@
       },
       "light_yellow_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37947,7 +37947,7 @@
       },
       "light_yellow_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -37998,7 +37998,7 @@
       },
       "light_yellow_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38049,7 +38049,7 @@
       },
       "light_yellow_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38100,7 +38100,7 @@
       },
       "light_yellow_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38151,7 +38151,7 @@
       },
       "light_yellow_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38202,7 +38202,7 @@
       },
       "light_yellow_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38253,7 +38253,7 @@
       },
       "light_yellow_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38304,7 +38304,7 @@
       },
       "light_yellow_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38355,7 +38355,7 @@
       },
       "light_yellow_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38406,7 +38406,7 @@
       },
       "light_yellow_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38457,7 +38457,7 @@
       },
       "light_yellow_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38508,7 +38508,7 @@
       },
       "light_green_ListItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38559,7 +38559,7 @@
       },
       "light_green_SelectTrigger": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38610,7 +38610,7 @@
       },
       "light_green_Card": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38661,7 +38661,7 @@
       },
       "light_green_Progress": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38712,7 +38712,7 @@
       },
       "light_green_TooltipArrow": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38763,7 +38763,7 @@
       },
       "light_green_SliderTrack": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38814,7 +38814,7 @@
       },
       "light_green_Input": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38865,7 +38865,7 @@
       },
       "light_green_TextArea": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38916,7 +38916,7 @@
       },
       "light_green_Button": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -38967,7 +38967,7 @@
       },
       "light_green_SliderTrackActive": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39018,7 +39018,7 @@
       },
       "light_green_Checkbox": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39069,7 +39069,7 @@
       },
       "light_green_Switch": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39120,7 +39120,7 @@
       },
       "light_green_TooltipContent": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39171,7 +39171,7 @@
       },
       "light_green_RadioGroupItem": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39222,7 +39222,7 @@
       },
       "light_green_SwitchThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39273,7 +39273,7 @@
       },
       "light_green_SliderThumb": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39324,7 +39324,7 @@
       },
       "light_green_Tooltip": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",
@@ -39375,7 +39375,7 @@
       },
       "light_green_ProgressIndicator": {
         "bg": "#FFFFFF",
-        "mainCardBg": "#FFFFFF0D",
+        "mainCardBg": "#F3F4F4",
         "hsSmartCleanButtonBg": "#0074E3",
         "hsSecretFolderAreaBg": "#C5256B",
         "hsNavigationBarBg": "#DFD4FF",

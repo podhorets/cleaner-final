@@ -24,28 +24,28 @@ const items: CleanItem[] = [
     id: "screenshots",
     label: "Screenshots",
     count: "1976",
-    size: "126Gb",
+    size: "126GB",
     icon: Image,
   },
   {
     id: "dup-photos",
     label: "Duplicate photos",
     count: "4",
-    size: "10.00Mb",
+    size: "10.00MB",
     icon: Copy,
   },
   {
     id: "blurry",
     label: "Blurry photos",
     count: "0",
-    size: "10.00Mb",
+    size: "10.00MB",
     icon: Droplet,
   },
   {
     id: "dup-numbers",
     label: "Duplicate numbers",
     count: "0",
-    size: "12.00Mb",
+    size: "12.00MB",
     icon: Users,
   },
 ];
@@ -55,9 +55,9 @@ export function SmartClean() {
 
   return (
     <ScrollView>
-      <YStack gap="$4" p="$3">
+      <YStack gap="$6" p="$3">
         {/* Header */}
-        <XStack ai="center" gap="$3">
+        <XStack items="center">
           <Text
             onPress={() => router.back()}
             fs={16}
@@ -70,40 +70,40 @@ export function SmartClean() {
         </XStack>
 
         {/* Title and usage */}
-        <YStack gap="$2" items="center" mt="$1">
-          <Text color="$scsPrimaryColor" fs={28} fw="$bold">
+        <YStack gap="$2.5" items="center">
+          <Text color="$scsPrimaryColor" fs={34} fw="$semibold">
             Smart Cleaner
           </Text>
-          <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$medium">
+          <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
             YOUR SYSTEM IS LOADED ON
           </Text>
-          <Text color="$scsSecondaryColor" fs={44} fw="$bold">
+          <Text color="$scsSecondaryColor" fs={32} fw="$semibold">
             226.00
-            <Text fs={18} fw="$regular">
+            <Text fs={24} o={0.6} fw="$regular">
               {" "}
-              gb
+              GB
             </Text>
           </Text>
-          <Stack w="100%" mt="$2">
-            <Progress value={76} br="$10" height={14}>
+          <Stack px="$4" mt="$2" width="100%">
+            <Progress value={76} br="$10" height={20} bg="#ffffff33">
               <Progress.Indicator br="$10" bg="$scsPrimaryColor" />
             </Progress>
           </Stack>
-          <XStack gap="$2" mt="$2" ai="center">
-            <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$medium">
+          <XStack gap="$2" mt="$2" items="center">
+            <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
               LAST CLEARING
             </Text>
-            <Text color="$scsSecondaryColor" fs={12} fw="$medium">
+            <Text color="$scsSecondaryColor" o={0.8} fs={14} fw="$medium">
               2 NOV
             </Text>
           </XStack>
         </YStack>
 
         {/* Clean-up files */}
-        <Card p="$4" br="$9" bg="#FFFFFF05">
+        <Card py="$4" px="$2" br="$9" bg="#FFFFFF05">
           <YStack gap="$3">
-            <YStack gap="$1">
-              <Text color="$scsSecondaryColor" o={0.8} fs={12} fw="$medium">
+            <YStack gap="$1" px="$2">
+              <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
                 CLEAN-UP FILES
               </Text>
               <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$light">
@@ -111,7 +111,7 @@ export function SmartClean() {
               </Text>
             </YStack>
 
-            <XStack gap="$3.5" flexWrap="wrap" jc="space-between">
+            <XStack gap="$3.5" rowGap="$3.5" flexWrap="wrap" justify="center">
               {items.map((it) => (
                 <CleanCard key={it.id} {...it} />
               ))}
@@ -120,7 +120,7 @@ export function SmartClean() {
         </Card>
 
         {/* Bottom action */}
-        <Button bg="$mainCardBg" br="$10" size="$5" onPress={() => {}}>
+        <Button bg="$scsPrimaryColor" br="$6" height={56} onPress={() => {}}>
           <Text fs={16} fw="$medium" color="$scsSecondaryColor" o={0.85}>
             Cleaning files
           </Text>
@@ -137,32 +137,36 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
       bg="$mainCardBg"
       br="$9"
       p="$4"
-      w="48%"
-      mb="$3"
+      width="46%"
       pressStyle={{ opacity: 0.9 }}
       onPress={() => {}}
     >
-      <YStack gap="$2">
+      <YStack gap="$3" f={1} justify="space-between">
         {/* Top row with icon and checkbox placeholder */}
-        <XStack jc="space-between" ai="center">
-          <XStack height={30} width={30} br="$6" ai="center" jc="center">
-            <Icon size={22} color="$scsPrimaryColor" />
-          </XStack>
-          <Stack height={18} width={18} br="$2" bg="$bg" o={0.25} bordered />
+        <XStack justify="space-between" items="center">
+          <Icon size={24} color="$scsPrimaryColor" />
+          <Stack
+            height={24}
+            width={24}
+            br="$2"
+            bg="#ffffff33"
+            o={0.25}
+            bordered
+          />
         </XStack>
 
         {/* Count and size */}
-        <XStack gap="$1.5" ai="baseline">
-          <Text color="$scsPrimaryColor" fs={20} fw="$bold">
+        <XStack gap="$1.5" items="baseline">
+          <Text color="$scsPrimaryColor" o={0.8} fs={20} fw="$semibold">
             {count}
           </Text>
-          <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$regular">
-            ({size})
+          <Text color="$scsSecondaryColor" o={0.5} fs={16} fw="$regular">
+            {size}
           </Text>
         </XStack>
 
         {/* Label */}
-        <Text color="$scsSecondaryColor" fs={14} fw="$medium">
+        <Text color="$scsSecondaryColor" fs={14} fw="$regular">
           {label}
         </Text>
       </YStack>
