@@ -5,10 +5,10 @@ import CleaningStatusDone from "@/assets/images/cleaning_status_done.svg";
 import CleaningStatusRequired from "@/assets/images/cleaning_status_required.svg";
 
 export function CleanerStatus() {
-  const { icon, title, text, bgColor } = CLEANER_STATUS_CONFIG[0];
+  const { icon, title, text, bgColor } = CLEANER_STATUS_CONFIG[2];
 
   return (
-    <Card p="$2.5" br="$6" bg={bgColor} bordered>
+    <Card p="$2.5" br="$6" bg={bgColor}>
       <XStack items="center" gap="$3.5">
         <Stack py="$1.5" pl="$2.5">
           <Image
@@ -17,7 +17,7 @@ export function CleanerStatus() {
             contentFit="contain"
           />
         </Stack>
-        <YStack flex={1} gap="$2">
+        <YStack gap="$2">
           <Text color="#FFFFFF" fs={20} fw="$medium">
             {title}
           </Text>
