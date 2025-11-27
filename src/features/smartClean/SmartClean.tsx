@@ -62,7 +62,7 @@ export function SmartClean() {
             onPress={() => router.back()}
             fs={16}
             fw="$medium"
-            color="$scsSecondaryColor"
+            color="$white"
             o={0.7}
           >
             {"< Back"}
@@ -71,13 +71,13 @@ export function SmartClean() {
 
         {/* Title and usage */}
         <YStack gap="$2.5" items="center">
-          <Text color="$scsPrimaryColor" fs={34} fw="$semibold">
+          <Text color="$blueSecondary" fs={34} fw="$semibold">
             Smart Cleaner
           </Text>
-          <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
+          <Text color="$white" o={0.6} fs={14} fw="$regular">
             YOUR SYSTEM IS LOADED ON
           </Text>
-          <Text color="$scsSecondaryColor" fs={32} fw="$semibold">
+          <Text color="$white" fs={32} fw="$semibold">
             226.00
             <Text fs={24} o={0.6} fw="$regular">
               {" "}
@@ -86,14 +86,14 @@ export function SmartClean() {
           </Text>
           <Stack px="$4" mt="$2" width="100%">
             <Progress value={76} br="$10" height={20} bg="#ffffff33">
-              <Progress.Indicator br="$10" bg="$scsPrimaryColor" />
+            <Progress.Indicator br="$10" bg="$blueSecondary" />
             </Progress>
           </Stack>
           <XStack gap="$2" mt="$2" items="center">
-            <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
+            <Text color="$white" o={0.6} fs={14} fw="$regular">
               LAST CLEARING
             </Text>
-            <Text color="$scsSecondaryColor" o={0.8} fs={14} fw="$medium">
+            <Text color="$white" o={0.8} fs={14} fw="$medium">
               2 NOV
             </Text>
           </XStack>
@@ -103,10 +103,10 @@ export function SmartClean() {
         <Card py="$4" px="$2" br="$9" bg="#FFFFFF05">
           <YStack gap="$3">
             <YStack gap="$1" px="$2">
-              <Text color="$scsSecondaryColor" o={0.6} fs={14} fw="$regular">
+              <Text color="$white" o={0.6} fs={14} fw="$regular">
                 CLEAN-UP FILES
               </Text>
-              <Text color="$scsSecondaryColor" o={0.6} fs={12} fw="$light">
+              <Text color="$white" o={0.6} fs={12} fw="$light">
                 You can go to the section and see the files found.
               </Text>
             </YStack>
@@ -120,8 +120,8 @@ export function SmartClean() {
         </Card>
 
         {/* Bottom action */}
-        <Button bg="$scsPrimaryColor" br="$6" height={56} onPress={() => {}}>
-          <Text fs={16} fw="$medium" color="$scsSecondaryColor" o={0.85}>
+        <Button bg="$blueSecondary" br="$6" height={56} onPress={() => {}}>
+          <Text fs={16} fw="$medium" color="$white" o={0.85}>
             Cleaning files
           </Text>
         </Button>
@@ -134,7 +134,7 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
   return (
     <Card
       bordered
-      bg="$mainCardBg"
+      bg="$grayLight"
       br="$9"
       p="$4"
       width="46%"
@@ -144,7 +144,7 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
       <YStack gap="$3" f={1} justify="space-between">
         {/* Top row with icon and checkbox placeholder */}
         <XStack justify="space-between" items="center">
-          <Icon size={24} color="$scsPrimaryColor" />
+          <Icon size={24} color="$blueSecondary" />
           <Stack
             height={24}
             width={24}
@@ -157,16 +157,16 @@ function CleanCard({ icon: Icon, count, size, label }: CleanItem) {
 
         {/* Count and size */}
         <XStack gap="$1.5" items="baseline">
-          <Text color="$scsPrimaryColor" o={0.8} fs={20} fw="$semibold">
+          <Text color="$blueSecondary" o={0.8} fs={20} fw="$semibold">
             {count}
           </Text>
-          <Text color="$scsSecondaryColor" o={0.5} fs={16} fw="$regular">
+          <Text color="$white" o={0.5} fs={16} fw="$regular">
             {size}
           </Text>
         </XStack>
 
         {/* Label */}
-        <Text color="$scsSecondaryColor" fs={14} fw="$regular">
+        <Text color="$white" fs={14} fw="$regular">
           {label}
         </Text>
       </YStack>

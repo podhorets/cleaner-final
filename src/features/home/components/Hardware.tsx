@@ -4,7 +4,7 @@ import { Progress, Separator, Text, XStack, YStack } from "tamagui";
 export function Hardware() {
   return (
     <YStack p="$3.5" gap="$2.5" br="$6" bg="#4248654d">
-      <Text fs={24} fw="$medium" color="$hsText">
+      <Text fs={24} fw="$medium" color="$textDark">
         Storage
       </Text>
       <XStack gap="$1.5">
@@ -12,7 +12,7 @@ export function Hardware() {
           <Text color="#929296" fs={14} fw="$regular">
             Free Storage
           </Text>
-          <Text color="$hsText" fs={15} fw="$medium">
+          <Text color="$textDark" fs={15} fw="$medium">
             52 GB
           </Text>
         </YStack>
@@ -21,7 +21,7 @@ export function Hardware() {
           <Text color="#929296" fs={14} fw="$regular">
             Total Storage
           </Text>
-          <Text color="$hsText" fs={15} fw="$medium">
+          <Text color="$textDark" fs={15} fw="$medium">
             256 GB
           </Text>
         </YStack>

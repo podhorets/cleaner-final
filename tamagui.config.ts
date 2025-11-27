@@ -4,27 +4,8 @@ import { baseColors } from "./src/theme/base";
 
 // generate our theme objects from base colors
 const themes = {
-  light: {
-    bg: baseColors.light.bg,
-    mainCardBg: baseColors.light.mainCardBg,
-    hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
-    hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
-    hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
-    hsText: baseColors.light.homeScreenText,
-    scsPrimaryColor: baseColors.light.smartCleanScreenPrimaryColor,
-    scsSecondaryColor: baseColors.light.smartCleanScreenSecondaryColor,
-    scsFullColor: baseColors.light.smartCleanScreenFullColor,
-  },
-  dark: {
-    bg: baseColors.dark.bg,
-    mainCardBg: baseColors.dark.mainCardBg,
-    hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
-    hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
-    hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,
-    hsText: baseColors.dark.homeScreenText,
-    scsPrimaryColor: baseColors.dark.smartCleanScreenPrimaryColor,
-    scsSecondaryColor: baseColors.dark.smartCleanScreenSecondaryColor,
-    scsFullColor: baseColors.dark.smartCleanScreenFullColor,
+  cleaner: {
+    ...baseColors,
   },
 };
 

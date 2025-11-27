@@ -15,13 +15,13 @@ export function Badge({
       gap="$2"
       px="$3"
       py="$2"
-      bg="$hsText"
+      bg="$textDark"
       br="$6"
       o={0.8}
       minW={useMinWidth ? "$11" : undefined}
     >
-      {Icon && <Icon size={18} color="$bg" />}
-      <Text color="$bg" fs={12} fw="$medium">
+      {Icon && <Icon size={18} color="$white" />}
+      <Text color="$white" fs={12} fw="$medium">
         {value}
       </Text>
     </XStack>

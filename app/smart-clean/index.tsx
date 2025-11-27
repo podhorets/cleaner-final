@@ -1,5 +1,5 @@
-import { SmartClean } from "@/src/features/smartClean/SmartClean";
+import { SmartCleaner } from "@/src/features/smartCleaner/SmartCleaner";
 
 export default function Index() {
-  return <SmartClean />;
+  return <SmartCleaner />;
 }

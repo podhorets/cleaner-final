@@ -1767,53 +1767,31 @@ Expected a subset of: ${expected.join(", ")}
 
 // src/theme/base.ts
 var baseColors = {
-  light: {
-    bg: "#FFFFFF",
-    mainCardBg: "#F3F4F4",
-    homeScreenSmartCleanButtonBg: "#0074E3",
-    homeScreenSecretFolderAreaBg: "#C5256B",
-    homeScreenNavigationBarBg: "#DFD4FF",
-    homeScreenText: "#323232",
-    smartCleanScreenPrimaryColor: "#0F77F0",
-    smartCleanScreenSecondaryColor: "#FFFFFF",
-    smartCleanScreenFullColor: "#F26B58"
-  },
-  dark: {
-    bg: "#1B1B24",
-    mainCardBg: "#FFFFFF0D",
-    homeScreenSmartCleanButtonBg: "#0074E3",
-    homeScreenSecretFolderAreaBg: "#C5256B",
-    homeScreenNavigationBarBg: "#DFD4FF",
-    homeScreenText: "#FFFFFF",
-    smartCleanScreenPrimaryColor: "#0F77F0",
-    smartCleanScreenSecondaryColor: "#FFFFFF",
-    smartCleanScreenFullColor: "#F26B58"
-  }
+  white: "#FFFFFF",
+  darkBg: "#1B1B24",
+  darkBgAlt: "#1C1C24",
+  grayLight: "#F3F4F4",
+  whiteAlpha05: "#FFFFFF0D",
+  whiteAlpha13: "#F8F8F821",
+  darkBlueAlpha30: "#4248654D",
+  textDark: "#323232",
+  textSecondary: "#999999",
+  bluePrimary: "#0074E3",
+  blueSecondary: "#0F77F0",
+  blueTertiary: "#0385FF",
+  redPrimary: "#FF6767",
+  redSecondary: "#F26B58",
+  purple: "#6D398B",
+  purpleLight: "#DFD4FF",
+  pink: "#C5256B",
+  cyan: "#73E0F8",
+  orange: "#F28E1C"
 };
 
 // tamagui.config.ts
 var themes2 = {
-  light: {
-    bg: baseColors.light.bg,
-    mainCardBg: baseColors.light.mainCardBg,
-    hsSmartCleanButtonBg: baseColors.light.homeScreenSmartCleanButtonBg,
-    hsSecretFolderAreaBg: baseColors.light.homeScreenSecretFolderAreaBg,
-    hsNavigationBarBg: baseColors.light.homeScreenNavigationBarBg,
-    hsText: baseColors.light.homeScreenText,
-    scsPrimaryColor: baseColors.light.smartCleanScreenPrimaryColor,
-    scsSecondaryColor: baseColors.light.smartCleanScreenSecondaryColor,
-    scsFullColor: baseColors.light.smartCleanScreenFullColor
-  },
-  dark: {
-    bg: baseColors.dark.bg,
-    mainCardBg: baseColors.dark.mainCardBg,
-    hsSmartCleanButtonBg: baseColors.dark.homeScreenSmartCleanButtonBg,
-    hsSecretFolderAreaBg: baseColors.dark.homeScreenSecretFolderAreaBg,
-    hsNavigationBarBg: baseColors.dark.homeScreenNavigationBarBg,
-    hsText: baseColors.dark.homeScreenText,
-    scsPrimaryColor: baseColors.dark.smartCleanScreenPrimaryColor,
-    scsSecondaryColor: baseColors.dark.smartCleanScreenSecondaryColor,
-    scsFullColor: baseColors.dark.smartCleanScreenFullColor
+  cleaner: {
+    ...baseColors
   }
 };
 var config = createTamagui({

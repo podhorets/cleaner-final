@@ -5,7 +5,7 @@ export function RamAndCpu() {
   return (
     <XStack gap="$3.5">
       <YStack p="$3.5" gap="$2.5" br="$6" bg="#4248654d">
-        <Text color="$hsText" fs={22} fw="$semibold">
+        <Text color="$textDark" fs={22} fw="$semibold">
           Ram
         </Text>
         <XStack gap="$1.5">
@@ -13,7 +13,7 @@ export function RamAndCpu() {
             <Text color="#929296" fs={14} fw="$regular">
               Free Ram
             </Text>
-            <Text color="$hsText" fs={15} fw="$medium">
+            <Text color="$textDark" fs={15} fw="$medium">
               12 GB
             </Text>
           </YStack>
@@ -22,7 +22,7 @@ export function RamAndCpu() {
             <Text color="#929296" fs={14} fw="$regular">
               Total Ram
             </Text>
-            <Text color="$hsText" fs={15} fw="$medium">
+            <Text color="$textDark" fs={15} fw="$medium">
               32 GB
             </Text>
           </YStack>
@@ -57,14 +57,14 @@ export function RamAndCpu() {
       </YStack>
 
       <YStack p="$3.5" gap="$2.5" br="$6" bg="#4248654d">
-        <Text color="$hsText" fs={22} fw="$semibold">
+        <Text color="$textDark" fs={22} fw="$semibold">
           CPU
         </Text>
         <YStack gap="$2">
           <Text color="#929296" fs={14} fw="$regular">
             Usage: 45%
           </Text>
-          <Text color="$hsText" fs={15} fw="$medium">
+          <Text color="$textDark" fs={15} fw="$medium">
             3.2 GHz
           </Text>
         </YStack>

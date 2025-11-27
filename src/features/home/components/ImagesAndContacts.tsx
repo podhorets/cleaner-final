@@ -24,21 +24,21 @@ export function ImagesAndContacts() {
 
 function QuickLinkCard({ label, count, onPress }: QuickLink) {
   return (
-    <Card flex={1} p="$4" br="$9" bg="$mainCardBg" bordered onPress={onPress}>
+    <Card flex={1} p="$4" br="$9" bg="$grayLight" bordered onPress={onPress}>
       <YStack gap="$2">
-        <Text color="$hsText" fs={20} fw="$medium">
+        <Text color="$textDark" fs={20} fw="$medium">
           {label}
         </Text>
 
         <XStack
           alignSelf="flex-start"
           p="$2"
-          bg="$hsText"
+          bg="$textDark"
           br="$6"
           ai="center"
           o={0.8}
         >
-          <Text color="$bg" fs={12} fw="$regular">
+          <Text color="$white" fs={12} fw="$regular">
             {count} items
           </Text>
         </XStack>

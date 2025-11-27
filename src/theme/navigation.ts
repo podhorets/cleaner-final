@@ -7,18 +7,15 @@ const defaultFonts = {
   heavy: { fontFamily: "System", fontWeight: "900" as const },
 };
 
-export const navLight = {
-  dark: false,
-  colors: {
-    background: baseColors.light.bg,
-  },
-  fonts: defaultFonts,
-};
-
 export const navDark = {
   dark: true,
   colors: {
-    background: baseColors.dark.bg,
+    primary: baseColors.bluePrimary,
+    background: baseColors.darkBg,
+    card: baseColors.darkBgAlt,
+    text: baseColors.white,
+    border: baseColors.darkBlueAlpha30,
+    notification: baseColors.redPrimary,
   },
   fonts: defaultFonts,
 };

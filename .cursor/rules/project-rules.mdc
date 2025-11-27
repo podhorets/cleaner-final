@@ -1,0 +1,385 @@
+---
+title: Project Rules
+description: Complete development standards for Expo + React Native + Tamagui + Zustand project
+tags: [expo, react-native, typescript, tamagui, zustand, design-tokens]
+---
+
+# Project Rules: Expo + React Native + Tamagui + Zustand
+
+## 1. Coding Style & Patterns
+
+### TypeScript
+
+- Use strict TypeScript mode (`strict: true`)
+- Prefer `const` assertions for immutable data structures
+- Use explicit return types for exported functions
+- Avoid `any` type; use `unknown` or proper types instead
+- Use type inference for local variables when types are obvious
+- Define interfaces/types close to where they're used, or in shared types files
+
+### React Patterns
+
+- Use functional components exclusively
+- Prefer named exports over default exports for components
+- Use TypeScript interfaces for component props
+- Extract complex logic into custom hooks
+- Keep components small and focused (single responsibility)
+- Use early returns to reduce nesting
+- Prefer composition over prop drilling
+
+### Code Organization
+
+- One component per file
+- Export component as named export: `export function ComponentName() {}`
+- Keep related types/interfaces in the same file or adjacent type files
+- Use descriptive variable and function names
+- Group imports: external packages → internal features → shared → types → assets
+
+## 2. Architectural Principles & Layering
+
+### Feature-Based Architecture
+
+- Organize code by features, not by technical layers
+- Each feature is self-contained: `src/features/{featureName}/`
+- Feature structure:
+  ```
+  features/
+    {featureName}/
+      components/     # Feature-specific components
+      hooks/          # Feature-specific hooks
+      stores/         # Zustand stores (if feature-scoped)
+      types.ts        # Feature-specific types
+      {FeatureName}.tsx  # Main feature component/screen
+  ```
+
+### Layer Hierarchy
+
+1. **App Layer** (`app/`): Expo Router routes and layouts
+2. **Feature Layer** (`src/features/`): Business logic and feature components
+3. **Shared Layer** (`src/shared/`): Reusable components, utilities, hooks
+4. **Theme Layer** (`src/theme/`): Design tokens, theme configuration
+
+### Dependency Rules
+
+- Features can import from `shared` and `theme`
+- Features cannot import from other features directly
+- Shared components cannot import from features
+- App layer orchestrates features
+
+## 3. Naming Conventions
+
+### Files & Folders
+
+- **Components**: PascalCase (`CleanerStatus.tsx`, `NavigationBar.tsx`)
+- **Hooks**: camelCase with `use` prefix (`useCleanerStatus.ts`, `useSmartClean.ts`)
+- **Stores**: camelCase with `use` prefix (`useCleanerStore.ts`)
+- **Types/Interfaces**: PascalCase (`CleanerStatus.ts` or inline in component file)
+- **Utilities**: camelCase (`formatDate.ts`, `calculatePercent.ts`)
+- **Constants**: UPPER_SNAKE_CASE (`CLEANER_STATUS_CONFIG`, `SMART_CLEAN_PROGRESS`)
+- **Folders**: kebab-case for multi-word (`smart-clean/`, `home-screen/`)
+
+### Code Naming
+
+- **Components**: PascalCase (`CleanerStatus`, `SmartCleanButton`)
+- **Functions**: camelCase (`calculateProgress`, `formatStorageSize`)
+- **Variables**: camelCase (`barWidth`, `totalPercent`)
+- **Constants**: UPPER_SNAKE_CASE (`MAX_FILE_SIZE`, `DEFAULT_TIMEOUT`)
+- **Types/Interfaces**: PascalCase (`CleanerStatusConfig`, `SmartCleanProps`)
+- **Enums**: PascalCase (`Status`, `CleanerType`)
+
+### Props Interfaces
+
+- Name props interface as `{ComponentName}Props`
+- Use inline object types for simple props
+- Extract to separate type/interface for complex or reused props
+
+## 4. Component Structure & Reuse Strategy
+
+### Component Structure Template
+
+```typescript
+import { ... } from "tamagui";
+import { ... } from "@/shared/...";
+import { ... } from "@/features/...";
+
+type ComponentNameProps = {
+  // Props definition
+};
+
+export function ComponentName({ prop1, prop2 }: ComponentNameProps) {
+  // Hooks
+  // State
+  // Effects
+  // Handlers
+  // Render helpers
+
+  return (
+    // JSX
+  );
+}
+```
+
+### Component Guidelines
+
+- Keep components under 200 lines; extract sub-components if needed
+- Extract complex logic into custom hooks
+- Use composition: build complex UIs from smaller components
+- Prefer props over context for simple data passing
+- Use context only for deeply nested prop drilling
+
+### Reusability Strategy
+
+- **Shared components** (`src/shared/components/`): Truly reusable across features
+- **Feature components** (`src/features/{feature}/components/`): Feature-specific
+- Extract to shared when used by 2+ features
+- Prefer composition over configuration (smaller, focused components)
+
+### Component Organization
+
+- Group related components in feature folders
+- Co-locate component-specific types, constants, and utilities
+- Use index files for clean imports: `export * from './ComponentName'`
+
+## 5. State Management Rules (Zustand)
+
+### Store Organization
+
+- Create stores in `src/stores/` for global state
+- Create feature-scoped stores in `src/features/{feature}/stores/` when appropriate
+- One store per domain/feature area
+- Name stores: `use{Feature}Store.ts` (e.g., `useCleanerStore.ts`)
+
+### Store Structure
+
+```typescript
+import { create } from "zustand";
+
+interface CleanerState {
+  // State
+  status: Status;
+  progress: number;
+
+  // Actions
+  setStatus: (status: Status) => void;
+  updateProgress: (progress: number) => void;
+  reset: () => void;
+}
+
+export const useCleanerStore = create<CleanerState>((set) => ({
+  // Initial state
+  status: Status.Idle,
+  progress: 0,
+
+  // Actions
+  setStatus: (status) => set({ status }),
+  updateProgress: (progress) => set({ progress }),
+  reset: () => set({ status: Status.Idle, progress: 0 }),
+}));
+```
+
+### Zustand Best Practices
+
+- Use TypeScript interfaces for store state
+- Separate state and actions clearly
+- Use selectors for performance: `useCleanerStore((state) => state.status)`
+- Keep stores focused on single responsibility
+- Prefer local state (`useState`) for component-specific state
+- Use Zustand for shared/global state only
+
+### When to Use Zustand
+
+- ✅ State shared across multiple features/screens
+- ✅ Complex state logic with multiple actions
+- ✅ State that persists across navigation
+- ❌ Component-local UI state (use `useState`)
+- ❌ Form state (use form libraries or `useState`)
+- ❌ Server state (use React Query/SWR)
+
+## 6. File & Folder Organization
+
+### Root Structure
+
+```
+/
+  app/                    # Expo Router routes
+  src/
+    features/             # Feature modules
+    shared/               # Shared code
+      components/         # Reusable components
+      hooks/             # Reusable hooks
+      utils/             # Utility functions
+      types/             # Shared types
+    stores/              # Global Zustand stores
+    theme/               # Design tokens & theme config
+  assets/                # Static assets
+```
+
+### Import Paths
+
+- Use path alias `@/` for root imports
+- Import from features: `@/src/features/{feature}/...`
+- Import from shared: `@/src/shared/...`
+- Import from theme: `@/src/theme/...`
+- Import assets: `@/assets/...`
+
+### File Organization Rules
+
+- One component per file
+- Co-locate related files (component + types + constants)
+- Use index files for barrel exports when beneficial
+- Keep feature folders self-contained
+- Place shared utilities in appropriate `shared/` subfolders
+
+## 7. Expo & React Native Specific Conventions
+
+### Expo Router
+
+- Use file-based routing in `app/` directory
+- Route files: `index.tsx` for default, `{name}/index.tsx` for nested routes
+- Use `useRouter()` from `expo-router` for navigation
+- Use `useLocalSearchParams()` for route parameters
+- Keep route files minimal; delegate to feature components
+
+### React Native Patterns
+
+- Use `expo-image` instead of `Image` from `react-native`
+- Use `SafeAreaView` from `react-native-safe-area-context`
+- Prefer Tamagui components over raw React Native components
+- Use `expo-haptics` for haptic feedback
+- Handle platform differences with Platform API when needed
+
+### Performance
+
+- Use `React.memo` for expensive components that re-render frequently
+- Use `useMemo` and `useCallback` judiciously (measure first)
+- Optimize images with `expo-image` (use `contentFit`, proper sizing)
+- Lazy load heavy screens/components when appropriate
+
+### Platform Considerations
+
+- Test on both iOS and Android
+- Use platform-specific code sparingly
+- Prefer cross-platform solutions
+- Use `Platform.select()` for platform-specific values
+
+## 8. Tamagui UI Rules & Design Token Usage
+
+### Design Tokens - CRITICAL RULES
+
+- **NEVER use hardcoded color values** (hex, rgb, rgba) in components
+- **ALWAYS use theme tokens** from `src/theme/base.ts` via Tamagui theme system
+- Add new colors to `baseColors` in `src/theme/base.ts` first, then reference via theme
+- Use theme token references: `$bg`, `$hsText`, `$scsPrimaryColor`, etc.
+- Use Tamagui token system for spacing, sizes, radii: `$4`, `$6`, `$10`
+
+### Tamagui Component Usage
+
+- Use Tamagui primitives: `YStack`, `XStack`, `Stack`, `Text`, `Card`, `Button`
+- Prefer Tamagui props over inline styles
+- Use Tamagui shorthands: `br` (borderRadius), `fs` (fontSize), `fw` (fontWeight), `o` (opacity)
+- Use Tamagui spacing tokens: `gap="$4"`, `p="$3"`, `m="$2"`
+
+### Styling Rules
+
+```typescript
+// ✅ CORRECT - Using theme tokens
+<Card bg="$mainCardBg" br="$6" p="$3">
+  <Text color="$hsText" fs={20} fw="$medium">Title</Text>
+</Card>
+
+// ❌ WRONG - Hardcoded values
+<Card bg="#F3F4F4" borderRadius={24} padding={12}>
+  <Text color="#323232" fontSize={20} fontWeight="500">Title</Text>
+</Card>
+```
+
+### Theme Token Reference
+
+- Colors: `$bg`, `$mainCardBg`, `$hsText`, `$hsSmartCleanButtonBg`, etc.
+- Spacing: `$1`, `$2`, `$3`, `$4`, `$5`, `$6`, `$10`, `$11` (Tamagui default scale)
+- Border Radius: `$2`, `$4`, `$6`, `$10` (use `br` shorthand)
+- Font Sizes: Use `fs` prop with numeric values or tokens
+- Font Weights: `$light`, `$regular`, `$medium`, `$semibold`, `$bold` (use `fw` shorthand)
+
+### Adding New Design Tokens
+
+1. Add color to `src/theme/base.ts` in `baseColors.light` and `baseColors.dark`
+2. Add theme key to `tamagui.config.ts` themes object
+3. Reference in components via `$tokenName`
+4. Never skip step 1 or 2 - always go through the theme system
+
+### Tamagui Best Practices
+
+- Use `YStack` for vertical layouts, `XStack` for horizontal
+- Use `gap` prop instead of margins for spacing between children
+- Use `items` and `justify` props for alignment
+- Prefer Tamagui's responsive props when needed
+- Use `useTheme` or `useThemeName` hooks for theme-aware logic
+
+### Color Usage Examples
+
+```typescript
+// ✅ Theme tokens
+bg = "$mainCardBg";
+color = "$hsText";
+bg = "$hsSmartCleanButtonBg";
+
+// ❌ Hardcoded (FORBIDDEN)
+bg = "#F3F4F4";
+color = "#323232";
+bg = "#0074E3";
+```
+
+## 9. Additional Rules
+
+### Asset Management
+
+- Place images in `assets/images/`
+- Use SVG for icons and simple graphics
+- Use PNG/JPG for photos and complex images
+- Import assets using path alias: `@/assets/images/...`
+- Use `expo-image` for all image rendering
+
+### Error Handling
+
+- Use error boundaries for component error handling
+- Handle async errors with try/catch
+- Provide user-friendly error messages
+- Log errors appropriately (use console.error in development)
+
+### Testing Considerations
+
+- Write testable components (pure functions, minimal side effects)
+- Extract business logic from components for easier testing
+- Use descriptive test names and organize by feature
+
+### Code Quality
+
+- Run `expo lint` before committing
+- Fix all TypeScript errors before merging
+- Remove unused imports and variables
+- Keep functions focused and single-purpose
+- Add comments for complex business logic only
+
+### Git Conventions
+
+- Use descriptive commit messages
+- Keep commits focused (one feature/fix per commit)
+- Use conventional commit format when possible
+
+---
+
+## Quick Reference Checklist
+
+Before submitting code, ensure:
+
+- [ ] No hardcoded colors (use theme tokens)
+- [ ] TypeScript strict mode passes
+- [ ] No linting errors
+- [ ] Components follow naming conventions
+- [ ] Files organized in correct feature/shared structure
+- [ ] Imports use `@/` path alias
+- [ ] Tamagui components used instead of raw RN components
+- [ ] State management appropriate (local vs Zustand)
+- [ ] No unused imports or variables
+- [ ] Theme tokens added to `base.ts` and `tamagui.config.ts` if new colors needed
