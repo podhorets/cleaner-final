@@ -5,11 +5,15 @@ export const baseColors = {
 
   grayLight: "#F3F4F4",
   whiteAlpha05: "#FFFFFF0D",
-  whiteAlpha13: "#F8F8F821",
-  darkBlueAlpha30: "#4248654D",
+  whiteAlpha13: "#fbfbfb21",
+  darkBlueAlpha30: "#4248654D", // Black v2
 
   textDark: "#323232",
   textSecondary: "#999999",
+  textGray: "#929296",
+
+  gray1: "#46464D",
+  gray2: "#acacac4d",
 
   bluePrimary: "#0074E3",
   blueSecondary: "#0F77F0",

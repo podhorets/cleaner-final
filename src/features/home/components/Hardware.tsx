@@ -3,25 +3,25 @@ import { Progress, Separator, Text, XStack, YStack } from "tamagui";
 
 export function Hardware() {
   return (
-    <YStack p="$3.5" gap="$2.5" br="$6" bg="#4248654d">
-      <Text fs={24} fw="$medium" color="$textDark">
+    <YStack p="$3.5" gap="$2.5" br="$6" bg="$darkBlueAlpha30">
+      <Text fs={24} fw="$medium" color="$white">
         Storage
       </Text>
       <XStack gap="$1.5">
         <YStack gap="$2">
-          <Text color="#929296" fs={14} fw="$regular">
+          <Text color="$white" o={0.5} fs={14} fw="$regular">
             Free Storage
           </Text>
-          <Text color="$textDark" fs={15} fw="$medium">
+          <Text color="$white" fs={15} fw="$medium">
             52 GB
           </Text>
         </YStack>
-        <Separator borderColor="#46464D" alignSelf="stretch" vertical />
+        <Separator borderColor="$gray1" alignSelf="stretch" vertical mx="$3" />
         <YStack gap="$2">
-          <Text color="#929296" fs={14} fw="$regular">
+          <Text color="$white" o={0.5} fs={14} fw="$regular">
             Total Storage
           </Text>
-          <Text color="$textDark" fs={15} fw="$medium">
+          <Text color="$white" fs={15} fw="$medium">
             256 GB
           </Text>
         </YStack>
@@ -30,7 +30,7 @@ export function Hardware() {
         value={60}
         size="$2"
         height={16}
-        backgroundColor="#acacac4d"
+        backgroundColor="$gray2"
         br={20}
       >
         <Progress.Indicator

@@ -1,6 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { Animated, Easing, LayoutChangeEvent } from "react-native";
-
 import {
   ArrowLeft,
   Check,
@@ -14,7 +11,7 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
-import { baseColors } from "@/src/theme/base";
+import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
 
 type CleanItem = {
   id: string;
@@ -70,77 +67,8 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   },
 ] as const;
 
-const PROGRESS_SEGMENTS: readonly ProgressSegment[] = [
-  {
-    type: "similar",
-    label: "Similar Photos",
-    colorToken: "$cyan",
-    colorValue: baseColors.cyan,
-    value: 30,
-  },
-  {
-    type: "screenshots",
-    label: "Screenshots",
-    colorToken: "$redPrimary",
-    colorValue: baseColors.redPrimary,
-    value: 28,
-  },
-  {
-    type: "blurry",
-    label: "Blurry photos",
-    colorToken: "$blueTertiary",
-    colorValue: baseColors.blueTertiary,
-    value: 12,
-  },
-  {
-    type: "selfie",
-    label: "Selfie",
-    colorToken: "$purple",
-    colorValue: baseColors.purple,
-    value: 10,
-  },
-  {
-    type: "contacts",
-    label: "Contacts",
-    colorToken: "$orange",
-    colorValue: baseColors.orange,
-    value: 4,
-  },
-] as const;
-
 export function SmartCleaner() {
   const router = useRouter();
-  const [barWidth, setBarWidth] = useState(0);
-  const totalPercent = PROGRESS_SEGMENTS.reduce(
-    (sum, item) => sum + item.value,
-    0
-  );
-  const remainderPercent = Math.max(0, 100 - totalPercent);
-  const hasRemainder = remainderPercent > 0;
-  const progressValues = useRef(
-    PROGRESS_SEGMENTS.map(() => new Animated.Value(0))
-  );
-
-  useEffect(() => {
-    if (!barWidth) {
-      return;
-    }
-
-    progressValues.current.forEach((value) => {
-      value.setValue(0);
-    });
-
-    const animations = PROGRESS_SEGMENTS.map((item, index) =>
-      Animated.timing(progressValues.current[index], {
-        toValue: Math.min(Math.max(item.value, 0), 100) / 100,
-        duration: 600,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: false,
-      })
-    );
-
-    Animated.stagger(120, animations).start();
-  }, [barWidth]);
 
   return (
     <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
@@ -172,127 +100,7 @@ export function SmartCleaner() {
                   </Text>
 
                   {/* Progress Bar */}
-                  <Stack
-                    height={21}
-                    br="$10"
-                    bg="#76787E"
-                    overflow="hidden"
-                    onLayout={(event: LayoutChangeEvent) => {
-                      const width = event.nativeEvent.layout.width;
-                      if (width !== barWidth) {
-                        setBarWidth(width);
-                      }
-                    }}
-                  >
-                    <XStack height="100%">
-                      {PROGRESS_SEGMENTS.map((item, index) => {
-                        const isFirst = index === 0;
-                        const isLastColored =
-                          index === PROGRESS_SEGMENTS.length - 1 &&
-                          !hasRemainder;
-                        const segmentWidth = Animated.multiply(
-                          progressValues.current[index],
-                          barWidth
-                        );
-
-                        return (
-                          <Animated.View
-                            key={item.type}
-                            style={[
-                              {
-                                width: segmentWidth,
-                                height: "100%",
-                                backgroundColor: item.colorValue,
-                                flexShrink: 0,
-                              },
-                              isFirst && {
-                                borderTopLeftRadius: 20,
-                                borderBottomLeftRadius: 20,
-                              },
-                              isLastColored && {
-                                borderTopRightRadius: 20,
-                                borderBottomRightRadius: 20,
-                              },
-                            ]}
-                          />
-                        );
-                      })}
-                      {hasRemainder && barWidth > 0 && (
-                        <Stack
-                          key="remainder"
-                          height="100%"
-                          bg="#76787E"
-                          flexShrink={0}
-                          style={{
-                            width: (remainderPercent / 100) * barWidth,
-                            borderTopRightRadius: 20,
-                            borderBottomRightRadius: 20,
-                          }}
-                        />
-                      )}
-                    </XStack>
-                  </Stack>
-
-                  {/* Legend */}
-                  <YStack gap="$2">
-                    <XStack gap="$4" items="center" justify="space-between">
-                      <XStack gap="$2" items="center">
-                        <Stack width={8} height={8} br={9999} bg="$cyan" />
-                        <Text fs={12} fw="$regular" color="$white">
-                          Similar Photos
-                        </Text>
-                      </XStack>
-                      <Stack width={53} />
-                    </XStack>
-                    <XStack gap="$4" items="center">
-                      <XStack gap="$2" items="center">
-                        <Stack width={8} height={8} br={9999} bg="$purple" />
-                        <Text fs={12} fw="$regular" color="$white">
-                          Selfie
-                        </Text>
-                      </XStack>
-                      <XStack gap="$2" items="center">
-                        <Stack width={8} height={8} br={9999} bg="$orange" />
-                        <Text fs={12} fw="$regular" color="$white">
-                          Contacts
-                        </Text>
-                      </XStack>
-                    </XStack>
-                    <XStack gap="$4" items="center" position="relative">
-                      <XStack
-                        gap="$2"
-                        items="center"
-                        position="absolute"
-                        left={102}
-                      >
-                        <Stack
-                          width={8}
-                          height={8}
-                          br={9999}
-                          bg="$redPrimary"
-                        />
-                        <Text fs={12} fw="$regular" color="$white">
-                          Screenshots
-                        </Text>
-                      </XStack>
-                      <XStack
-                        gap="$2"
-                        items="center"
-                        position="absolute"
-                        left={193}
-                      >
-                        <Stack
-                          width={8}
-                          height={8}
-                          br={9999}
-                          bg="$blueTertiary"
-                        />
-                        <Text fs={12} fw="$regular" color="$white">
-                          Blurry photos
-                        </Text>
-                      </XStack>
-                    </XStack>
-                  </YStack>
+                  <SmartCleanProgressBar />
                 </YStack>
 
                 {/* Storage Info */}
