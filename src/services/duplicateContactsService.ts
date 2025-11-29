@@ -1,7 +1,7 @@
 import * as Contacts from "expo-contacts";
 
 export const findDuplicateContacts = async (): Promise<
-  Contacts.Contact[][]
+  Contacts.ExistingContact[][]
 > => {
   const { status } = await Contacts.requestPermissionsAsync();
   if (status !== "granted") return [];
@@ -10,7 +10,7 @@ export const findDuplicateContacts = async (): Promise<
     fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails],
   });
 
-  const map = new Map<string, Contacts.Contact[]>();
+  const map = new Map<string, Contacts.ExistingContact[]>();
 
   data.forEach((contact) => {
     contact.phoneNumbers?.forEach((phone) => {

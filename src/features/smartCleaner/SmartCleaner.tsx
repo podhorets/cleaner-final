@@ -67,7 +67,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: DuplicateContacts,
     checked: false,
-    route: "/duplicate-contacts",
+    route: "/contacts",
   },
 ] as const;
 
