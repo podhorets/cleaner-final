@@ -8,7 +8,6 @@ import {
   Zap,
 } from "@tamagui/lucide-icons";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
@@ -71,7 +70,7 @@ export function SmartCleaner() {
   const router = useRouter();
 
   return (
-    <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
+    <ScrollView>
       <YStack flex={1} bg="$darkBgAlt">
         {/* Navigation Bar */}
         <XStack px="$4" py="$3" items="center" justify="space-between" gap="$4">
@@ -209,6 +208,6 @@ export function SmartCleaner() {
           </YStack>
         </ScrollView>
       </YStack>
-    </SafeAreaView>
+    </ScrollView>
   );
 }

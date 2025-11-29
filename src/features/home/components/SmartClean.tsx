@@ -58,7 +58,7 @@ export function SmartClean() {
           </Text>
         </YStack>
         <Stack
-          onPress={() => router.push("/smart-clean")}
+          onPress={() => router.push("/smart-cleaner")}
           bg="$redPrimary"
           br="$6"
           py="$4"
