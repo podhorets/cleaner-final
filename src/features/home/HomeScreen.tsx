@@ -11,7 +11,7 @@ import { SystemInfo } from "@/src/features/home/components/SystemInfo";
 export function HomeScreen() {
   return (
     <ScrollView>
-      <YStack gap="$4" style={{ padding: 16 }} flex={1}>
+      <YStack gap="$4" p="$3.5">
         <CleanerStatus />
         <SmartClean />
         <RamAndCpu />

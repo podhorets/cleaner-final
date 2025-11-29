@@ -15,7 +15,7 @@ export function ScreenHeader({ title, rightAction }: ScreenHeaderProps) {
   const router = useRouter();
 
   return (
-    <XStack px="$4" py="$3" items="center" justify="space-between" gap="$4">
+    <XStack p="$3.5" pb="$2.5" my="$2.5" items="center" justify="space-between">
       {/* Left: Back Button */}
       <Button
         unstyled
