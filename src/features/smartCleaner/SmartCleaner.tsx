@@ -1,5 +1,4 @@
 import {
-  ArrowLeft,
   Check,
   ChevronUp,
   Image,
@@ -7,9 +6,9 @@ import {
   Video,
   Zap,
 } from "@tamagui/lucide-icons";
-import { useRouter } from "expo-router";
 import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
+import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
 
 type CleanItem = {
@@ -67,25 +66,11 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
 ] as const;
 
 export function SmartCleaner() {
-  const router = useRouter();
-
   return (
     <ScrollView>
       <YStack flex={1} bg="$darkBgAlt">
-        {/* Navigation Bar */}
-        <XStack px="$4" py="$3" items="center" justify="space-between" gap="$4">
-          <Button
-            unstyled
-            onPress={() => router.back()}
-            icon={ArrowLeft}
-            size="$4"
-            color="$white"
-          />
-          <Text fs={20} fw="$semibold" color="$white">
-            Smart Cleaner
-          </Text>
-          <Stack width={24} />
-        </XStack>
+        {/* Header */}
+        <ScreenHeader title="Smart Cleaner" />
 
         <ScrollView flex={1}>
           <YStack px="$4" py="$3" gap="$4">
