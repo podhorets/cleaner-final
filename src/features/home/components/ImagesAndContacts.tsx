@@ -48,7 +48,7 @@ function QuickLinkCard({ label, count, icon, onPress }: QuickLink) {
         </Text>
         <Image
           source={ArrowRight}
-          style={{ width: 24, height: 24 }}
+          style={{ width: 18, height: 18 }}
           contentFit="contain"
         />
       </XStack>
