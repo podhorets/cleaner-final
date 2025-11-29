@@ -11,6 +11,7 @@ import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
+import { router } from "expo-router";
 
 type CleanItem = {
   id: string;
@@ -19,6 +20,7 @@ type CleanItem = {
   size: string;
   icon: ImageSource;
   checked: boolean;
+  route: string;
 };
 
 const CLEAN_ITEMS: readonly CleanItem[] = [
@@ -29,6 +31,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: SimilarPhotos,
     checked: true,
+    route: "/similar-photos",
   },
   {
     id: "screenshots",
@@ -37,6 +40,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: Screenshots,
     checked: false,
+    route: "/screenshots",
   },
   {
     id: "blurry-photos",
@@ -45,6 +49,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: BlurryPhotos,
     checked: true,
+    route: "/blurry-photos",
   },
   {
     id: "selfie",
@@ -53,6 +58,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: Selfie,
     checked: false,
+    route: "/selfie",
   },
   {
     id: "duplicate-contacts",
@@ -61,6 +67,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: DuplicateContacts,
     checked: false,
+    route: "/duplicate-contacts",
   },
 ] as const;
 
@@ -124,7 +131,12 @@ export function SmartCleaner() {
               // o={item.id === "similar-photos" ? 0.5 : 1}
             >
               <XStack items="center" justify="space-between">
-                <XStack gap="$3" items="center" flex={1}>
+                <XStack
+                  gap="$3"
+                  items="center"
+                  flex={1}
+                  onPress={() => router.push(item.route)}
+                >
                   {/* Icon */}
                   <Stack
                     bg="$whiteAlpha13"
