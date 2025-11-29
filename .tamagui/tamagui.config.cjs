@@ -1780,6 +1780,7 @@ var baseColors = {
   textGray: "#929296",
   gray1: "#46464D",
   gray2: "#acacac4d",
+  gray3: "#9F9F9F",
   bluePrimary: "#0074E3",
   blueSecondary: "#0F77F0",
   blueTertiary: "#0385FF",

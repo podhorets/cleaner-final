@@ -1,7 +1,7 @@
 import { LinearGradient } from "@tamagui/linear-gradient";
 import { Progress, Separator, Text, XStack, YStack } from "tamagui";
 
-export function Hardware() {
+export function MemoryStorage() {
   return (
     <YStack p="$3.5" gap="$2.5" br="$6" bg="$darkBlueAlpha30">
       <Text fs={24} fw="$medium" color="$white">
