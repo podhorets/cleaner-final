@@ -43,13 +43,13 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     route: "/screenshots",
   },
   {
-    id: "blurry-photos",
-    label: "Blurry photos",
+    id: "long-videos",
+    label: "Long videos",
     count: 15,
     size: "12.00Mb",
     icon: BlurryPhotos,
     checked: true,
-    route: "/blurry-photos",
+    route: "/long-videos",
   },
   {
     id: "selfie",

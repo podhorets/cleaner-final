@@ -137,6 +137,18 @@ export const getScreenshots = async (): Promise<Photo[]> => {
   return assetsResult.map((x) => ({ uri: x.uri, id: x.id }));
 };
 
+export const getLongVideos = async (): Promise<Asset[]> => {
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status !== "granted") return [];
+  const result = await MediaLibrary.getAssetsAsync({
+    mediaType: MediaLibrary.MediaType.video,
+    sortBy: MediaLibrary.SortBy.duration,
+    first: 30,
+  });
+
+  return result.assets;
+};
+
 export const getSimilarPhotos = async (
   timeframeSeconds = 5
 ): Promise<Photo[][]> => {
@@ -254,14 +266,16 @@ export const getBlurryPhotos = async (): Promise<Photo[]> => {
         try {
           const info = await MediaLibrary.getAssetInfoAsync(asset.id);
           const exif = info.exif as any; // Cast to any to access dynamic EXIF properties
-          
+
           if (exif) {
             // Skip screenshots - they don't have camera EXIF data
             const userComment = exif["{Exif}"]?.UserComment || exif.UserComment;
 
             // Only analyze photos with actual camera metadata
-            const exposureTime = exif.ExposureTime || exif["{Exif}"]?.ExposureTime;
-            const isoRaw = exif.ISOSpeedRatings || exif["{Exif}"]?.ISOSpeedRatings;
+            const exposureTime =
+              exif.ExposureTime || exif["{Exif}"]?.ExposureTime;
+            const isoRaw =
+              exif.ISOSpeedRatings || exif["{Exif}"]?.ISOSpeedRatings;
             const iso = Array.isArray(isoRaw) ? isoRaw[0] : isoRaw;
 
             // Skip if no camera metadata exists
@@ -272,7 +286,8 @@ export const getBlurryPhotos = async (): Promise<Photo[]> => {
             // Heuristics for blurriness:
             // 1. Slow shutter speed (ExposureTime): > 1/30s (approx 0.034s)
             // 2. High ISO (ISOSpeedRatings): > 1000 (often noisy/grainy)
-            const isSlowShutter = typeof exposureTime === "number" && exposureTime > 0.034;
+            const isSlowShutter =
+              typeof exposureTime === "number" && exposureTime > 0.034;
             const isHighISO = typeof iso === "number" && iso > 1000;
 
             if (isSlowShutter || isHighISO) {
