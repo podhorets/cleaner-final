@@ -1,17 +1,17 @@
 import Checked from "@/assets/images/checked_checkbox.svg";
+import * as Contacts from "expo-contacts";
 import { Image } from "expo-image";
 import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
-import * as Contacts from "expo-contacts";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 type ContactItemProps = {
-  contact: Contacts.Contact;
+  contact: Contacts.ExistingContact;
   isSelected: boolean;
   onToggle: (contactId: string) => void;
 };
 
-function getContactInitials(contact: Contacts.Contact): string {
+function getContactInitials(contact: Contacts.ExistingContact): string {
   const firstName = contact.firstName || "";
   const lastName = contact.lastName || "";
   const name = contact.name || "";
@@ -29,7 +29,7 @@ function getContactInitials(contact: Contacts.Contact): string {
   return "?";
 }
 
-function getContactDisplayName(contact: Contacts.Contact): string {
+function getContactDisplayName(contact: Contacts.ExistingContact): string {
   if (contact.name) return contact.name;
   if (contact.firstName || contact.lastName) {
     return [contact.firstName, contact.lastName].filter(Boolean).join(" ");
@@ -37,7 +37,7 @@ function getContactDisplayName(contact: Contacts.Contact): string {
   return "Unknown";
 }
 
-function getContactSubtitle(contact: Contacts.Contact): string {
+function getContactSubtitle(contact: Contacts.ExistingContact): string {
   if (contact.phoneNumbers && contact.phoneNumbers.length > 0) {
     return contact.phoneNumbers[0].number || "";
   }
@@ -75,9 +75,9 @@ export const ContactItem = memo(({ contact, isSelected, onToggle }: ContactItemP
           items="center"
           justify="center"
         >
-          {contact.imageAvailable && contact.imageUri ? (
+          {contact.imageAvailable && contact.image ? (
             <Image
-              source={{ uri: contact.imageUri }}
+              source={{ uri: contact.image.uri }}
               style={{ width: 50, height: 50, borderRadius: 12 }}
               contentFit="cover"
             />

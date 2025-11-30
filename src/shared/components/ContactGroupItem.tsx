@@ -1,8 +1,8 @@
 import Checked from "@/assets/images/checked_checkbox.svg";
+import * as Contacts from "expo-contacts";
 import { Image } from "expo-image";
 import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
-import * as Contacts from "expo-contacts";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { ContactDuplicateItem } from "@/src/shared/components/ContactDuplicateItem";
@@ -10,13 +10,13 @@ import { ContactDuplicateItem } from "@/src/shared/components/ContactDuplicateIt
 type ContactGroupItemProps = {
   group: {
     id: string;
-    contacts: Contacts.Contact[];
+    contacts: Contacts.ExistingContact[];
   };
   selectedIds: Set<string>;
   onToggleContact: (contactId: string) => void;
 };
 
-function getContactDisplayName(contact: Contacts.Contact): string {
+function getContactDisplayName(contact: Contacts.ExistingContact): string {
   if (contact.name) return contact.name;
   if (contact.firstName || contact.lastName) {
     return [contact.firstName, contact.lastName].filter(Boolean).join(" ");
@@ -31,7 +31,7 @@ export const ContactGroupItem = memo(
     const duplicates = group.contacts.slice(1);
 
     const mainContactName = getContactDisplayName(mainContact);
-    const mainContactId = (mainContact as Contacts.ExistingContact).id;
+    const mainContactId = mainContact.id;
     const isMainSelected = mainContactId ? selectedIds.has(mainContactId) : false;
 
     const handleMainToggle = useCallback(() => {

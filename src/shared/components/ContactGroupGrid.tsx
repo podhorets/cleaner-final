@@ -8,7 +8,7 @@ const GROUP_GAP = 10;
 
 export type ContactGroup = {
   id: string;
-  contacts: Contacts.Contact[];
+  contacts: Contacts.ExistingContact[];
 };
 
 type ContactGroupGridProps = {

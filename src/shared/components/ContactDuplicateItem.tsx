@@ -1,17 +1,17 @@
 import Checked from "@/assets/images/checked_checkbox.svg";
+import * as Contacts from "expo-contacts";
 import { Image } from "expo-image";
 import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
-import * as Contacts from "expo-contacts";
 import { Stack, Text, XStack } from "tamagui";
 
 type ContactDuplicateItemProps = {
-  contact: Contacts.Contact;
+  contact: Contacts.ExistingContact;
   isSelected: boolean;
   onToggle: (contactId: string) => void;
 };
 
-function getContactInitials(contact: Contacts.Contact): string {
+function getContactInitials(contact: Contacts.ExistingContact): string {
   const firstName = contact.firstName || "";
   const lastName = contact.lastName || "";
   const name = contact.name || "";
@@ -29,7 +29,7 @@ function getContactInitials(contact: Contacts.Contact): string {
   return "?";
 }
 
-function getContactPhoneNumber(contact: Contacts.Contact): string {
+function getContactPhoneNumber(contact: Contacts.ExistingContact): string {
   if (contact.phoneNumbers && contact.phoneNumbers.length > 0) {
     return contact.phoneNumbers[0].number || "";
   }
@@ -38,7 +38,7 @@ function getContactPhoneNumber(contact: Contacts.Contact): string {
 
 export const ContactDuplicateItem = memo(
   ({ contact, isSelected, onToggle }: ContactDuplicateItemProps) => {
-    const contactId = (contact as Contacts.ExistingContact).id;
+    const contactId = contact.id;
     const handlePress = useCallback(() => {
       if (contactId) {
         onToggle(contactId);
