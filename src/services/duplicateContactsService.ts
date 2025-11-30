@@ -7,7 +7,13 @@ export const findDuplicateContacts = async (): Promise<
   if (status !== "granted") return [];
 
   const { data } = await Contacts.getContactsAsync({
-    fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails],
+    fields: [
+      Contacts.Fields.PhoneNumbers,
+      Contacts.Fields.Emails,
+      Contacts.Fields.Name,
+      Contacts.Fields.FirstName,
+      Contacts.Fields.LastName,
+    ],
   });
 
   const map = new Map<string, Contacts.ExistingContact[]>();

@@ -1,48 +1,14 @@
 import * as Contacts from "expo-contacts";
 import { useCallback } from "react";
 import { FlatList } from "react-native";
-import { Text, YStack } from "tamagui";
 
-import { ContactItem } from "@/src/shared/components/ContactItem";
+import { ContactGroupItem } from "@/src/shared/components/ContactGroupItem";
 
-const GROUP_GAP = 15;
+const GROUP_GAP = 10;
 
 export type ContactGroup = {
   id: string;
-  contacts: Contacts.ExistingContact[];
-};
-
-type ContactGroupItemProps = {
-  group: ContactGroup;
-  selectedIds: Set<string>;
-  onToggleContact: (contactId: string) => void;
-};
-
-const ContactGroupItem = ({
-  group,
-  selectedIds,
-  onToggleContact,
-}: ContactGroupItemProps) => {
-  return (
-    <YStack gap="$2" items="center">
-      {/* Count Label */}
-      <Text fs={15} fw="$medium" color="$blueTertiary">
-        {group.contacts.length} items
-      </Text>
-
-      {/* Contacts List */}
-      <YStack gap="$2" width="100%">
-        {group.contacts.map((contact) => (
-          <ContactItem
-            key={contact.id}
-            contact={contact}
-            isSelected={selectedIds.has(contact.id)}
-            onToggle={onToggleContact}
-          />
-        ))}
-      </YStack>
-    </YStack>
-  );
+  contacts: Contacts.Contact[];
 };
 
 type ContactGroupGridProps = {
@@ -75,7 +41,6 @@ export function ContactGroupGrid({
       renderItem={renderGroup}
       keyExtractor={keyExtractor}
       contentContainerStyle={{
-        paddingHorizontal: 16,
         paddingTop: 16,
         paddingBottom: 100,
         gap: GROUP_GAP,

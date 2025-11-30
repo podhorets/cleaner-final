@@ -73,3 +73,6 @@ export function DuplicateContacts() {
     </YStack>
   );
 }
+
+// Export alias for Contacts
+export const Contacts = DuplicateContacts;
