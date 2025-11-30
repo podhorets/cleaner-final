@@ -69,6 +69,15 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     checked: false,
     route: "/contacts",
   },
+  {
+    id: "internet-speed",
+    label: "Internet speed",
+    count: 0,
+    size: "0Mb",
+    icon: BlurryPhotos,
+    checked: false,
+    route: "/internet-speed",
+  },
 ] as const;
 
 export function SmartCleaner() {

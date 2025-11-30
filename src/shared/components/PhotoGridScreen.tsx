@@ -9,7 +9,7 @@ import { Photo } from "@/src/types/models";
 type PhotoGridScreenProps = {
   photos?: Photo[];
   title: string;
-  onLoadPhotos?: () => Promise<string[]>;
+  onLoadPhotos?: () => Promise<Photo[]>;
 };
 
 export function PhotoGridScreen({
@@ -35,13 +35,8 @@ export function PhotoGridScreen({
     const loadPhotos = async () => {
       try {
         setIsLoading(true);
-        const uris = await onLoadPhotos();
-        // Convert URIs to Photo objects, using URI as ID
-        const photoObjects: Photo[] = uris.map((uri, index) => ({
-          id: uri || `photo-${index}`,
-          uri,
-        }));
-        setPhotos(photoObjects);
+        const loadedPhotos = await onLoadPhotos();
+        setPhotos(loadedPhotos);
       } catch (error) {
         console.error(`Failed to load photos for ${title}:`, error);
       } finally {

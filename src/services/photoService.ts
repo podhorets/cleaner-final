@@ -119,7 +119,7 @@ const calculateFilesSize = async (assetsResult: Asset[]) => {
   console.log("TOTAL MB for screenshots:", totalMb.toFixed(3));
 };
 
-export const getScreenshots = async (): Promise<string[]> => {
+export const getScreenshots = async (): Promise<Photo[]> => {
   const { status } = await MediaLibrary.requestPermissionsAsync();
   if (status !== "granted") return [];
 
@@ -134,7 +134,7 @@ export const getScreenshots = async (): Promise<string[]> => {
   //   calculateFilesSize(assetsResult)
   // );
   // console.log("time ", time);
-  return assetsResult.map((x) => x.uri);
+  return assetsResult.map((x) => ({ uri: x.uri, id: x.id }));
 };
 
 export const getSimilarPhotos = async (
@@ -186,6 +186,107 @@ export const getSimilarPhotos = async (
   );
 
   return similarGroupsPhotos;
+};
+
+/**
+ * Get photos from the "Selfies" smart album
+ * @returns {Promise<Photo[]>} List of selfie photos
+ */
+export const getSelfies = async (): Promise<Photo[]> => {
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status !== "granted") return [];
+
+  // 1. Try to find the "Selfies" smart album
+  const albums = await MediaLibrary.getAlbumsAsync({
+    includeSmartAlbums: true,
+  });
+
+  const selfieAlbum = albums.find((album) => {
+    // iOS: "Selfies", Android: "Selfie" or similar depending on OS version/manufacturer
+    const title = album.title.toLowerCase();
+    return title === "selfies" || title === "selfie";
+  });
+
+  if (!selfieAlbum) {
+    console.log("No 'Selfies' album found.");
+    return [];
+  }
+
+  // 2. Fetch assets from that album
+  const assetsResult = await fetchAllAssets({
+    album: selfieAlbum.id,
+    mediaType: MediaLibrary.MediaType.photo,
+    sortBy: MediaLibrary.SortBy.creationTime,
+  } as Partial<MediaLibrary.AssetsOptions>);
+
+  return assetsResult.map((asset) => ({
+    uri: asset.uri,
+    id: asset.id,
+  }));
+};
+
+/**
+ * Get blurry photos using EXIF metadata heuristics
+ * Scans the most recent 50 photos for performance reasons.
+ * Criteria: Shutter speed > 1/30s OR ISO > 1000
+ * @returns {Promise<Photo[]>} List of potentially blurry photos
+ */
+export const getBlurryPhotos = async (): Promise<Photo[]> => {
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status !== "granted") return [];
+
+  // Limit to most recent 50 photos for performance (getAssetInfoAsync is slow)
+  const result = await MediaLibrary.getAssetsAsync({
+    mediaType: MediaLibrary.MediaType.photo,
+    sortBy: MediaLibrary.SortBy.creationTime,
+    first: 1000,
+  });
+
+  const assets = result.assets;
+  const blurryPhotos: Photo[] = [];
+
+  // Use concurrency limit for fetching asset info
+  const limit = pLimit(5);
+
+  await Promise.all(
+    assets.map((asset) =>
+      limit(async () => {
+        try {
+          const info = await MediaLibrary.getAssetInfoAsync(asset.id);
+          const exif = info.exif as any; // Cast to any to access dynamic EXIF properties
+          
+          if (exif) {
+            // Skip screenshots - they don't have camera EXIF data
+            const userComment = exif["{Exif}"]?.UserComment || exif.UserComment;
+
+            // Only analyze photos with actual camera metadata
+            const exposureTime = exif.ExposureTime || exif["{Exif}"]?.ExposureTime;
+            const isoRaw = exif.ISOSpeedRatings || exif["{Exif}"]?.ISOSpeedRatings;
+            const iso = Array.isArray(isoRaw) ? isoRaw[0] : isoRaw;
+
+            // Skip if no camera metadata exists
+            if (exposureTime === undefined && iso === undefined) {
+              return; // Not a camera photo
+            }
+
+            // Heuristics for blurriness:
+            // 1. Slow shutter speed (ExposureTime): > 1/30s (approx 0.034s)
+            // 2. High ISO (ISOSpeedRatings): > 1000 (often noisy/grainy)
+            const isSlowShutter = typeof exposureTime === "number" && exposureTime > 0.034;
+            const isHighISO = typeof iso === "number" && iso > 1000;
+
+            if (isSlowShutter || isHighISO) {
+              blurryPhotos.push({ uri: asset.uri, id: asset.id });
+            }
+          }
+        } catch (error) {
+          console.warn(`Failed to get EXIF for asset ${asset.id}`, error);
+        }
+      })
+    )
+  );
+
+  return blurryPhotos;
 };
 
 const fetchAllAssets = async (
