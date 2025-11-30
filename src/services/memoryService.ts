@@ -13,9 +13,8 @@ export interface StorageUsage {
 /**
  * Converts bytes to gigabytes
  */
-const bytesToGB = (bytes: number): number => {
-  return Number((bytes / (1024 * 1024 * 1024)).toFixed(2));
-};
+const bytesToGB = (bytes: number, decimals = 1): number =>
+  parseFloat((bytes / 1e9).toFixed(decimals));
 
 /**
  * Checks the available and occupied amount of memory (storage) on the device.
@@ -31,7 +30,7 @@ export const getStorageUsage = async (): Promise<StorageUsage> => {
 
     return {
       total,
-      totalGB: bytesToGB(total),
+      totalGB: bytesToGB(total, 0),
       free,
       freeGB: bytesToGB(free),
       used,
