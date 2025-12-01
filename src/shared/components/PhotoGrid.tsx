@@ -10,13 +10,17 @@ const COLUMNS = 3;
 type PhotoGridProps = {
   photos: Photo[];
   selectedIds: Set<string>;
-  onTogglePhoto: (photoId: string) => void;
+  isSelectionMode: boolean;
+  onTogglePhoto?: (photoId: string) => void;
+  onPreviewPhoto?: (photo: Photo) => void;
 };
 
 export function PhotoGrid({
   photos,
   selectedIds,
+  isSelectionMode,
   onTogglePhoto,
+  onPreviewPhoto,
 }: PhotoGridProps) {
   // Group photos into rows
   const rows: Photo[][] = useMemo(() => {
@@ -32,10 +36,12 @@ export function PhotoGrid({
       <PhotoRow
         photos={item}
         selectedIds={selectedIds}
+        isSelectionMode={isSelectionMode}
         onTogglePhoto={onTogglePhoto}
+        onPreviewPhoto={onPreviewPhoto}
       />
     ),
-    [selectedIds, onTogglePhoto]
+    [selectedIds, isSelectionMode, onTogglePhoto, onPreviewPhoto]
   );
 
   const keyExtractor = useCallback(

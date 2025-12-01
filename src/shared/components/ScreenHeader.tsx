@@ -8,11 +8,14 @@ type ScreenHeaderProps = {
   rightAction?: {
     label: string;
     onPress: () => void;
+    color?: "blue" | "red";
   };
 };
 
 export function ScreenHeader({ title, rightAction }: ScreenHeaderProps) {
   const router = useRouter();
+
+  const buttonColor = rightAction?.color === "red" ? "#ff6767" : rightAction?.color === "blue" ? "#0385ff" : "$white";
 
   return (
     <XStack p="$3.5" pb="$2.5" my="$2.5" items="center" justify="space-between">
@@ -40,7 +43,7 @@ export function ScreenHeader({ title, rightAction }: ScreenHeaderProps) {
       {/* Right: Action Button or Spacer */}
       {rightAction ? (
         <Button unstyled onPress={rightAction.onPress} px="$2">
-          <Text fs={16} fw="$medium" color="$white">
+          <Text fs={16} fw="$semibold" color={buttonColor}>
             {rightAction.label}
           </Text>
         </Button>

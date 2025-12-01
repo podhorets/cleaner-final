@@ -36,6 +36,11 @@ export function usePhotoSelection({ photos }: UsePhotoSelectionOptions) {
     }
   }, [isSelectAll, photos]);
 
+  const clearSelection = useCallback(() => {
+    setSelectedIds(new Set());
+    setIsSelectAll(false);
+  }, []);
+
   // Update select all state when selection changes
   useEffect(() => {
     setIsSelectAll(photos.length > 0 && selectedIds.size === photos.length);
@@ -46,6 +51,7 @@ export function usePhotoSelection({ photos }: UsePhotoSelectionOptions) {
     isSelectAll,
     togglePhoto,
     toggleSelectAll,
+    clearSelection,
   };
 }
 

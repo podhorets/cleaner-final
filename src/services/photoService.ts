@@ -322,3 +322,44 @@ const fetchAllAssets = async (
   }
   return all;
 };
+
+// Count functions for categories
+export const getSimilarPhotosCount = async (): Promise<number> => {
+  const groups = await getSimilarPhotos(5);
+  return groups.reduce((total, group) => total + group.length, 0);
+};
+
+export const getScreenshotsCount = async (): Promise<number> => {
+  const screenshots = await getScreenshots();
+  return screenshots.length;
+};
+
+export const getSelfiesCount = async (): Promise<number> => {
+  const selfies = await getSelfies();
+  return selfies.length;
+};
+
+export const getLongVideosCount = async (): Promise<number> => {
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status !== "granted") return 0;
+
+  const result = await MediaLibrary.getAssetsAsync({
+    mediaType: MediaLibrary.MediaType.video,
+    sortBy: MediaLibrary.SortBy.duration,
+    first: 1,
+  });
+  return result.totalCount;
+};
+
+export const getLivePhotosCount = async (): Promise<number> => {
+  const { status } = await MediaLibrary.requestPermissionsAsync();
+  if (status !== "granted") return 0;
+
+  const subtypes: MediaSubtype[] = ["livePhoto"];
+  const assetsResult = await fetchAllAssets({
+    mediaType: MediaLibrary.MediaType.photo,
+    mediaSubtypes: subtypes,
+    sortBy: MediaLibrary.SortBy.creationTime,
+  } as Partial<MediaLibrary.AssetsOptions>);
+  return assetsResult.length;
+};

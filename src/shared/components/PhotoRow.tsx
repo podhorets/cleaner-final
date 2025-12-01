@@ -11,10 +11,12 @@ const COLUMNS = 3;
 type PhotoRowProps = {
   photos: Photo[];
   selectedIds: Set<string>;
-  onTogglePhoto: (photoId: string) => void;
+  isSelectionMode: boolean;
+  onTogglePhoto?: (photoId: string) => void;
+  onPreviewPhoto?: (photo: Photo) => void;
 };
 
-export const PhotoRow = memo(({ photos, selectedIds, onTogglePhoto }: PhotoRowProps) => {
+export const PhotoRow = memo(({ photos, selectedIds, isSelectionMode, onTogglePhoto, onPreviewPhoto }: PhotoRowProps) => {
   return (
     <XStack gap={PHOTO_GAP}>
       {photos.map((photo) => (
@@ -22,7 +24,9 @@ export const PhotoRow = memo(({ photos, selectedIds, onTogglePhoto }: PhotoRowPr
           key={photo.id}
           photo={photo}
           isSelected={selectedIds.has(photo.id)}
+          isSelectionMode={isSelectionMode}
           onToggle={onTogglePhoto}
+          onPreview={onPreviewPhoto}
         />
       ))}
       {/* Fill remaining columns with empty space */}

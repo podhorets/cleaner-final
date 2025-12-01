@@ -2,6 +2,7 @@ import ArrowRight from "@/assets/images/arrow_right.svg";
 import GalleryCircle from "@/assets/images/gallery_circle.svg";
 import UserCircle from "@/assets/images/user_circle.svg";
 import { Image, ImageSource } from "expo-image";
+import { router } from "expo-router";
 import { Text, XStack, YStack } from "tamagui";
 
 type QuickLink = {
@@ -12,24 +13,24 @@ type QuickLink = {
   onPress?: () => void;
 };
 
-const links = [
-  {
-    id: "contacts",
-    label: "Contact Cleaner",
-    count: "13",
-    icon: UserCircle,
-    onPress: () => {},
-  },
-  {
-    id: "gallery",
-    label: "Gallery Cleaner",
-    count: "11 842",
-    icon: GalleryCircle,
-    onPress: () => {},
-  },
-] as QuickLink[];
-
 export function ImagesAndContacts() {
+  const links = [
+    {
+      id: "contacts",
+      label: "Contact Cleaner",
+      count: "13",
+      icon: UserCircle,
+      onPress: () => {},
+    },
+    {
+      id: "gallery",
+      label: "Gallery Cleaner",
+      count: "11 842",
+      icon: GalleryCircle,
+      onPress: () => router.push("/screenshots"),
+    },
+  ] as QuickLink[];
+
   return (
     <XStack gap="$3.5">
       {links.map((item) => (
@@ -41,7 +42,14 @@ export function ImagesAndContacts() {
 
 function QuickLinkCard({ label, count, icon, onPress }: QuickLink) {
   return (
-    <YStack flex={1} p="$3.5" gap="$3.5" br="$6" bg="$darkBlueAlpha30">
+    <YStack
+      flex={1}
+      p="$3.5"
+      gap="$3.5"
+      br="$6"
+      bg="$darkBlueAlpha30"
+      onPress={onPress}
+    >
       <XStack alignItems="center" justify="space-between" pr="$3.5">
         <Text color="$white" fs={22} fw="$semibold">
           {label}
