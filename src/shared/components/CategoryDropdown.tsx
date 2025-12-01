@@ -45,7 +45,6 @@ export function CategoryDropdown({
       {/* Dropdown Button */}
       <XStack
         bg="$darkBlueAlpha30"
-        h={60}
         px="$4"
         py="$3.5"
         br="$6"
@@ -115,61 +114,57 @@ export function CategoryDropdown({
             zIndex={1000}
           >
             {categories.map((category) => (
-              <Pressable
+              <XStack
+                bg="$darkBlueAlpha30"
+                px="$4"
+                py="$3.5"
+                br="$6"
+                items="center"
+                justify="space-between"
+                width="100%"
                 key={category.id}
                 onPress={() => handleSelect(category.id)}
               >
-                <XStack
-                  bg="#272937"
-                  h={60}
-                  px="$3.75"
-                  py="$2.5"
-                  br="$4"
-                  items="center"
-                  justify="space-between"
-                >
-                  <XStack gap="$3" items="center" flex={1}>
-                    <YStack gap="$1">
-                      <Text
-                        fs={16}
-                        fw={
-                          category.id === selectedCategoryId
-                            ? "$medium"
-                            : "$regular"
-                        }
-                        color="$white"
-                      >
-                        {category.label}
-                      </Text>
-                    </YStack>
-                  </XStack>
-                  <XStack gap="$3.75" items="center">
-                    <Text fs={16} fw="$medium" color="#0385ff">
-                      {category.count.toLocaleString()}
-                    </Text>
-                    <Stack
-                      bg="#0385ff"
-                      borderWidth={2}
-                      borderColor="#0385ff"
-                      br="$2"
-                      width={24}
-                      height={24}
-                      items="center"
-                      justify="center"
+                <XStack gap="$3">
+                  <YStack gap="$1">
+                    <Text
+                      fs={16}
+                      fw={
+                        category.id === selectedCategoryId
+                          ? "$medium"
+                          : "$regular"
+                      }
+                      color="$white"
                     >
-                      <Image
-                        source={require("@/assets/images/arrow_right.svg")}
-                        style={{
-                          width: 12,
-                          height: 12,
-                          transform: [{ rotate: "-90deg" }],
-                        }}
-                        contentFit="contain"
-                      />
-                    </Stack>
-                  </XStack>
+                      {category.label}
+                    </Text>
+                  </YStack>
                 </XStack>
-              </Pressable>
+                <XStack gap="$3.5" items="center">
+                  <Text fs={16} fw="$medium" color="$blueTertiary">
+                    {category.count.toLocaleString()}
+                  </Text>
+                  <Stack
+                    bg="$blueTertiary"
+                    borderWidth={2}
+                    borderColor="$blueTertiary"
+                    br="$2"
+                    width={24}
+                    height={24}
+                    items="center"
+                    justify="center"
+                  >
+                    <Image
+                      source={require("@/assets/images/arrow_right.svg")}
+                      style={{
+                        width: 24,
+                        height: 24,
+                      }}
+                      contentFit="contain"
+                    />
+                  </Stack>
+                </XStack>
+              </XStack>
             ))}
           </YStack>
         </>
