@@ -1,6 +1,6 @@
+import { Image } from "expo-image";
 import { useCallback, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { Image } from "expo-image";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 export type CategoryOption = {
@@ -23,7 +23,8 @@ export function CategoryDropdown({
 }: CategoryDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const selectedCategory = categories.find((cat) => cat.id === selectedCategoryId) || categories[0];
+  const selectedCategory =
+    categories.find((cat) => cat.id === selectedCategoryId) || categories[0];
 
   const handleToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -42,49 +43,52 @@ export function CategoryDropdown({
   return (
     <>
       {/* Dropdown Button */}
-      <Pressable onPress={handleToggle}>
-        <XStack
-          bg="rgba(66,72,101,0.3)"
-          h={60}
-          px="$3.75"
-          py="$2.5"
-          br="$4"
-          items="center"
-          justify="space-between"
-        >
-          <XStack gap="$3" items="center" flex={1}>
-            <YStack gap="$1">
-              <Text fs={16} fw="$regular" color="$white">
-                {selectedCategory.label}
-              </Text>
-            </YStack>
-          </XStack>
-          <XStack gap="$3.75" items="center">
-            <Text fs={16} fw="$medium" color="#0385ff">
-              {selectedCategory.count.toLocaleString()}
+      <XStack
+        bg="$darkBlueAlpha30"
+        h={60}
+        px="$4"
+        py="$3.5"
+        br="$6"
+        items="center"
+        justify="space-between"
+        onPress={handleToggle}
+        width="100%"
+      >
+        <XStack gap="$3">
+          <YStack gap="$1">
+            <Text fs={16} fw="$regular" color="$white">
+              {selectedCategory.label}
             </Text>
-            <Stack
-              bg="#0385ff"
-              borderWidth={2}
-              borderColor="#0385ff"
-              br="$2"
-              width={24}
-              height={24}
-              items="center"
-              justify="center"
-              style={{
-                transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
-              }}
-            >
-              <Image
-                source={require("@/assets/images/arrow_right.svg")}
-                style={{ width: 12, height: 12, transform: [{ rotate: "-90deg" }] }}
-                contentFit="contain"
-              />
-            </Stack>
-          </XStack>
+          </YStack>
         </XStack>
-      </Pressable>
+        <XStack gap="$3.5" items="center">
+          <Text fs={16} fw="$medium" color="$blueTertiary">
+            {selectedCategory.count.toLocaleString()}
+          </Text>
+          <Stack
+            bg="$blueTertiary"
+            borderWidth={2}
+            borderColor="$blueTertiary"
+            br="$2"
+            width={24}
+            height={24}
+            items="center"
+            justify="center"
+            style={{
+              transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
+            }}
+          >
+            <Image
+              source={require("@/assets/images/dropdown.svg")}
+              style={{
+                width: 24,
+                height: 24,
+              }}
+              contentFit="contain"
+            />
+          </Stack>
+        </XStack>
+      </XStack>
 
       {/* Dropdown Menu Overlay */}
       {isOpen && (
@@ -128,7 +132,11 @@ export function CategoryDropdown({
                     <YStack gap="$1">
                       <Text
                         fs={16}
-                        fw={category.id === selectedCategoryId ? "$medium" : "$regular"}
+                        fw={
+                          category.id === selectedCategoryId
+                            ? "$medium"
+                            : "$regular"
+                        }
                         color="$white"
                       >
                         {category.label}
@@ -151,7 +159,11 @@ export function CategoryDropdown({
                     >
                       <Image
                         source={require("@/assets/images/arrow_right.svg")}
-                        style={{ width: 12, height: 12, transform: [{ rotate: "-90deg" }] }}
+                        style={{
+                          width: 12,
+                          height: 12,
+                          transform: [{ rotate: "-90deg" }],
+                        }}
                         contentFit="contain"
                       />
                     </Stack>
@@ -165,4 +177,3 @@ export function CategoryDropdown({
     </>
   );
 }
-

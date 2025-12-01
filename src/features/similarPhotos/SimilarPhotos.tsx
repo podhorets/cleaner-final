@@ -20,7 +20,8 @@ export function SimilarPhotos() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
 
-  const { categories, handleSelectCategory } = useCategoryDropdown("similar-photos");
+  const { categories, handleSelectCategory } =
+    useCategoryDropdown("similar-photos");
 
   // Get all photos from groups for selection hook
   const allPhotos = useMemo(() => {

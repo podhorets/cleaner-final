@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   getLivePhotosCount,
@@ -22,17 +22,38 @@ const CATEGORY_ROUTES: Record<string, string> = {
 export function useCategoryDropdown(currentCategoryId: string) {
   const router = useRouter();
   const [categories, setCategories] = useState<CategoryOption[]>([
-    { id: "similar-photos", label: "Similar photos", count: 0, route: "/similar-photos" },
-    { id: "screenshots", label: "Screenshots", count: 0, route: "/screenshots" },
+    {
+      id: "similar-photos",
+      label: "Similar photos",
+      count: 0,
+      route: "/similar-photos",
+    },
+    {
+      id: "screenshots",
+      label: "Screenshots",
+      count: 0,
+      route: "/screenshots",
+    },
     { id: "blurry-photos", label: "Blurry photos", count: 0, route: "/selfie" },
     { id: "selfies", label: "Selfies", count: 0, route: "/selfie" },
-    { id: "live-photos", label: "Live Photos", count: 0, route: "/similar-photos" },
+    {
+      id: "live-photos",
+      label: "Live Photos",
+      count: 0,
+      route: "/similar-photos",
+    },
   ]);
 
   useEffect(() => {
     const loadCounts = async () => {
       try {
-        const [similarCount, screenshotsCount, selfiesCount, liveCount, longVideosCount] = await Promise.all([
+        const [
+          similarCount,
+          screenshotsCount,
+          selfiesCount,
+          liveCount,
+          longVideosCount,
+        ] = await Promise.all([
           getSimilarPhotosCount().catch(() => 0),
           getScreenshotsCount().catch(() => 0),
           getSelfiesCount().catch(() => 0),
@@ -41,12 +62,42 @@ export function useCategoryDropdown(currentCategoryId: string) {
         ]);
 
         setCategories([
-          { id: "similar-photos", label: "Similar photos", count: similarCount, route: "/similar-photos" },
-          { id: "screenshots", label: "Screenshots", count: screenshotsCount, route: "/screenshots" },
-          { id: "blurry-photos", label: "Blurry photos", count: selfiesCount, route: "/selfie" },
-          { id: "selfies", label: "Selfies", count: selfiesCount, route: "/selfie" },
-          { id: "live-photos", label: "Live Photos", count: liveCount, route: "/similar-photos" },
-          { id: "long-videos", label: "Long videos", count: longVideosCount, route: "/long-videos" },
+          {
+            id: "similar-photos",
+            label: "Similar photos",
+            count: similarCount,
+            route: "/similar-photos",
+          },
+          {
+            id: "screenshots",
+            label: "Screenshots",
+            count: screenshotsCount,
+            route: "/screenshots",
+          },
+          {
+            id: "blurry-photos",
+            label: "Blurry photos",
+            count: selfiesCount,
+            route: "/selfie",
+          },
+          {
+            id: "selfies",
+            label: "Selfies",
+            count: selfiesCount,
+            route: "/selfie",
+          },
+          {
+            id: "live-photos",
+            label: "Live Photos",
+            count: liveCount,
+            route: "/similar-photos",
+          },
+          {
+            id: "long-videos",
+            label: "Long videos",
+            count: longVideosCount,
+            route: "/long-videos",
+          },
         ]);
       } catch (error) {
         console.error("Failed to load category counts:", error);
@@ -69,4 +120,3 @@ export function useCategoryDropdown(currentCategoryId: string) {
     handleSelectCategory,
   };
 }
-

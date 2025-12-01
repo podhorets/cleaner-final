@@ -144,7 +144,7 @@ export function SmartCleaner() {
                   gap="$3"
                   items="center"
                   flex={1}
-                  onPress={() => router.push(item.route)}
+                  onPress={() => router.push(item.route as any)}
                 >
                   {/* Icon */}
                   <Stack
