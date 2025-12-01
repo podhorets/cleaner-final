@@ -21,6 +21,7 @@
     "@tamagui/metro-plugin": "^1.135.4",
     "@tamagui/react-native-web-lite": "1.135.7",
     "expo": "~54.0.19",
+    "expo-blur": "~15.0.7",
     "expo-constants": "~18.0.10",
     "expo-contacts": "^15.0.10",
     "expo-file-system": "~19.0.19",

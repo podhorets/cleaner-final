@@ -1,7 +1,9 @@
 import { Image } from "expo-image";
 import { useCallback, useState } from "react";
-import { Pressable, StyleSheet } from "react-native";
-import { Stack, Text, XStack, YStack } from "tamagui";
+import { Modal, Pressable, View } from "react-native";
+import { Text, XStack, YStack, styled } from "tamagui";
+
+import { BlurView } from "expo-blur";
 
 export type CategoryOption = {
   id: string;
@@ -15,6 +17,15 @@ type CategoryDropdownProps = {
   selectedCategoryId: string;
   onSelectCategory: (categoryId: string) => void;
 };
+
+export const FullscreenBlur = styled(BlurView, {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  overflow: "hidden",
+});
 
 export function CategoryDropdown({
   categories,
@@ -40,6 +51,10 @@ export function CategoryDropdown({
     [selectedCategoryId, onSelectCategory]
   );
 
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <>
       {/* Dropdown Button */}
@@ -50,125 +65,87 @@ export function CategoryDropdown({
         br="$6"
         items="center"
         justify="space-between"
-        onPress={handleToggle}
         width="100%"
+        onPress={handleToggle}
       >
-        <XStack gap="$3">
-          <YStack gap="$1">
-            <Text fs={16} fw="$regular" color="$white">
-              {selectedCategory.label}
-            </Text>
-          </YStack>
-        </XStack>
+        <Text fs={16} fw="$regular" color="$white">
+          {selectedCategory.label}
+        </Text>
         <XStack gap="$3.5" items="center">
           <Text fs={16} fw="$medium" color="$blueTertiary">
             {selectedCategory.count.toLocaleString()}
           </Text>
-          <Stack
-            bg="$blueTertiary"
-            borderWidth={2}
-            borderColor="$blueTertiary"
-            br="$2"
-            width={24}
-            height={24}
-            items="center"
-            justify="center"
+          <Image
+            source={require("@/assets/images/dropdown.svg")}
             style={{
-              transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
+              width: 24,
+              height: 24,
             }}
-          >
-            <Image
-              source={require("@/assets/images/dropdown.svg")}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-              contentFit="contain"
-            />
-          </Stack>
+            contentFit="contain"
+          />
         </XStack>
       </XStack>
 
-      {/* Dropdown Menu Overlay */}
-      {isOpen && (
-        <>
-          <Pressable
-            style={StyleSheet.absoluteFill}
-            onPress={() => setIsOpen(false)}
-          >
-            <Stack
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              bg="rgba(0,0,0,0.4)"
+      {/* Modal with Blurred Background */}
+      <Modal
+        visible={isOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={handleClose}
+      >
+        <View style={{ flex: 1 }}>
+          {/* BACKGROUND BLUR + dark overlay + close on tap */}
+          <FullscreenBlur intensity={40} tint="dark">
+            <Pressable
+              style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)" }}
+              onPress={handleClose}
             />
-          </Pressable>
-          <YStack
-            position="absolute"
-            top={114}
-            left={15}
-            right={15}
-            gap={4}
-            zIndex={1000}
+          </FullscreenBlur>
+          <View
+            style={{
+              position: "absolute",
+              top: 214,
+              left: 15,
+              right: 15,
+            }}
+            pointerEvents="box-none"
           >
-            {categories.map((category) => (
-              <XStack
-                bg="$darkBlueAlpha30"
-                px="$4"
-                py="$3.5"
-                br="$6"
-                items="center"
-                justify="space-between"
-                width="100%"
-                key={category.id}
-                onPress={() => handleSelect(category.id)}
-              >
-                <XStack gap="$3">
-                  <YStack gap="$1">
-                    <Text
-                      fs={16}
-                      fw={
-                        category.id === selectedCategoryId
-                          ? "$medium"
-                          : "$regular"
-                      }
-                      color="$white"
-                    >
-                      {category.label}
-                    </Text>
-                  </YStack>
-                </XStack>
-                <XStack gap="$3.5" items="center">
-                  <Text fs={16} fw="$medium" color="$blueTertiary">
-                    {category.count.toLocaleString()}
+            <YStack gap={4} pointerEvents="box-none">
+              {categories.map((category) => (
+                <XStack
+                  bg="#272937"
+                  px="$4"
+                  py="$3.5"
+                  br="$6"
+                  items="center"
+                  justify="space-between"
+                  width="100%"
+                  key={category.id}
+                  onPress={() => handleSelect(category.id)}
+                >
+                  <Text fs={16} fw="$regular" color="$white">
+                    {category.label}
                   </Text>
-                  <Stack
-                    bg="$blueTertiary"
-                    borderWidth={2}
-                    borderColor="$blueTertiary"
-                    br="$2"
-                    width={24}
-                    height={24}
-                    items="center"
-                    justify="center"
-                  >
+                  <XStack gap="$3.5" items="center">
+                    <Text fs={16} fw="$medium" color="$blueTertiary">
+                      {category.count.toLocaleString()}
+                    </Text>
                     <Image
-                      source={require("@/assets/images/arrow_right.svg")}
+                      source={require("@/assets/images/dropdown.svg")}
                       style={{
                         width: 24,
                         height: 24,
+                        transform: [{ rotate: "270deg" }],
                       }}
                       contentFit="contain"
                     />
-                  </Stack>
+                  </XStack>
                 </XStack>
-              </XStack>
-            ))}
-          </YStack>
-        </>
-      )}
+              ))}
+            </YStack>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
