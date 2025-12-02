@@ -5,6 +5,7 @@ import { Button, Text, XStack, YStack } from "tamagui";
 
 import { CategoryDropdown } from "@/src/shared/components/CategoryDropdown";
 import { PhotoGrid } from "@/src/shared/components/PhotoGrid";
+import { PhotoGridSkeleton } from "@/src/shared/components/PhotoGridSkeleton";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
@@ -115,12 +116,15 @@ export function PhotoGridScreen({
   if (isLoading) {
     return (
       <YStack flex={1} bg="$darkBgAlt">
-        <ScreenHeader title={title} />
-        <YStack flex={1} items="center" justify="center">
-          <Text fs={16} fw="$regular" color="$white">
-            Loading photos...
-          </Text>
-        </YStack>
+        <ScreenHeader title={title} rightAction={getHeaderAction()} />
+        <XStack px="$4" pb="$2">
+          <CategoryDropdown
+            categories={categories}
+            selectedCategoryId={categoryId}
+            onSelectCategory={handleSelectCategory}
+          />
+        </XStack>
+        <PhotoGridSkeleton />
       </YStack>
     );
   }
