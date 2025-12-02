@@ -1,0 +1,96 @@
+import { Lock } from "@tamagui/lucide-icons";
+import { useCallback, useEffect, useState } from "react";
+import { Text, YStack } from "tamagui";
+
+import { usePasscode } from "@/src/features/secret-folder/hooks/usePasscode";
+import { useSecretFolderStore } from "@/src/features/secret-folder/stores/useSecretFolderStore";
+import { PasscodeInput } from "@/src/shared/components/PasscodeInput";
+import { PasscodeKeypad } from "@/src/shared/components/PasscodeKeypad";
+
+type EnterPasscodeProps = {
+  onSuccess: () => void;
+  onError?: () => void;
+};
+
+export function EnterPasscode({ onSuccess, onError }: EnterPasscodeProps) {
+  const [error, setError] = useState<string>("");
+  const { getPasscode } = useSecretFolderStore();
+
+  const {
+    digits,
+    isComplete,
+    handleDigitPress,
+    handleDelete,
+    reset,
+    getPasscode: getCurrentPasscode,
+  } = usePasscode();
+
+  useEffect(() => {
+    if (isComplete) {
+      const currentPasscode = getCurrentPasscode();
+      const storedPasscode = getPasscode();
+
+      if (currentPasscode === storedPasscode) {
+        onSuccess();
+      } else {
+        setError("Incorrect passcode");
+        setTimeout(() => {
+          setError("");
+          reset();
+        }, 600);
+        if (onError) {
+          onError();
+        }
+      }
+    }
+  }, [isComplete, getCurrentPasscode, getPasscode, onSuccess, onError, reset]);
+
+  const handleDigit = useCallback(
+    (digit: string) => {
+      setError("");
+      handleDigitPress(digit);
+    },
+    [handleDigitPress]
+  );
+
+  const handleDeletePress = useCallback(() => {
+    setError("");
+    handleDelete();
+  }, [handleDelete]);
+
+  return (
+    <YStack
+      flex={1}
+      bg="$darkBgAlt"
+      items="center"
+      justify="space-between"
+      pb="$10"
+    >
+      <YStack flex={1} items="center" justify="center" gap={20}>
+        {/* Lock Icon */}
+        <Lock size={80} color="#0385FF" />
+
+        {/* Title */}
+        <Text fs={20} fw="$regular" color="$gray3">
+          Enter Passcode
+        </Text>
+
+        {/* Error Message */}
+        {error ? (
+          <Text fs={16} fw="$regular" color="$redPrimary">
+            {error}
+          </Text>
+        ) : null}
+
+        {/* Passcode Input Indicators */}
+        <PasscodeInput length={digits.length} />
+      </YStack>
+
+      {/* Keypad */}
+      <PasscodeKeypad
+        onDigitPress={handleDigit}
+        onDeletePress={handleDeletePress}
+      />
+    </YStack>
+  );
+}

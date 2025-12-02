@@ -4,6 +4,7 @@ import PersonFrame from "@/assets/images/person_frame.svg";
 import Folder from "@/assets/images/secret_folder.svg";
 import VideoFrame from "@/assets/images/video_frame.svg";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 const tiles = [
@@ -14,7 +15,14 @@ const tiles = [
 
 export function SecretFolder() {
   return (
-    <YStack px="$3.5" pt="$3" pb="$2.5" br="$6" bg="$darkBlueAlpha30">
+    <YStack
+      px="$3.5"
+      pt="$3"
+      pb="$2.5"
+      br="$6"
+      bg="$darkBlueAlpha30"
+      onPress={() => router.push("/secret-folder" as any)}
+    >
       <XStack items="center" justify="space-between">
         <YStack gap="$1.5">
           <Text fs={26} fw="$medium" color="$white">
