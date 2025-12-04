@@ -1,4 +1,4 @@
-import { getLongVideos } from "@/src/services/photoService";
+import { getLongVideos } from "@/src/services/photo/videos";
 
 import { PhotoGridScreen } from "@/src/shared/components/PhotoGrid/PhotoGridScreen";
 

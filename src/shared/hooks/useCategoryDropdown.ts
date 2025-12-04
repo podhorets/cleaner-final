@@ -1,13 +1,10 @@
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
-import {
-  getLivePhotosCount,
-  getLongVideosCount,
-  getScreenshotsCount,
-  getSelfiesCount,
-  getSimilarPhotosCount,
-} from "@/src/services/photoService";
+import { getScreenshotsCount } from "@/src/services/photo/screenshots";
+import { getSelfiesCount } from "@/src/services/photo/selfies";
+import { getSimilarPhotosCount } from "@/src/services/photo/similarPhotos";
+import { getLivePhotosCount, getLongVideosCount } from "@/src/services/photo/videos";
 import type { CategoryOption } from "@/src/shared/components/CategoryDropdown";
 
 const CATEGORY_ROUTES: Record<string, string> = {

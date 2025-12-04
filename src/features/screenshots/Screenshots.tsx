@@ -1,4 +1,4 @@
-import { getScreenshots } from "@/src/services/photoService";
+import { getScreenshots } from "@/src/services/photo/screenshots";
 
 import { PhotoGridScreen } from "@/src/shared/components/PhotoGrid/PhotoGridScreen";
 

@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
 
-import { getSimilarPhotos } from "@/src/services/photoService";
+import { getSimilarPhotos } from "@/src/services/photo/similarPhotos";
 import { CategoryDropdown } from "@/src/shared/components/CategoryDropdown";
 import {
   PhotoGroupGrid,
