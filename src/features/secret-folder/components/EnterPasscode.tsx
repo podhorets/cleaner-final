@@ -4,6 +4,10 @@ import { Text, YStack } from "tamagui";
 
 import { usePasscode } from "@/src/features/secret-folder/hooks/usePasscode";
 import { useSecretFolderStore } from "@/src/features/secret-folder/stores/useSecretFolderStore";
+import {
+  authenticateWithBiometrics,
+  isBiometricAvailable,
+} from "@/src/services/biometricService";
 import { PasscodeInput } from "@/src/shared/components/PasscodeInput";
 import { PasscodeKeypad } from "@/src/shared/components/PasscodeKeypad";
 
@@ -14,6 +18,7 @@ type EnterPasscodeProps = {
 
 export function EnterPasscode({ onSuccess, onError }: EnterPasscodeProps) {
   const [error, setError] = useState<string>("");
+  const [biometricAvailable, setBiometricAvailable] = useState<boolean>(false);
   const { getPasscode } = useSecretFolderStore();
 
   const {
@@ -24,6 +29,15 @@ export function EnterPasscode({ onSuccess, onError }: EnterPasscodeProps) {
     reset,
     getPasscode: getCurrentPasscode,
   } = usePasscode();
+
+  // Check biometric availability on mount
+  useEffect(() => {
+    const checkBiometric = async () => {
+      const available = await isBiometricAvailable();
+      setBiometricAvailable(available);
+    };
+    checkBiometric();
+  }, []);
 
   useEffect(() => {
     if (isComplete) {
@@ -58,6 +72,19 @@ export function EnterPasscode({ onSuccess, onError }: EnterPasscodeProps) {
     handleDelete();
   }, [handleDelete]);
 
+  const handleBiometric = useCallback(async () => {
+    setError("");
+    const result = await authenticateWithBiometrics();
+    if (result.success) {
+      onSuccess();
+    } else if (result.error) {
+      setError(result.error);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  }, [onSuccess]);
+
   return (
     <YStack
       flex={1}
@@ -90,6 +117,8 @@ export function EnterPasscode({ onSuccess, onError }: EnterPasscodeProps) {
       <PasscodeKeypad
         onDigitPress={handleDigit}
         onDeletePress={handleDeletePress}
+        onBiometricPress={handleBiometric}
+        showBiometric={biometricAvailable}
       />
     </YStack>
   );

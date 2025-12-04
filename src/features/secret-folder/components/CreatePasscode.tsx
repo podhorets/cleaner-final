@@ -113,6 +113,7 @@ export function CreatePasscode({ onComplete }: CreatePasscodeProps) {
       <PasscodeKeypad
         onDigitPress={handleDigit}
         onDeletePress={handleDeletePress}
+        showBiometric={false}
       />
     </YStack>
   );

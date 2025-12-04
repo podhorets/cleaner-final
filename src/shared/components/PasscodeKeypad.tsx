@@ -1,16 +1,18 @@
-import { FaceId, X } from "@tamagui/lucide-icons";
+import { Fingerprint, X } from "@tamagui/lucide-icons";
 import { Button, Text, XStack, YStack } from "tamagui";
 
 type PasscodeKeypadProps = {
   onDigitPress: (digit: string) => void;
   onDeletePress: () => void;
   onBiometricPress?: () => void;
+  showBiometric?: boolean;
 };
 
 export function PasscodeKeypad({
   onDigitPress,
   onDeletePress,
   onBiometricPress,
+  showBiometric = false,
 }: PasscodeKeypadProps) {
   const handleDigitPress = (digit: string) => {
     onDigitPress(digit);
@@ -33,7 +35,11 @@ export function PasscodeKeypad({
         <KeypadButton label="1" onPress={() => handleDigitPress("1")} />
         <KeypadButton label="4" onPress={() => handleDigitPress("4")} />
         <KeypadButton label="7" onPress={() => handleDigitPress("7")} />
-        <BiometricButton onPress={handleBiometric} />
+        {showBiometric && onBiometricPress ? (
+          <BiometricButton onPress={handleBiometric} />
+        ) : (
+          <EmptyButton />
+        )}
       </YStack>
 
       {/* Column 2: 2, 5, 8, 0 */}
@@ -85,9 +91,24 @@ function BiometricButton({ onPress }: { onPress: () => void }) {
       justify="center"
       onPress={onPress}
     >
-      {/* <FaceId size={32} color="#FFFFFF" /> */}
-      <X size={32} color="$blueTertiary" />
+      <Fingerprint size={32} color="#FFFFFF" />
+    </Button>
+  );
+}
 
+function EmptyButton() {
+  return (
+    <Button
+      unstyled
+      width={68}
+      height={68}
+      borderRadius={25}
+      items="center"
+      justify="center"
+      disabled
+      opacity={0}
+    >
+      {/* Empty placeholder */}
     </Button>
   );
 }
@@ -107,4 +128,3 @@ function DeleteButton({ onPress }: { onPress: () => void }) {
     </Button>
   );
 }
-
