@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { userRepository } from "@/src/shared/database/repositories/UserRepository";
 import { User } from "@/src/shared/database/types";
@@ -50,4 +50,3 @@ export function useUser() {
     updateField,
   };
 }
-

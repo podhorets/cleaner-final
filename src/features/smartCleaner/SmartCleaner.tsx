@@ -11,6 +11,8 @@ import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
+import { useUser } from "@/src/shared/hooks/useUser";
+import { useUserStore } from "@/src/stores/useUserStore";
 import { router } from "expo-router";
 
 type CleanItem = {
@@ -81,6 +83,9 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
 ] as const;
 
 export function SmartCleaner() {
+  const { updateField } = useUser();
+  const { user } = useUserStore();
+
   return (
     <ScrollView>
       {/* Header */}
@@ -92,7 +97,10 @@ export function SmartCleaner() {
             {/* Last Clean Date */}
             <YStack bg="$whiteAlpha13" br="$6" p="$3" gap="$2.5">
               <Text fs={14} fw="$regular" color="$white">
-                Last clean: 16 apr
+                Last clean: 16 apr{" "}
+                {user?.lastClean
+                  ? new Date(user?.lastClean).toLocaleDateString()
+                  : ""}
               </Text>
 
               {/* Progress Bar */}
@@ -202,7 +210,7 @@ export function SmartCleaner() {
           br="$9"
           height={55}
           onPress={() => {
-            // Handle cleaning action
+            updateField("lastClean", new Date().toISOString());
           }}
         >
           <Text fs={17} fw="$semibold" color="$white">
