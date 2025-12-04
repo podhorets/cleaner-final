@@ -1,14 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { FlatList } from "react-native";
-import { Stack, Text, XStack, YStack } from "tamagui";
+import { Text, YStack } from "tamagui";
 
-import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
+import { COLUMNS, GROUP_GAP } from "@/src/shared/components/PhotoGrid/constants";
+import { PhotoRow } from "@/src/shared/components/PhotoGrid/PhotoRow";
 import { Photo } from "@/src/types/models";
-
-const PHOTO_SIZE = 113;
-const PHOTO_GAP = 3;
-const GROUP_GAP = 15;
-const COLUMNS = 3;
 
 export type PhotoGroup = {
   id: string;
@@ -48,27 +44,14 @@ const PhotoGroupItem = ({
       {/* Photo Grid */}
       <YStack gap={3}>
         {rows.map((row, rowIndex) => (
-          <XStack key={rowIndex} gap={3}>
-            {row.map((photo) => (
-              <PhotoItem
-                key={photo.id}
-                photo={photo}
-                isSelected={selectedIds.has(photo.id)}
-                isSelectionMode={isSelectionMode}
-                onToggle={onTogglePhoto}
-                onPreview={onPreviewPhoto}
-              />
-            ))}
-            {/* Fill remaining columns with empty space */}
-            {row.length < COLUMNS &&
-              Array.from({ length: COLUMNS - row.length }).map((_, i) => (
-                <Stack
-                  key={`empty-${i}`}
-                  width={PHOTO_SIZE}
-                  height={PHOTO_SIZE}
-                />
-              ))}
-          </XStack>
+          <PhotoRow
+            key={rowIndex}
+            photos={row}
+            selectedIds={selectedIds}
+            isSelectionMode={isSelectionMode}
+            onTogglePhoto={onTogglePhoto}
+            onPreviewPhoto={onPreviewPhoto}
+          />
         ))}
       </YStack>
     </YStack>

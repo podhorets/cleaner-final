@@ -1,11 +1,9 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { FlatList } from "react-native";
 
-import { PhotoRow } from "@/src/shared/components/PhotoGrid/PhotoRow";
+import { COLUMNS, PHOTO_GAP } from "@/src/shared/components/PhotoGrid/constants";
+import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
 import { Photo } from "@/src/types/models";
-
-const PHOTO_GAP = 3;
-const COLUMNS = 3;
 
 type PhotoGridProps = {
   photos: Photo[];
@@ -22,38 +20,28 @@ export function PhotoGrid({
   onTogglePhoto,
   onPreviewPhoto,
 }: PhotoGridProps) {
-  // Group photos into rows
-  const rows: Photo[][] = useMemo(() => {
-    const result: Photo[][] = [];
-    for (let i = 0; i < photos.length; i += COLUMNS) {
-      result.push(photos.slice(i, i + COLUMNS));
-    }
-    return result;
-  }, [photos]);
-
-  const renderRow = useCallback(
-    ({ item }: { item: Photo[] }) => (
-      <PhotoRow
-        photos={item}
-        selectedIds={selectedIds}
+  const renderItem = useCallback(
+    ({ item }: { item: Photo }) => (
+      <PhotoItem
+        photo={item}
+        isSelected={selectedIds.has(item.id)}
         isSelectionMode={isSelectionMode}
-        onTogglePhoto={onTogglePhoto}
-        onPreviewPhoto={onPreviewPhoto}
+        onToggle={onTogglePhoto}
+        onPreview={onPreviewPhoto}
       />
     ),
     [selectedIds, isSelectionMode, onTogglePhoto, onPreviewPhoto]
   );
 
-  const keyExtractor = useCallback(
-    (_: Photo[], index: number) => `row-${index}`,
-    []
-  );
+  const keyExtractor = useCallback((item: Photo) => item.id, []);
 
   return (
     <FlatList
-      data={rows}
-      renderItem={renderRow}
+      data={photos}
+      renderItem={renderItem}
       keyExtractor={keyExtractor}
+      numColumns={COLUMNS}
+      columnWrapperStyle={{ gap: PHOTO_GAP }}
       contentContainerStyle={{
         paddingHorizontal: 16,
         paddingTop: 16,

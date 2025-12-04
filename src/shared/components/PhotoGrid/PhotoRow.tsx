@@ -1,12 +1,9 @@
 import { memo } from "react";
 import { Stack, XStack } from "tamagui";
 
+import { COLUMNS, PHOTO_GAP, PHOTO_SIZE } from "@/src/shared/components/PhotoGrid/constants";
 import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
 import { Photo } from "@/src/types/models";
-
-const PHOTO_SIZE = 113;
-const PHOTO_GAP = 3;
-const COLUMNS = 3;
 
 type PhotoRowProps = {
   photos: Photo[];

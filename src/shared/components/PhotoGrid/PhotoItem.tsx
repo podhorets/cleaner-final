@@ -4,9 +4,8 @@ import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
 import { Stack } from "tamagui";
 
+import { PHOTO_SIZE } from "@/src/shared/components/PhotoGrid/constants";
 import { Photo } from "@/src/types/models";
-
-const PHOTO_SIZE = 113;
 
 type PhotoItemProps = {
   photo: Photo;
