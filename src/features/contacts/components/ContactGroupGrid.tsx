@@ -2,7 +2,7 @@ import * as Contacts from "expo-contacts";
 import { useCallback } from "react";
 import { FlatList } from "react-native";
 
-import { ContactGroupItem } from "@/src/shared/components/ContactGroupItem";
+import { ContactGroupItem } from "@/src/features/contacts/components/ContactGroupItem";
 
 const GROUP_GAP = 10;
 

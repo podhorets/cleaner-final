@@ -5,7 +5,7 @@ import { memo, useCallback } from "react";
 import { Pressable } from "react-native";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
-import { ContactDuplicateItem } from "@/src/shared/components/ContactDuplicateItem";
+import { ContactDuplicateItem } from "@/src/features/contacts/components/ContactDuplicateItem";
 
 type ContactGroupItemProps = {
   group: {
@@ -32,7 +32,9 @@ export const ContactGroupItem = memo(
 
     const mainContactName = getContactDisplayName(mainContact);
     const mainContactId = mainContact.id;
-    const isMainSelected = mainContactId ? selectedIds.has(mainContactId) : false;
+    const isMainSelected = mainContactId
+      ? selectedIds.has(mainContactId)
+      : false;
 
     const handleMainToggle = useCallback(() => {
       if (mainContactId) {
@@ -41,13 +43,7 @@ export const ContactGroupItem = memo(
     }, [mainContactId, onToggleContact]);
 
     return (
-      <YStack
-        gap={10}
-        pb={20}
-        pt={15}
-        px={16}
-        width="100%"
-      >
+      <YStack gap={10} pb={20} pt={15} px={16} width="100%">
         {/* Contact Name Section */}
         <YStack gap={5} width="100%">
           {/* "Contact name" Label */}
@@ -116,4 +112,3 @@ export const ContactGroupItem = memo(
 );
 
 ContactGroupItem.displayName = "ContactGroupItem";
-

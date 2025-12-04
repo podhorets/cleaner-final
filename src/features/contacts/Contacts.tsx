@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Text, YStack } from "tamagui";
 
-import { findDuplicateContacts } from "@/src/services/duplicateContactsService";
 import {
+  ContactGroup,
   ContactGroupGrid,
-  type ContactGroup,
-} from "@/src/shared/components/ContactGroupGrid";
+} from "@/src/features/contacts/components/ContactGroupGrid";
+import { findDuplicateContacts } from "@/src/services/duplicateContactsService";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useContactSelection } from "@/src/shared/hooks/useContactSelection";
 
