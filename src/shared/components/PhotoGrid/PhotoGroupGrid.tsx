@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { FlatList } from "react-native";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
-import { PhotoItem } from "@/src/shared/components/PhotoItem";
+import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
 import { Photo } from "@/src/types/models";
 
 const PHOTO_SIZE = 113;

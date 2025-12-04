@@ -1,12 +1,14 @@
 import { Image } from "expo-image";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { YStack } from "tamagui";
 
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 
 export function PhotoPreviewScreen() {
-  const router = useRouter();
-  const { uri, title } = useLocalSearchParams<{ uri: string; title?: string }>();
+  const { uri, title } = useLocalSearchParams<{
+    uri: string;
+    title?: string;
+  }>();
 
   return (
     <YStack flex={1} bg="$darkBgAlt">
@@ -25,4 +27,3 @@ export function PhotoPreviewScreen() {
     </YStack>
   );
 }
-

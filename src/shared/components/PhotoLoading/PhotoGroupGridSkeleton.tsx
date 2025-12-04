@@ -1,6 +1,6 @@
 import { YStack } from "tamagui";
 
-import { PhotoGroupSkeleton } from "@/src/shared/components/PhotoGroupSkeleton";
+import { PhotoGroupSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGroupSkeleton";
 
 const GROUP_GAP = 15;
 const SKELETON_GROUPS = 3; // Show 3 groups of skeletons

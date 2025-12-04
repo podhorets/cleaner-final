@@ -2,14 +2,14 @@ import { Lock } from "@tamagui/lucide-icons";
 import { useCallback, useEffect, useState } from "react";
 import { Text, YStack } from "tamagui";
 
+import { PasscodeInput } from "@/src/features/secret-folder/components/PasscodeInput";
+import { PasscodeKeypad } from "@/src/features/secret-folder/components/PasscodeKeypad";
 import { usePasscode } from "@/src/features/secret-folder/hooks/usePasscode";
 import { useSecretFolderStore } from "@/src/features/secret-folder/stores/useSecretFolderStore";
 import {
   authenticateWithBiometrics,
   isBiometricAvailable,
 } from "@/src/services/biometricService";
-import { PasscodeInput } from "@/src/shared/components/PasscodeInput";
-import { PasscodeKeypad } from "@/src/shared/components/PasscodeKeypad";
 
 type EnterPasscodeProps = {
   onSuccess: () => void;

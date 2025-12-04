@@ -1,7 +1,13 @@
 import { getSelfies } from "@/src/services/photoService";
 
-import { PhotoGridScreen } from "@/src/shared/components/PhotoGridScreen";
+import { PhotoGridScreen } from "@/src/shared/components/PhotoGrid/PhotoGridScreen";
 
 export function Selfie() {
-  return <PhotoGridScreen title="Blurry photos" onLoadPhotos={getSelfies} categoryId="blurry-photos" />;
+  return (
+    <PhotoGridScreen
+      title="Blurry photos"
+      onLoadPhotos={getSelfies}
+      categoryId="blurry-photos"
+    />
+  );
 }

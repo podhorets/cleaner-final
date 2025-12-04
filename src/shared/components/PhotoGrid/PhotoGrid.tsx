@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { FlatList } from "react-native";
 
-import { PhotoRow } from "@/src/shared/components/PhotoRow";
+import { PhotoRow } from "@/src/shared/components/PhotoGrid/PhotoRow";
 import { Photo } from "@/src/types/models";
 
 const PHOTO_GAP = 3;

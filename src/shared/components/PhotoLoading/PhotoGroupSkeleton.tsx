@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import { Text, YStack } from "tamagui";
 
-import { PhotoSkeletonRow } from "@/src/shared/components/PhotoSkeleton";
+import { PhotoSkeletonRow } from "@/src/shared/components/PhotoLoading/PhotoSkeleton";
 
 const PHOTO_SIZE = 113;
 const PHOTO_GAP = 3;

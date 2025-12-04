@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
 
 import { CategoryDropdown } from "@/src/shared/components/CategoryDropdown";
-import { PhotoGrid } from "@/src/shared/components/PhotoGrid";
-import { PhotoGridSkeleton } from "@/src/shared/components/PhotoGridSkeleton";
+import { PhotoGrid } from "@/src/shared/components/PhotoGrid/PhotoGrid";
+import { PhotoGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGridSkeleton";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";

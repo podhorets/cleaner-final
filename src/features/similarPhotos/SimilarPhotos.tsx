@@ -8,8 +8,8 @@ import { CategoryDropdown } from "@/src/shared/components/CategoryDropdown";
 import {
   PhotoGroupGrid,
   type PhotoGroup,
-} from "@/src/shared/components/PhotoGroupGrid";
-import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoGroupGridSkeleton";
+} from "@/src/shared/components/PhotoGrid/PhotoGroupGrid";
+import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGroupGridSkeleton";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
