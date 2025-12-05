@@ -8,6 +8,7 @@ import { TamaguiProvider } from "tamagui";
 import { initializeDatabase } from "@/src/shared/database/database";
 import { userRepository } from "@/src/shared/database/repositories/UserRepository";
 import { useUser } from "@/src/shared/hooks/useUser";
+import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 import { useUserStore } from "@/src/stores/useUserStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { navDark } from "../src/theme/navigation";
@@ -40,6 +41,10 @@ export default function RootLayout() {
         } else {
           console.log("User found:", loadedUser);
         }
+      })
+      .then(() => {
+        const { fetchAllCounts } = usePhotoCountStore.getState();
+        fetchAllCounts();
       })
       .catch((error) => {
         console.error("Failed to initialize database or create user:", error);

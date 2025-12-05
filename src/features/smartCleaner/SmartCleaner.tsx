@@ -12,6 +12,7 @@ import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
 import { useUser } from "@/src/shared/hooks/useUser";
+import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 import { useUserStore } from "@/src/stores/useUserStore";
 import { router } from "expo-router";
 
@@ -29,7 +30,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   {
     id: "similar-photos",
     label: "Similar photos",
-    count: 15,
+    count: 0,
     size: "12.00Mb",
     icon: SimilarPhotos,
     checked: true,
@@ -38,7 +39,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   {
     id: "screenshots",
     label: "Screenshots",
-    count: 124,
+    count: 0,
     size: "12.00Mb",
     icon: Screenshots,
     checked: false,
@@ -47,7 +48,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   {
     id: "long-videos",
     label: "Long videos",
-    count: 15,
+    count: 0,
     size: "12.00Mb",
     icon: BlurryPhotos,
     checked: true,
@@ -56,7 +57,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   {
     id: "selfie",
     label: "Selfie",
-    count: 34,
+    count: 0,
     size: "12.00Mb",
     icon: Selfie,
     checked: false,
@@ -65,7 +66,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
   {
     id: "duplicate-contacts",
     label: "Duplicate contacts",
-    count: 62,
+    count: 0,
     size: "12.00Mb",
     icon: DuplicateContacts,
     checked: false,
@@ -85,6 +86,31 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
 export function SmartCleaner() {
   const { updateField } = useUser();
   const { user } = useUserStore();
+  const { screenshots, selfies, similarPhotos, longVideos } =
+    usePhotoCountStore();
+
+  // Map store counts to clean items
+  const cleanItemsWithCounts: CleanItem[] = CLEAN_ITEMS.map((item) => {
+    let count = item.count;
+    switch (item.id) {
+      case "similar-photos":
+        count = similarPhotos ?? 0;
+        break;
+      case "screenshots":
+        count = screenshots ?? 0;
+        break;
+      case "long-videos":
+        count = longVideos ?? 0;
+        break;
+      case "selfie":
+        count = selfies ?? 0;
+        break;
+      // duplicate-contacts and internet-speed keep their default values
+      default:
+        break;
+    }
+    return { ...item, count };
+  });
 
   return (
     <ScrollView>
@@ -138,7 +164,7 @@ export function SmartCleaner() {
 
         {/* Clean Items List */}
         <YStack gap="$2">
-          {CLEAN_ITEMS.map((item) => (
+          {cleanItemsWithCounts.map((item) => (
             <Card
               key={item.id}
               bg="$darkBlueAlpha30"
