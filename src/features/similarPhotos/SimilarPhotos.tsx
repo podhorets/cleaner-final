@@ -1,6 +1,6 @@
 import { LinearGradient } from "@tamagui/linear-gradient";
-import { useRouter } from "expo-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
 
 import { getSimilarPhotos } from "@/src/services/photo/similarPhotos";
@@ -13,16 +13,35 @@ import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/Pho
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
+import { categoryToStoreKey, PhotoCategory } from "@/src/shared/types/categories";
+import { useDeletionStore } from "@/src/stores/useDeletionStore";
 import { Photo } from "@/src/types/models";
 
 export function SimilarPhotos() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ selectionModeOnly?: string }>();
+  const selectionModeOnly = params.selectionModeOnly === "true";
+  
   const [groups, setGroups] = useState<PhotoGroup[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [isSelectionMode, setIsSelectionMode] = useState(selectionModeOnly);
+  const lastSyncedPhotosRef = useRef<string>("");
 
   const { categories, handleSelectCategory } =
-    useCategoryDropdown("similar-photos");
+    useCategoryDropdown(PhotoCategory.SIMILAR_PHOTOS);
+  
+  const storeCategoryKey = categoryToStoreKey(PhotoCategory.SIMILAR_PHOTOS);
+  
+  const {
+    addToSmartCleaner,
+    removeFromSmartCleaner,
+    addToClassicCleaner,
+    removeFromClassicCleaner,
+    clearSmartCleaner,
+    clearClassicCleaner,
+    getSmartCleanerIds,
+    getClassicCleanerIds,
+  } = useDeletionStore();
 
   // Get all photos from groups for selection hook
   const allPhotos = useMemo(() => {
@@ -36,6 +55,13 @@ export function SimilarPhotos() {
     toggleSelectAll,
     clearSelection,
   } = usePhotoSelection({ photos: allPhotos });
+
+  // Ensure isSelectionMode stays true when selectionModeOnly is true
+  useEffect(() => {
+    if (selectionModeOnly) {
+      setIsSelectionMode(true);
+    }
+  }, [selectionModeOnly]);
 
   useEffect(() => {
     const loadPhotos = async () => {
@@ -57,14 +83,98 @@ export function SimilarPhotos() {
     loadPhotos();
   }, []);
 
+  // Sync selectedIds with store when photos are loaded
+  useEffect(() => {
+    if (allPhotos.length === 0 || isLoading) return;
+
+    // Create a signature for this photo set to avoid re-syncing
+    const photosSignature = allPhotos
+      .map((p) => p.id)
+      .sort()
+      .join(",");
+    if (lastSyncedPhotosRef.current === photosSignature) return;
+
+    const storeIds = selectionModeOnly
+      ? getSmartCleanerIds(storeCategoryKey)
+      : getClassicCleanerIds(storeCategoryKey);
+
+    if (storeIds.length === 0) {
+      lastSyncedPhotosRef.current = photosSignature;
+      return;
+    }
+
+    const currentSet = new Set(selectedIds);
+
+    // Sync: add IDs from store that aren't selected
+    storeIds.forEach((id) => {
+      if (!currentSet.has(id) && allPhotos.some((p) => p.id === id)) {
+        togglePhoto(id);
+      }
+    });
+
+    lastSyncedPhotosRef.current = photosSignature;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allPhotos.length, isLoading, storeCategoryKey, selectionModeOnly]);
+
+  // Wrapper for togglePhoto that syncs with store
+  const handleTogglePhoto = useCallback(
+    (photoId: string) => {
+      // Check current state before toggling
+      const willBeSelected = !selectedIds.has(photoId);
+
+      // Toggle the photo selection
+      togglePhoto(photoId);
+
+      // Update store based on the new state
+      if (selectionModeOnly) {
+        if (willBeSelected) {
+          addToSmartCleaner(storeCategoryKey, [photoId]);
+        } else {
+          removeFromSmartCleaner(storeCategoryKey, [photoId]);
+        }
+      } else {
+        if (willBeSelected) {
+          addToClassicCleaner(storeCategoryKey, [photoId]);
+        } else {
+          removeFromClassicCleaner(storeCategoryKey, [photoId]);
+        }
+      }
+    },
+    [
+      togglePhoto,
+      selectedIds,
+      selectionModeOnly,
+      storeCategoryKey,
+      addToSmartCleaner,
+      removeFromSmartCleaner,
+      addToClassicCleaner,
+      removeFromClassicCleaner,
+    ]
+  );
+
   const handleSelectPress = useCallback(() => {
-    setIsSelectionMode(true);
-  }, []);
+    if (!selectionModeOnly) {
+      setIsSelectionMode(true);
+    }
+  }, [selectionModeOnly]);
 
   const handleCancelPress = useCallback(() => {
-    setIsSelectionMode(false);
-    clearSelection();
-  }, [clearSelection]);
+    if (selectionModeOnly) {
+      // Clear selection but stay in selection mode
+      clearSelection();
+      clearSmartCleaner(storeCategoryKey);
+    } else {
+      setIsSelectionMode(false);
+      clearSelection();
+      clearClassicCleaner(storeCategoryKey);
+    }
+  }, [
+    clearSelection,
+    selectionModeOnly,
+    storeCategoryKey,
+    clearSmartCleaner,
+    clearClassicCleaner,
+  ]);
 
   const handlePreviewPhoto = useCallback(
     (photo: Photo) => {
@@ -76,17 +186,49 @@ export function SimilarPhotos() {
     [router]
   );
 
+  const handleToggleSelectAll = useCallback(() => {
+    toggleSelectAll();
+    const allPhotoIds = allPhotos.map((photo) => photo.id);
+
+    if (selectionModeOnly) {
+      if (isSelectAll) {
+        removeFromSmartCleaner(storeCategoryKey, allPhotoIds);
+      } else {
+        addToSmartCleaner(storeCategoryKey, allPhotoIds);
+      }
+    } else {
+      if (isSelectAll) {
+        removeFromClassicCleaner(storeCategoryKey, allPhotoIds);
+      } else {
+        addToClassicCleaner(storeCategoryKey, allPhotoIds);
+      }
+    }
+  }, [
+    toggleSelectAll,
+    allPhotos,
+    isSelectAll,
+    selectionModeOnly,
+    storeCategoryKey,
+    addToSmartCleaner,
+    removeFromSmartCleaner,
+    addToClassicCleaner,
+    removeFromClassicCleaner,
+  ]);
+
   const handleCleanFiles = useCallback(() => {
     // TODO: Implement file cleaning logic
     console.log("Cleaning files:", Array.from(selectedIds));
   }, [selectedIds]);
 
   const hasSelectedPhotos = selectedIds.size > 0;
-  const showBottomButton = isSelectionMode && hasSelectedPhotos;
+  const showBottomButton = isSelectionMode && hasSelectedPhotos && !selectionModeOnly;
 
   // Determine header button
   const getHeaderAction = () => {
-    if (!isSelectionMode) {
+    // When selectionModeOnly is true, always show Select All / Cancel
+    const inSelectionMode = isSelectionMode || selectionModeOnly;
+
+    if (!inSelectionMode) {
       return {
         label: "Select",
         onPress: handleSelectPress,
@@ -102,7 +244,7 @@ export function SimilarPhotos() {
     }
     return {
       label: "Select All",
-      onPress: toggleSelectAll,
+      onPress: handleToggleSelectAll,
       color: "blue" as const,
     };
   };
@@ -111,13 +253,15 @@ export function SimilarPhotos() {
     return (
       <YStack flex={1} bg="$darkBgAlt">
         <ScreenHeader title="Similar photos" rightAction={getHeaderAction()} />
-        <XStack px="$4" pb="$2">
-          <CategoryDropdown
-            categories={categories}
-            selectedCategoryId="similar-photos"
-            onSelectCategory={handleSelectCategory}
-          />
-        </XStack>
+        {!selectionModeOnly && (
+          <XStack px="$4" pb="$2">
+            <CategoryDropdown
+              categories={categories}
+              selectedCategoryId={PhotoCategory.SIMILAR_PHOTOS}
+              onSelectCategory={handleSelectCategory}
+            />
+          </XStack>
+        )}
         <PhotoGroupGridSkeleton />
       </YStack>
     );
@@ -126,19 +270,27 @@ export function SimilarPhotos() {
   return (
     <YStack flex={1} bg="$darkBgAlt">
       <ScreenHeader title="Similar photos" rightAction={getHeaderAction()} />
-      <XStack px="$4" pb="$2">
-        <CategoryDropdown
-          categories={categories}
-          selectedCategoryId="similar-photos"
-          onSelectCategory={handleSelectCategory}
-        />
-      </XStack>
+      {!selectionModeOnly && (
+        <XStack px="$4" pb="$2">
+          <CategoryDropdown
+            categories={categories}
+            selectedCategoryId={PhotoCategory.SIMILAR_PHOTOS}
+            onSelectCategory={handleSelectCategory}
+          />
+        </XStack>
+      )}
       <PhotoGroupGrid
         groups={groups}
         selectedIds={selectedIds}
-        isSelectionMode={isSelectionMode}
-        onTogglePhoto={isSelectionMode ? togglePhoto : undefined}
-        onPreviewPhoto={!isSelectionMode ? handlePreviewPhoto : undefined}
+        isSelectionMode={isSelectionMode || selectionModeOnly}
+        onTogglePhoto={
+          isSelectionMode || selectionModeOnly ? handleTogglePhoto : undefined
+        }
+        onPreviewPhoto={
+          !(isSelectionMode || selectionModeOnly)
+            ? handlePreviewPhoto
+            : undefined
+        }
       />
       {showBottomButton && (
         <YStack
