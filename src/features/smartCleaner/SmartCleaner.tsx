@@ -179,8 +179,13 @@ export function SmartCleaner() {
                   items="center"
                   flex={1}
                   onPress={() => {
-                    const routeWithParam = `${item.route}?selectionModeOnly=true`;
-                    router.push(routeWithParam as any);
+                    // Redirect to smart-cleaner-category with category param
+                    // Map "selfie" to PhotoCategory.SELFIES
+                    const categoryParam =
+                      item.id === "selfie" ? PhotoCategory.SELFIES : item.id;
+                    router.push(
+                      `/smart-cleaner-category?category=${categoryParam}` as any
+                    );
                   }}
                 >
                   {/* Icon */}
