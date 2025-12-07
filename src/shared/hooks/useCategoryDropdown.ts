@@ -1,10 +1,7 @@
 import { useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
 
-import { getScreenshotsCount } from "@/src/services/photo/screenshots";
-import { getSelfiesCount } from "@/src/services/photo/selfies";
-import { getSimilarPhotosCount } from "@/src/services/photo/similarPhotos";
-import { getLivePhotosCount, getLongVideosCount } from "@/src/services/photo/videos";
+import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 import type { CategoryOption } from "@/src/shared/components/CategoryDropdown";
 
 const CATEGORY_ROUTES: Record<string, string> = {
@@ -18,91 +15,55 @@ const CATEGORY_ROUTES: Record<string, string> = {
 
 export function useCategoryDropdown(currentCategoryId: string) {
   const router = useRouter();
-  const [categories, setCategories] = useState<CategoryOption[]>([
-    {
-      id: "similar-photos",
-      label: "Similar photos",
-      count: 0,
-      route: "/similar-photos",
-    },
-    {
-      id: "screenshots",
-      label: "Screenshots",
-      count: 0,
-      route: "/screenshots",
-    },
-    { id: "blurry-photos", label: "Blurry photos", count: 0, route: "/selfie" },
-    { id: "selfies", label: "Selfies", count: 0, route: "/selfie" },
-    {
-      id: "live-photos",
-      label: "Live Photos",
-      count: 0,
-      route: "/similar-photos",
-    },
-  ]);
+  const {
+    screenshots,
+    selfies,
+    similarPhotos,
+    livePhotos,
+    longVideos,
+  } = usePhotoCountStore();
 
-  useEffect(() => {
-    const loadCounts = async () => {
-      try {
-        const [
-          similarCount,
-          screenshotsCount,
-          selfiesCount,
-          liveCount,
-          longVideosCount,
-        ] = await Promise.all([
-          getSimilarPhotosCount().catch(() => 0),
-          getScreenshotsCount().catch(() => 0),
-          getSelfiesCount().catch(() => 0),
-          getLivePhotosCount().catch(() => 0),
-          getLongVideosCount().catch(() => 0),
-        ]);
-
-        setCategories([
-          {
-            id: "similar-photos",
-            label: "Similar photos",
-            count: similarCount,
-            route: "/similar-photos",
-          },
-          {
-            id: "screenshots",
-            label: "Screenshots",
-            count: screenshotsCount,
-            route: "/screenshots",
-          },
-          {
-            id: "blurry-photos",
-            label: "Blurry photos",
-            count: selfiesCount,
-            route: "/selfie",
-          },
-          {
-            id: "selfies",
-            label: "Selfies",
-            count: selfiesCount,
-            route: "/selfie",
-          },
-          {
-            id: "live-photos",
-            label: "Live Photos",
-            count: liveCount,
-            route: "/similar-photos",
-          },
-          {
-            id: "long-videos",
-            label: "Long videos",
-            count: longVideosCount,
-            route: "/long-videos",
-          },
-        ]);
-      } catch (error) {
-        console.error("Failed to load category counts:", error);
-      }
-    };
-
-    loadCounts();
-  }, []);
+  const categories = useMemo<CategoryOption[]>(
+    () => [
+      {
+        id: "similar-photos",
+        label: "Similar photos",
+        count: similarPhotos ?? 0,
+        route: "/similar-photos",
+      },
+      {
+        id: "screenshots",
+        label: "Screenshots",
+        count: screenshots ?? 0,
+        route: "/screenshots",
+      },
+      {
+        id: "blurry-photos",
+        label: "Blurry photos",
+        count: selfies ?? 0,
+        route: "/selfie",
+      },
+      {
+        id: "selfies",
+        label: "Selfies",
+        count: selfies ?? 0,
+        route: "/selfie",
+      },
+      {
+        id: "live-photos",
+        label: "Live Photos",
+        count: livePhotos ?? 0,
+        route: "/similar-photos",
+      },
+      {
+        id: "long-videos",
+        label: "Long videos",
+        count: longVideos ?? 0,
+        route: "/long-videos",
+      },
+    ],
+    [screenshots, selfies, similarPhotos, livePhotos, longVideos]
+  );
 
   const handleSelectCategory = useCallback(
     (categoryId: string) => {
