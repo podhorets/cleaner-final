@@ -27,7 +27,7 @@ export function ImagesAndContacts() {
       label: "Gallery Cleaner",
       count: "11 842",
       icon: GalleryCircle,
-      onPress: () => router.push("/screenshots"),
+      onPress: () => router.push("/classic-cleaner"),
     },
   ] as QuickLink[];
 

@@ -2,6 +2,8 @@ import type { Asset } from "expo-media-library";
 import * as MediaLibrary from "expo-media-library";
 import { MediaSubtype } from "expo-media-library";
 
+import { Photo } from "@/src/types/models";
+
 import { fetchAllAssets, requestMediaPermissions } from "./utils";
 
 /**
@@ -37,6 +39,24 @@ export const getLongVideosCount = async (): Promise<number> => {
 };
 
 /**
+ * Get all live photos from media library
+ * @returns Array of live photo photos
+ */
+export const getLivePhotos = async (): Promise<Photo[]> => {
+  const hasPermission = await requestMediaPermissions();
+  if (!hasPermission) return [];
+
+  const subtypes: MediaSubtype[] = ["livePhoto"];
+  const assetsResult = await fetchAllAssets({
+    mediaType: MediaLibrary.MediaType.photo,
+    mediaSubtypes: subtypes,
+    sortBy: MediaLibrary.SortBy.creationTime,
+  } as Partial<MediaLibrary.AssetsOptions>);
+
+  return assetsResult.map((asset) => ({ uri: asset.uri, id: asset.id }));
+};
+
+/**
  * Get count of all live photos
  */
 export const getLivePhotosCount = async (): Promise<number> => {
@@ -49,6 +69,6 @@ export const getLivePhotosCount = async (): Promise<number> => {
     mediaSubtypes: subtypes,
     sortBy: MediaLibrary.SortBy.creationTime,
   } as Partial<MediaLibrary.AssetsOptions>);
-  
+
   return assetsResult.length;
 };

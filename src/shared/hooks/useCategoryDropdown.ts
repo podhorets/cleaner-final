@@ -8,9 +8,9 @@ import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 const CATEGORY_ROUTES: Record<PhotoCategory | string, string> = {
   [PhotoCategory.SIMILAR_PHOTOS]: "/similar-photos",
   [PhotoCategory.SCREENSHOTS]: "/screenshots",
-  [PhotoCategory.BLURRY_PHOTOS]: "/selfie",
+  [PhotoCategory.BLURRY_PHOTOS]: "/selfie", // Maps to selfies route
   [PhotoCategory.SELFIES]: "/selfie",
-  [PhotoCategory.LIVE_PHOTOS]: "/similar-photos", // Default route, can be updated later
+  [PhotoCategory.LIVE_PHOTOS]: "/similar-photos", // TODO: Create dedicated route when implemented
   [PhotoCategory.LONG_VIDEOS]: "/long-videos",
 };
 
@@ -18,51 +18,52 @@ export function useCategoryDropdown(currentCategoryId: string) {
   const router = useRouter();
   const photoCountStore = usePhotoCountStore();
 
+  // Extract count values to avoid complex expressions in dependency array
+  const screenshotsCount = photoCountStore[PhotoCategory.SCREENSHOTS];
+  const selfiesCount = photoCountStore[PhotoCategory.SELFIES];
+  const similarPhotosCount = photoCountStore[PhotoCategory.SIMILAR_PHOTOS];
+  const livePhotosCount = photoCountStore[PhotoCategory.LIVE_PHOTOS];
+  const longVideosCount = photoCountStore[PhotoCategory.LONG_VIDEOS];
+
   const categories = useMemo<CategoryOption[]>(
     () => [
       {
         id: PhotoCategory.SIMILAR_PHOTOS,
         label: "Similar photos",
-        count: photoCountStore[PhotoCategory.SIMILAR_PHOTOS] ?? 0,
+        count: similarPhotosCount ?? 0,
         route: "/similar-photos",
       },
       {
         id: PhotoCategory.SCREENSHOTS,
         label: "Screenshots",
-        count: photoCountStore[PhotoCategory.SCREENSHOTS] ?? 0,
+        count: screenshotsCount ?? 0,
         route: "/screenshots",
-      },
-      {
-        id: PhotoCategory.BLURRY_PHOTOS,
-        label: "Blurry photos",
-        count: photoCountStore[PhotoCategory.SELFIES] ?? 0,
-        route: "/selfie",
       },
       {
         id: PhotoCategory.SELFIES,
         label: "Selfies",
-        count: photoCountStore[PhotoCategory.SELFIES] ?? 0,
+        count: selfiesCount ?? 0,
         route: "/selfie",
       },
       {
         id: PhotoCategory.LIVE_PHOTOS,
         label: "Live Photos",
-        count: photoCountStore[PhotoCategory.LIVE_PHOTOS] ?? 0,
-        route: "/similar-photos",
+        count: livePhotosCount ?? 0,
+        route: "/similar-photos", // TODO: Create dedicated route when implemented
       },
       {
         id: PhotoCategory.LONG_VIDEOS,
         label: "Long videos",
-        count: photoCountStore[PhotoCategory.LONG_VIDEOS] ?? 0,
+        count: longVideosCount ?? 0,
         route: "/long-videos",
       },
     ],
     [
-      photoCountStore[PhotoCategory.SCREENSHOTS],
-      photoCountStore[PhotoCategory.SELFIES],
-      photoCountStore[PhotoCategory.SIMILAR_PHOTOS],
-      photoCountStore[PhotoCategory.LIVE_PHOTOS],
-      photoCountStore[PhotoCategory.LONG_VIDEOS],
+      screenshotsCount,
+      selfiesCount,
+      similarPhotosCount,
+      livePhotosCount,
+      longVideosCount,
     ]
   );
 
