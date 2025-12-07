@@ -12,6 +12,7 @@ import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
 import { useUser } from "@/src/shared/hooks/useUser";
+import { PhotoCategory } from "@/src/shared/types/categories";
 import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 import { useUserStore } from "@/src/stores/useUserStore";
 import { router } from "expo-router";
@@ -28,7 +29,7 @@ type CleanItem = {
 
 const CLEAN_ITEMS: readonly CleanItem[] = [
   {
-    id: "similar-photos",
+    id: PhotoCategory.SIMILAR_PHOTOS,
     label: "Similar photos",
     count: 0,
     size: "12.00Mb",
@@ -37,7 +38,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     route: "/similar-photos",
   },
   {
-    id: "screenshots",
+    id: PhotoCategory.SCREENSHOTS,
     label: "Screenshots",
     count: 0,
     size: "12.00Mb",
@@ -46,7 +47,7 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     route: "/screenshots",
   },
   {
-    id: "long-videos",
+    id: PhotoCategory.LONG_VIDEOS,
     label: "Long videos",
     count: 0,
     size: "12.00Mb",
@@ -86,24 +87,23 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
 export function SmartCleaner() {
   const { updateField } = useUser();
   const { user } = useUserStore();
-  const { screenshots, selfies, similarPhotos, longVideos } =
-    usePhotoCountStore();
+  const photoCountStore = usePhotoCountStore();
 
   // Map store counts to clean items
   const cleanItemsWithCounts: CleanItem[] = CLEAN_ITEMS.map((item) => {
     let count = item.count;
     switch (item.id) {
-      case "similar-photos":
-        count = similarPhotos ?? 0;
+      case PhotoCategory.SIMILAR_PHOTOS:
+        count = photoCountStore[PhotoCategory.SIMILAR_PHOTOS] ?? 0;
         break;
-      case "screenshots":
-        count = screenshots ?? 0;
+      case PhotoCategory.SCREENSHOTS:
+        count = photoCountStore[PhotoCategory.SCREENSHOTS] ?? 0;
         break;
-      case "long-videos":
-        count = longVideos ?? 0;
+      case PhotoCategory.LONG_VIDEOS:
+        count = photoCountStore[PhotoCategory.LONG_VIDEOS] ?? 0;
         break;
       case "selfie":
-        count = selfies ?? 0;
+        count = photoCountStore[PhotoCategory.SELFIES] ?? 0;
         break;
       // duplicate-contacts and internet-speed keep their default values
       default:
@@ -178,7 +178,10 @@ export function SmartCleaner() {
                   gap="$3"
                   items="center"
                   flex={1}
-                  onPress={() => router.push(item.route as any)}
+                  onPress={() => {
+                    const routeWithParam = `${item.route}?selectionModeOnly=true`;
+                    router.push(routeWithParam as any);
+                  }}
                 >
                   {/* Icon */}
                   <Stack

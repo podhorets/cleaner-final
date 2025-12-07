@@ -6,12 +6,14 @@ import { getSelfiesCount } from "@/src/services/photo/selfies";
 import { getSimilarPhotosCount } from "@/src/services/photo/similarPhotos";
 import { requestMediaPermissions } from "@/src/services/photo/utils";
 
+import { PhotoCategory } from "@/src/shared/types/categories";
+
 interface PhotoCountState {
-  screenshots: number | null;
-  selfies: number | null;
-  similarPhotos: number | null;
-  livePhotos: number | null;
-  longVideos: number | null;
+  [PhotoCategory.SCREENSHOTS]: number | null;
+  [PhotoCategory.SELFIES]: number | null;
+  [PhotoCategory.SIMILAR_PHOTOS]: number | null;
+  [PhotoCategory.LIVE_PHOTOS]: number | null;
+  [PhotoCategory.LONG_VIDEOS]: number | null;
   fetchAllCounts: () => Promise<void>;
   refetchAll: () => Promise<void>;
   refetchScreenshots: () => Promise<void>;
@@ -22,11 +24,11 @@ interface PhotoCountState {
 }
 
 export const usePhotoCountStore = create<PhotoCountState>((set, get) => ({
-  screenshots: null,
-  selfies: null,
-  similarPhotos: null,
-  livePhotos: null,
-  longVideos: null,
+  [PhotoCategory.SCREENSHOTS]: null,
+  [PhotoCategory.SELFIES]: null,
+  [PhotoCategory.SIMILAR_PHOTOS]: null,
+  [PhotoCategory.LIVE_PHOTOS]: null,
+  [PhotoCategory.LONG_VIDEOS]: null,
 
   fetchAllCounts: async () => {
     const hasPermission = await requestMediaPermissions();
@@ -43,11 +45,11 @@ export const usePhotoCountStore = create<PhotoCountState>((set, get) => ({
       getLongVideosCount().catch(() => 0),
     ]).then(([screenshots, selfies, similarPhotos, livePhotos, longVideos]) => {
       set({
-        screenshots,
-        selfies,
-        similarPhotos,
-        livePhotos,
-        longVideos,
+        [PhotoCategory.SCREENSHOTS]: screenshots,
+        [PhotoCategory.SELFIES]: selfies,
+        [PhotoCategory.SIMILAR_PHOTOS]: similarPhotos,
+        [PhotoCategory.LIVE_PHOTOS]: livePhotos,
+        [PhotoCategory.LONG_VIDEOS]: longVideos,
       });
     });
   },
@@ -58,27 +60,27 @@ export const usePhotoCountStore = create<PhotoCountState>((set, get) => ({
 
   refetchScreenshots: async () => {
     const count = await getScreenshotsCount().catch(() => 0);
-    set({ screenshots: count });
+    set({ [PhotoCategory.SCREENSHOTS]: count });
   },
 
   refetchSelfies: async () => {
     const count = await getSelfiesCount().catch(() => 0);
-    set({ selfies: count });
+    set({ [PhotoCategory.SELFIES]: count });
   },
 
   refetchSimilarPhotos: async () => {
     const count = await getSimilarPhotosCount().catch(() => 0);
-    set({ similarPhotos: count });
+    set({ [PhotoCategory.SIMILAR_PHOTOS]: count });
   },
 
   refetchLivePhotos: async () => {
     const count = await getLivePhotosCount().catch(() => 0);
-    set({ livePhotos: count });
+    set({ [PhotoCategory.LIVE_PHOTOS]: count });
   },
 
   refetchLongVideos: async () => {
     const count = await getLongVideosCount().catch(() => 0);
-    set({ longVideos: count });
+    set({ [PhotoCategory.LONG_VIDEOS]: count });
   },
 }));
 

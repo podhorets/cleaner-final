@@ -1,68 +1,69 @@
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 
-import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 import type { CategoryOption } from "@/src/shared/components/CategoryDropdown";
+import { PhotoCategory } from "@/src/shared/types/categories";
+import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
 
-const CATEGORY_ROUTES: Record<string, string> = {
-  "similar-photos": "/similar-photos",
-  screenshots: "/screenshots",
-  "blurry-photos": "/selfie",
-  selfies: "/selfie",
-  "live-photos": "/similar-photos", // Default route, can be updated later
-  "long-videos": "/long-videos",
+const CATEGORY_ROUTES: Record<PhotoCategory | string, string> = {
+  [PhotoCategory.SIMILAR_PHOTOS]: "/similar-photos",
+  [PhotoCategory.SCREENSHOTS]: "/screenshots",
+  [PhotoCategory.BLURRY_PHOTOS]: "/selfie",
+  [PhotoCategory.SELFIES]: "/selfie",
+  [PhotoCategory.LIVE_PHOTOS]: "/similar-photos", // Default route, can be updated later
+  [PhotoCategory.LONG_VIDEOS]: "/long-videos",
 };
 
 export function useCategoryDropdown(currentCategoryId: string) {
   const router = useRouter();
-  const {
-    screenshots,
-    selfies,
-    similarPhotos,
-    livePhotos,
-    longVideos,
-  } = usePhotoCountStore();
+  const photoCountStore = usePhotoCountStore();
 
   const categories = useMemo<CategoryOption[]>(
     () => [
       {
-        id: "similar-photos",
+        id: PhotoCategory.SIMILAR_PHOTOS,
         label: "Similar photos",
-        count: similarPhotos ?? 0,
+        count: photoCountStore[PhotoCategory.SIMILAR_PHOTOS] ?? 0,
         route: "/similar-photos",
       },
       {
-        id: "screenshots",
+        id: PhotoCategory.SCREENSHOTS,
         label: "Screenshots",
-        count: screenshots ?? 0,
+        count: photoCountStore[PhotoCategory.SCREENSHOTS] ?? 0,
         route: "/screenshots",
       },
       {
-        id: "blurry-photos",
+        id: PhotoCategory.BLURRY_PHOTOS,
         label: "Blurry photos",
-        count: selfies ?? 0,
+        count: photoCountStore[PhotoCategory.SELFIES] ?? 0,
         route: "/selfie",
       },
       {
-        id: "selfies",
+        id: PhotoCategory.SELFIES,
         label: "Selfies",
-        count: selfies ?? 0,
+        count: photoCountStore[PhotoCategory.SELFIES] ?? 0,
         route: "/selfie",
       },
       {
-        id: "live-photos",
+        id: PhotoCategory.LIVE_PHOTOS,
         label: "Live Photos",
-        count: livePhotos ?? 0,
+        count: photoCountStore[PhotoCategory.LIVE_PHOTOS] ?? 0,
         route: "/similar-photos",
       },
       {
-        id: "long-videos",
+        id: PhotoCategory.LONG_VIDEOS,
         label: "Long videos",
-        count: longVideos ?? 0,
+        count: photoCountStore[PhotoCategory.LONG_VIDEOS] ?? 0,
         route: "/long-videos",
       },
     ],
-    [screenshots, selfies, similarPhotos, livePhotos, longVideos]
+    [
+      photoCountStore[PhotoCategory.SCREENSHOTS],
+      photoCountStore[PhotoCategory.SELFIES],
+      photoCountStore[PhotoCategory.SIMILAR_PHOTOS],
+      photoCountStore[PhotoCategory.LIVE_PHOTOS],
+      photoCountStore[PhotoCategory.LONG_VIDEOS],
+    ]
   );
 
   const handleSelectCategory = useCallback(
