@@ -12,10 +12,7 @@ import { PhotoGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGri
 import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGroupGridSkeleton";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
-import {
-  categoryToStoreKey,
-  PhotoCategory,
-} from "@/src/shared/types/categories";
+import { PhotoCategory } from "@/src/shared/types/categories";
 import { useDeletionStore } from "@/src/stores/useDeletionStore";
 import { Photo } from "@/src/types/models";
 
@@ -29,8 +26,6 @@ export function SmartCleanerCategory() {
   const [similarPhotos, setSimilarPhotos] = useState<Photo[][]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const lastSyncedPhotosRef = useRef<string>("");
-
-  const storeCategoryKey = categoryToStoreKey(categoryId);
 
   const {
     addToSmartCleaner,
@@ -61,26 +56,20 @@ export function SmartCleanerCategory() {
       setIsLoading(true);
       try {
         let loadedPhotos: Photo[] = [];
-        let similarGroups: Photo[][] = [];
+        let similarPhotos: Photo[][] = [];
 
         switch (categoryId) {
           case PhotoCategory.SCREENSHOTS:
             loadedPhotos = await getScreenshots();
             break;
           case PhotoCategory.SELFIES:
-          case PhotoCategory.BLURRY_PHOTOS:
             loadedPhotos = await getSelfies();
             break;
           case PhotoCategory.SIMILAR_PHOTOS:
-            similarGroups = await getSimilarPhotos(5);
+            similarPhotos = await getSimilarPhotos(5);
             break;
           case PhotoCategory.LONG_VIDEOS:
-            // Long videos returns Asset[], convert to Photo[]
-            const assets = await getLongVideos();
-            loadedPhotos = assets.map((asset) => ({
-              uri: asset.uri,
-              id: asset.id,
-            }));
+            loadedPhotos = await getLongVideos();
             break;
           case PhotoCategory.LIVE_PHOTOS:
             loadedPhotos = await getLivePhotos();
@@ -90,7 +79,7 @@ export function SmartCleanerCategory() {
         }
 
         setPhotos(loadedPhotos);
-        setSimilarPhotos(similarGroups);
+        setSimilarPhotos(similarPhotos);
         // Clear selection when category changes
         clearSelection();
         lastSyncedPhotosRef.current = "";
@@ -117,7 +106,7 @@ export function SmartCleanerCategory() {
       .join(",");
     if (lastSyncedPhotosRef.current === photosSignature) return;
 
-    const storeIds = getSmartCleanerIds(storeCategoryKey);
+    const storeIds = getSmartCleanerIds(categoryId);
 
     if (storeIds.length === 0) {
       lastSyncedPhotosRef.current = photosSignature;
@@ -135,7 +124,7 @@ export function SmartCleanerCategory() {
 
     lastSyncedPhotosRef.current = photosSignature;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allPhotos.length, isLoading, storeCategoryKey]);
+  }, [allPhotos.length, isLoading, categoryId]);
 
   // Wrapper for togglePhoto that syncs with store
   const handleTogglePhoto = useCallback(
@@ -148,15 +137,15 @@ export function SmartCleanerCategory() {
 
       // Update store (always use smartCleanerToDelete)
       if (willBeSelected) {
-        addToSmartCleaner(storeCategoryKey, [photoId]);
+        addToSmartCleaner(categoryId, [photoId]);
       } else {
-        removeFromSmartCleaner(storeCategoryKey, [photoId]);
+        removeFromSmartCleaner(categoryId, [photoId]);
       }
     },
     [
       togglePhoto,
       selectedIds,
-      storeCategoryKey,
+      categoryId,
       addToSmartCleaner,
       removeFromSmartCleaner,
     ]
@@ -167,15 +156,15 @@ export function SmartCleanerCategory() {
     const allPhotoIds = allPhotos.map((photo) => photo.id);
 
     if (isSelectAll) {
-      removeFromSmartCleaner(storeCategoryKey, allPhotoIds);
+      removeFromSmartCleaner(categoryId, allPhotoIds);
     } else {
-      addToSmartCleaner(storeCategoryKey, allPhotoIds);
+      addToSmartCleaner(categoryId, allPhotoIds);
     }
   }, [
     toggleSelectAll,
     allPhotos,
     isSelectAll,
-    storeCategoryKey,
+    categoryId,
     addToSmartCleaner,
     removeFromSmartCleaner,
   ]);
@@ -187,7 +176,7 @@ export function SmartCleanerCategory() {
         label: "Cancel",
         onPress: () => {
           clearSelection();
-          clearSmartCleaner(storeCategoryKey);
+          clearSmartCleaner(categoryId);
         },
         color: "red" as const,
       };

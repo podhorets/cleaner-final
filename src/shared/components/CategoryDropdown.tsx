@@ -9,7 +9,6 @@ export type CategoryOption = {
   id: string;
   label: string;
   count: number;
-  route: string;
 };
 
 type CategoryDropdownProps = {

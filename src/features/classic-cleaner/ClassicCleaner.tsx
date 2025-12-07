@@ -14,10 +14,7 @@ import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/Pho
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
-import {
-  categoryToStoreKey,
-  PhotoCategory,
-} from "@/src/shared/types/categories";
+import { PhotoCategory } from "@/src/shared/types/categories";
 import { useDeletionStore } from "@/src/stores/useDeletionStore";
 import { Photo } from "@/src/types/models";
 
@@ -30,9 +27,7 @@ export function ClassicCleaner() {
   const [isLoading, setIsLoading] = useState(false);
   const lastSyncedPhotosRef = useRef<string>("");
 
-  const { categories } = useCategoryDropdown(selectedCategoryId);
-
-  const storeCategoryKey = categoryToStoreKey(selectedCategoryId);
+  const { categories } = useCategoryDropdown();
 
   const {
     addToClassicCleaner,
@@ -55,27 +50,20 @@ export function ClassicCleaner() {
       setIsLoading(true);
       try {
         let loadedPhotos: Photo[] = [];
-        let similarGroups: Photo[][] = [];
+        let similarPhotos: Photo[][] = [];
 
         switch (selectedCategoryId) {
           case PhotoCategory.SCREENSHOTS:
             loadedPhotos = await getScreenshots();
             break;
           case PhotoCategory.SELFIES:
-          case PhotoCategory.BLURRY_PHOTOS:
             loadedPhotos = await getSelfies();
             break;
           case PhotoCategory.SIMILAR_PHOTOS:
-            // Similar photos returns groups, flatten them
-            similarGroups = await getSimilarPhotos(5);
+            similarPhotos = await getSimilarPhotos(5);
             break;
           case PhotoCategory.LONG_VIDEOS:
-            // Long videos returns Asset[], convert to Photo[]
-            const assets = await getLongVideos();
-            loadedPhotos = assets.map((asset) => ({
-              uri: asset.uri,
-              id: asset.id,
-            }));
+            loadedPhotos = await getLongVideos();
             break;
           case PhotoCategory.LIVE_PHOTOS:
             loadedPhotos = await getLivePhotos();
@@ -85,7 +73,7 @@ export function ClassicCleaner() {
         }
 
         setPhotos(loadedPhotos);
-        setSimilarPhotos(similarGroups);
+        setSimilarPhotos(similarPhotos);
         // Clear selection when category changes
         clearSelection();
         lastSyncedPhotosRef.current = "";
@@ -114,7 +102,7 @@ export function ClassicCleaner() {
       .join(",");
     if (lastSyncedPhotosRef.current === photosSignature) return;
 
-    const storeIds = getClassicCleanerIds(storeCategoryKey);
+    const storeIds = getClassicCleanerIds(selectedCategoryId);
 
     if (storeIds.length === 0) {
       lastSyncedPhotosRef.current = photosSignature;
@@ -132,7 +120,7 @@ export function ClassicCleaner() {
 
     lastSyncedPhotosRef.current = photosSignature;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photos.length, isLoading, storeCategoryKey]);
+  }, [photos.length, isLoading, selectedCategoryId]);
 
   // Wrapper for togglePhoto that syncs with store
   const handleTogglePhoto = useCallback(
@@ -145,15 +133,15 @@ export function ClassicCleaner() {
 
       // Update store
       if (willBeSelected) {
-        addToClassicCleaner(storeCategoryKey, [photoId]);
+        addToClassicCleaner(selectedCategoryId, [photoId]);
       } else {
-        removeFromClassicCleaner(storeCategoryKey, [photoId]);
+        removeFromClassicCleaner(selectedCategoryId, [photoId]);
       }
     },
     [
       togglePhoto,
       selectedIds,
-      storeCategoryKey,
+      selectedCategoryId,
       addToClassicCleaner,
       removeFromClassicCleaner,
     ]
@@ -169,15 +157,15 @@ export function ClassicCleaner() {
     const allPhotoIds = photos.map((photo) => photo.id);
 
     if (isSelectAll) {
-      removeFromClassicCleaner(storeCategoryKey, allPhotoIds);
+      removeFromClassicCleaner(selectedCategoryId, allPhotoIds);
     } else {
-      addToClassicCleaner(storeCategoryKey, allPhotoIds);
+      addToClassicCleaner(selectedCategoryId, allPhotoIds);
     }
   }, [
     toggleSelectAll,
     photos,
     isSelectAll,
-    storeCategoryKey,
+    selectedCategoryId,
     addToClassicCleaner,
     removeFromClassicCleaner,
   ]);
@@ -198,7 +186,7 @@ export function ClassicCleaner() {
         label: "Cancel",
         onPress: () => {
           clearSelection();
-          clearClassicCleaner(storeCategoryKey);
+          clearClassicCleaner(selectedCategoryId);
         },
         color: "red" as const,
       };

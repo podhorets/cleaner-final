@@ -1,4 +1,3 @@
-import type { Asset } from "expo-media-library";
 import * as MediaLibrary from "expo-media-library";
 import { MediaSubtype } from "expo-media-library";
 
@@ -10,7 +9,7 @@ import { fetchAllAssets, requestMediaPermissions } from "./utils";
  * Get long videos sorted by duration
  * @returns Array of video assets
  */
-export const getLongVideos = async (): Promise<Asset[]> => {
+export const getLongVideos = async (): Promise<Photo[]> => {
   const hasPermission = await requestMediaPermissions();
   if (!hasPermission) return [];
 
@@ -20,7 +19,10 @@ export const getLongVideos = async (): Promise<Asset[]> => {
     first: 30,
   });
 
-  return result.assets;
+  return result.assets.map((asset) => ({
+    uri: asset.uri,
+    id: asset.id,
+  }));
 };
 
 /**

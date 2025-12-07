@@ -24,7 +24,6 @@ type CleanItem = {
   size: string;
   icon: ImageSource;
   checked: boolean;
-  route: string;
 };
 
 const CLEAN_ITEMS: readonly CleanItem[] = [
@@ -35,7 +34,6 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: SimilarPhotos,
     checked: true,
-    route: "/similar-photos",
   },
   {
     id: PhotoCategory.SCREENSHOTS,
@@ -44,7 +42,6 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: Screenshots,
     checked: false,
-    route: "/screenshots",
   },
   {
     id: PhotoCategory.LONG_VIDEOS,
@@ -53,16 +50,14 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: BlurryPhotos,
     checked: true,
-    route: "/long-videos",
   },
   {
-    id: "selfie",
+    id: PhotoCategory.SELFIES,
     label: "Selfie",
     count: 0,
     size: "12.00Mb",
     icon: Selfie,
     checked: false,
-    route: "/selfie",
   },
   {
     id: "duplicate-contacts",
@@ -71,7 +66,6 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "12.00Mb",
     icon: DuplicateContacts,
     checked: false,
-    route: "/contacts",
   },
   {
     id: "internet-speed",
@@ -80,7 +74,6 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     size: "0Mb",
     icon: BlurryPhotos,
     checked: false,
-    route: "/internet-speed",
   },
 ] as const;
 
@@ -102,7 +95,7 @@ export function SmartCleaner() {
       case PhotoCategory.LONG_VIDEOS:
         count = photoCountStore[PhotoCategory.LONG_VIDEOS] ?? 0;
         break;
-      case "selfie":
+      case PhotoCategory.SELFIES:
         count = photoCountStore[PhotoCategory.SELFIES] ?? 0;
         break;
       // duplicate-contacts and internet-speed keep their default values
@@ -179,13 +172,11 @@ export function SmartCleaner() {
                   items="center"
                   flex={1}
                   onPress={() => {
-                    // Redirect to smart-cleaner-category with category param
-                    // Map "selfie" to PhotoCategory.SELFIES
-                    const categoryParam =
-                      item.id === "selfie" ? PhotoCategory.SELFIES : item.id;
-                    router.push(
-                      `/smart-cleaner-category?category=${categoryParam}` as any
-                    );
+                    item.id === PhotoCategory.DUPLICATE_CONTACTS
+                      ? router.push("/contacts" as any)
+                      : router.push(
+                          `/smart-cleaner-category?category=${item.id}` as any
+                        );
                   }}
                 >
                   {/* Icon */}
