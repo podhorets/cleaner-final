@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import { FlatList } from "react-native";
 
-import { COLUMNS, PHOTO_GAP } from "@/src/shared/components/PhotoGrid/constants";
+import {
+  COLUMNS,
+  PHOTO_GAP,
+} from "@/src/shared/components/PhotoGrid/constants";
 import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
 import { Photo } from "@/src/types/models";
 
@@ -9,14 +12,12 @@ type PhotoGridProps = {
   photos: Photo[];
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
-  onPreviewPhoto?: (photo: Photo) => void;
 };
 
 export function PhotoGrid({
   photos,
   isSelectionMode,
   onTogglePhoto,
-  onPreviewPhoto,
 }: PhotoGridProps) {
   const renderItem = useCallback(
     ({ item }: { item: Photo }) => (
@@ -24,10 +25,9 @@ export function PhotoGrid({
         photo={item}
         isSelectionMode={isSelectionMode}
         onToggle={onTogglePhoto}
-        onPreview={onPreviewPhoto}
       />
     ),
-    [isSelectionMode, onTogglePhoto, onPreviewPhoto]
+    [isSelectionMode, onTogglePhoto]
   );
 
   const keyExtractor = useCallback((item: Photo) => item.id, []);

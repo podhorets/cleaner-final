@@ -1,7 +1,11 @@
 import { memo } from "react";
 import { Stack, XStack } from "tamagui";
 
-import { COLUMNS, PHOTO_GAP, PHOTO_SIZE } from "@/src/shared/components/PhotoGrid/constants";
+import {
+  COLUMNS,
+  PHOTO_GAP,
+  PHOTO_SIZE,
+} from "@/src/shared/components/PhotoGrid/constants";
 import { PhotoItem } from "@/src/shared/components/PhotoGrid/PhotoItem";
 import { Photo } from "@/src/types/models";
 
@@ -9,16 +13,10 @@ type PhotoRowProps = {
   photos: Photo[];
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
-  onPreviewPhoto?: (photo: Photo) => void;
 };
 
 export const PhotoRow = memo(
-  ({
-    photos,
-    isSelectionMode,
-    onTogglePhoto,
-    onPreviewPhoto,
-  }: PhotoRowProps) => {
+  ({ photos, isSelectionMode, onTogglePhoto }: PhotoRowProps) => {
     return (
       <XStack gap={PHOTO_GAP}>
         {photos.map((photo) => (
@@ -27,7 +25,6 @@ export const PhotoRow = memo(
             photo={photo}
             isSelectionMode={isSelectionMode}
             onToggle={onTogglePhoto}
-            onPreview={onPreviewPhoto}
           />
         ))}
         {/* Fill remaining columns with empty space */}

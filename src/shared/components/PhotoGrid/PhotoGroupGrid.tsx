@@ -2,7 +2,10 @@ import { useCallback, useMemo } from "react";
 import { FlatList } from "react-native";
 import { Text, YStack } from "tamagui";
 
-import { COLUMNS, GROUP_GAP } from "@/src/shared/components/PhotoGrid/constants";
+import {
+  COLUMNS,
+  GROUP_GAP,
+} from "@/src/shared/components/PhotoGrid/constants";
 import { PhotoRow } from "@/src/shared/components/PhotoGrid/PhotoRow";
 import { Photo } from "@/src/types/models";
 
@@ -15,14 +18,12 @@ type PhotoGroupItemProps = {
   group: PhotoGroup;
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
-  onPreviewPhoto?: (photo: Photo) => void;
 };
 
 const PhotoGroupItem = ({
   group,
   isSelectionMode,
   onTogglePhoto,
-  onPreviewPhoto,
 }: PhotoGroupItemProps) => {
   const rows: Photo[][] = useMemo(() => {
     const result: Photo[][] = [];
@@ -47,7 +48,6 @@ const PhotoGroupItem = ({
             photos={row}
             isSelectionMode={isSelectionMode}
             onTogglePhoto={onTogglePhoto}
-            onPreviewPhoto={onPreviewPhoto}
           />
         ))}
       </YStack>
@@ -59,14 +59,12 @@ type PhotoGroupGridProps = {
   groups: PhotoGroup[];
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
-  onPreviewPhoto?: (photo: Photo) => void;
 };
 
 export function PhotoGroupGrid({
   groups,
   isSelectionMode,
   onTogglePhoto,
-  onPreviewPhoto,
 }: PhotoGroupGridProps) {
   const renderGroup = useCallback(
     ({ item }: { item: PhotoGroup }) => (
@@ -74,10 +72,9 @@ export function PhotoGroupGrid({
         group={item}
         isSelectionMode={isSelectionMode}
         onTogglePhoto={onTogglePhoto}
-        onPreviewPhoto={onPreviewPhoto}
       />
     ),
-    [isSelectionMode, onTogglePhoto, onPreviewPhoto]
+    [isSelectionMode, onTogglePhoto]
   );
 
   const keyExtractor = useCallback((item: PhotoGroup) => item.id, []);

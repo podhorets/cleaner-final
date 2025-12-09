@@ -21,10 +21,10 @@ export function SmartCleanerCategory() {
   const [similarPhotos, setSimilarPhotos] = useState<Photo[][]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { 
-    addToSelection, 
-    removeFromSelection, 
-    clearSelections, 
+  const {
+    addToSelection,
+    removeFromSelection,
+    clearSelections,
     resources,
     setActiveCategory,
     clearActiveCategory,
@@ -43,8 +43,8 @@ export function SmartCleanerCategory() {
   }, [photos, similarPhotos, categoryId]);
 
   // Calculate isSelectAll based on store
-  const isSelectAll = allPhotos.length > 0 && 
-    manualSelectedIds.length === allPhotos.length;
+  const isSelectAll =
+    allPhotos.length > 0 && manualSelectedIds.length === allPhotos.length;
 
   // Set active category on mount, clear on unmount
   useEffect(() => {
@@ -108,12 +108,6 @@ export function SmartCleanerCategory() {
     }
   }, [isSelectAll, clearSelections, categoryId, allPhotos, addToSelection]);
 
-  const handlePreviewPhoto = useCallback((photo: Photo) => {
-    // TODO: Navigate to photo preview/detail screen
-    console.log("Preview photo:", photo.id);
-    // router.push({ pathname: "/photo-preview", params: { photoId: photo.id } });
-  }, []);
-
   // Determine header button
   const getHeaderAction = () => {
     if (isSelectAll) {
@@ -155,14 +149,12 @@ export function SmartCleanerCategory() {
           }))}
           isSelectionMode={true}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={handlePreviewPhoto}
         />
       ) : (
         <PhotoGrid
           photos={photos}
           isSelectionMode={true}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={handlePreviewPhoto}
         />
       )}
     </YStack>
