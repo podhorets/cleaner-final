@@ -108,6 +108,12 @@ export function SmartCleanerCategory() {
     }
   }, [isSelectAll, clearSelections, categoryId, allPhotos, addToSelection]);
 
+  const handlePreviewPhoto = useCallback((photo: Photo) => {
+    // TODO: Navigate to photo preview/detail screen
+    console.log("Preview photo:", photo.id);
+    // router.push({ pathname: "/photo-preview", params: { photoId: photo.id } });
+  }, []);
+
   // Determine header button
   const getHeaderAction = () => {
     if (isSelectAll) {
@@ -149,14 +155,14 @@ export function SmartCleanerCategory() {
           }))}
           isSelectionMode={true}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={undefined}
+          onPreviewPhoto={handlePreviewPhoto}
         />
       ) : (
         <PhotoGrid
           photos={photos}
           isSelectionMode={true}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={undefined}
+          onPreviewPhoto={handlePreviewPhoto}
         />
       )}
     </YStack>

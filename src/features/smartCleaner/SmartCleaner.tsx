@@ -16,8 +16,6 @@ import { useUser } from "@/src/shared/hooks/useUser";
 import { PhotoCategory } from "@/src/shared/types/categories";
 import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { useUserStore } from "@/src/stores/useUserStore";
-import { Photo } from "@/src/types/models";
-import { ExistingContact } from "expo-contacts/build/Contacts";
 import { router } from "expo-router";
 import { useEffect } from "react";
 
@@ -96,6 +94,7 @@ export function SmartCleaner() {
   const resetCheckedCategories = useSmartCleanerStore(
     (state) => state.resetCheckedCategories
   );
+  const getCount = useSmartCleanerStore((state) => state.getCount);
 
   // Load all resources on component mount if not already loaded
   useEffect(() => {
@@ -113,30 +112,6 @@ export function SmartCleaner() {
     resetCheckedCategories();
   }, []);
 
-  const getCount = (category: PhotoCategory): number => {
-    // If user has manual selections, return count of selections
-    if (manualSelections[category].length > 0) {
-      return manualSelections[category].length;
-    }
-
-    // Otherwise, return count of all resources
-    const resource = resources[category];
-    if (!resource) return 0;
-
-    // Handle grouped resources (similar photos, duplicate contacts)
-    if (
-      category === PhotoCategory.SIMILAR_PHOTOS ||
-      category === PhotoCategory.DUPLICATE_CONTACTS
-    ) {
-      const groups = resource as Photo[][] | ExistingContact[][];
-      return groups.reduce((total, group) => total + group.length, 0);
-    }
-
-    // Handle flat arrays
-    const items = resource as Photo[];
-    return items.length;
-  };
-
   // Compute clean items dynamically from categories
   const cleanItemsWithCounts: CleanItem[] = ACTIVE_CATEGORIES.map(
     (category) => ({
@@ -144,7 +119,7 @@ export function SmartCleaner() {
       label: getCategoryLabel(category),
       icon: getCategoryIcon(category),
       size: "12.00Mb", // TODO: Calculate actual size
-      count: getCount(category),
+      count: getCount(category, { manualSelections, resources }),
       checked: checkedCategories.has(category),
     })
   );

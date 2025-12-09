@@ -65,6 +65,15 @@ interface SmartCleanerState {
   getIdsToDelete: (category: PhotoCategory) => string[];
   getAllIdsToDelete: () => string[];
 
+  // Count interface (Requirement 4)
+  getCount: (
+    category: PhotoCategory,
+    options?: {
+      manualSelections?: ManualSelections;
+      resources?: Resources;
+    }
+  ) => number;
+
   // Active category management
   setActiveCategory: (category: PhotoCategory) => void;
   clearActiveCategory: () => void;
@@ -259,6 +268,37 @@ export const useSmartCleanerStore = create<SmartCleanerState>((set, get) => ({
     );
 
     return allIds;
+  },
+
+  // ============================================================================
+  // Requirement 4: Count Interface
+  // ============================================================================
+  getCount: (category, options?): number => {
+    // Use provided data or get from store
+    const manualSelections = options?.manualSelections ?? get().manualSelections;
+    const resources = options?.resources ?? get().resources;
+
+    // If user has manual selections, return count of selections
+    if (manualSelections[category].length > 0) {
+      return manualSelections[category].length;
+    }
+
+    // Otherwise, return count of all resources
+    const resource = resources[category];
+    if (!resource) return 0;
+
+    // Handle grouped resources (similar photos, duplicate contacts)
+    if (
+      category === PhotoCategory.SIMILAR_PHOTOS ||
+      category === PhotoCategory.DUPLICATE_CONTACTS
+    ) {
+      const groups = resource as Photo[][] | Contacts.ExistingContact[][];
+      return groups.reduce((total, group) => total + group.length, 0);
+    }
+
+    // Handle flat arrays
+    const items = resource as Photo[];
+    return items.length;
   },
 
   // ============================================================================
