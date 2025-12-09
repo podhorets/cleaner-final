@@ -13,7 +13,6 @@ export type PhotoGroup = {
 
 type PhotoGroupItemProps = {
   group: PhotoGroup;
-  selectedIds: Set<string>;
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
   onPreviewPhoto?: (photo: Photo) => void;
@@ -21,7 +20,6 @@ type PhotoGroupItemProps = {
 
 const PhotoGroupItem = ({
   group,
-  selectedIds,
   isSelectionMode,
   onTogglePhoto,
   onPreviewPhoto,
@@ -47,7 +45,6 @@ const PhotoGroupItem = ({
           <PhotoRow
             key={rowIndex}
             photos={row}
-            selectedIds={selectedIds}
             isSelectionMode={isSelectionMode}
             onTogglePhoto={onTogglePhoto}
             onPreviewPhoto={onPreviewPhoto}
@@ -60,7 +57,6 @@ const PhotoGroupItem = ({
 
 type PhotoGroupGridProps = {
   groups: PhotoGroup[];
-  selectedIds: Set<string>;
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
   onPreviewPhoto?: (photo: Photo) => void;
@@ -68,7 +64,6 @@ type PhotoGroupGridProps = {
 
 export function PhotoGroupGrid({
   groups,
-  selectedIds,
   isSelectionMode,
   onTogglePhoto,
   onPreviewPhoto,
@@ -77,13 +72,12 @@ export function PhotoGroupGrid({
     ({ item }: { item: PhotoGroup }) => (
       <PhotoGroupItem
         group={item}
-        selectedIds={selectedIds}
         isSelectionMode={isSelectionMode}
         onTogglePhoto={onTogglePhoto}
         onPreviewPhoto={onPreviewPhoto}
       />
     ),
-    [selectedIds, isSelectionMode, onTogglePhoto, onPreviewPhoto]
+    [isSelectionMode, onTogglePhoto, onPreviewPhoto]
   );
 
   const keyExtractor = useCallback((item: PhotoGroup) => item.id, []);

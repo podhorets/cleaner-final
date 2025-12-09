@@ -49,6 +49,7 @@ interface SmartCleanerState {
   resources: Resources;
   manualSelections: ManualSelections;
   isLoading: boolean;
+  activeCategory: PhotoCategory | null;
 
   // Resource loading (Requirement 1)
   fetchAllResources: () => Promise<void>;
@@ -66,6 +67,11 @@ interface SmartCleanerState {
 
   // Count interface (Requirement 4)
   getCount: (category: PhotoCategory) => number;
+
+  // Active category management
+  setActiveCategory: (category: PhotoCategory) => void;
+  clearActiveCategory: () => void;
+  isPhotoSelected: (photoId: string) => boolean;
 }
 
 export const useSmartCleanerStore = create<SmartCleanerState>((set, get) => ({
@@ -80,6 +86,7 @@ export const useSmartCleanerStore = create<SmartCleanerState>((set, get) => ({
   },
   manualSelections: { ...initialSelections },
   isLoading: false,
+  activeCategory: null,
 
   // ============================================================================
   // Requirement 1: Resource Loading
@@ -241,9 +248,10 @@ export const useSmartCleanerStore = create<SmartCleanerState>((set, get) => ({
       PhotoCategory.SCREENSHOTS,
       PhotoCategory.SELFIES,
       PhotoCategory.SIMILAR_PHOTOS,
-      PhotoCategory.LIVE_PHOTOS,
+      // PhotoCategory.LIVE_PHOTOS,
       PhotoCategory.LONG_VIDEOS,
-      PhotoCategory.DUPLICATE_CONTACTS,
+      // TODO: uncomment when duplicate contacts are implemented
+      // PhotoCategory.DUPLICATE_CONTACTS,
     ];
 
     const allIds = categories.flatMap((category) =>
@@ -281,5 +289,23 @@ export const useSmartCleanerStore = create<SmartCleanerState>((set, get) => ({
     // Handle flat arrays
     const items = resource as Photo[];
     return items.length;
+  },
+
+  // ============================================================================
+  // Active Category Management
+  // ============================================================================
+
+  setActiveCategory: (category) => {
+    set({ activeCategory: category });
+  },
+
+  clearActiveCategory: () => {
+    set({ activeCategory: null });
+  },
+
+  isPhotoSelected: (photoId): boolean => {
+    const { activeCategory, manualSelections } = get();
+    if (!activeCategory) return false;
+    return manualSelections[activeCategory].includes(photoId);
   },
 }));

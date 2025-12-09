@@ -7,7 +7,6 @@ import { Photo } from "@/src/types/models";
 
 type PhotoGridProps = {
   photos: Photo[];
-  selectedIds: Set<string>;
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
   onPreviewPhoto?: (photo: Photo) => void;
@@ -15,7 +14,6 @@ type PhotoGridProps = {
 
 export function PhotoGrid({
   photos,
-  selectedIds,
   isSelectionMode,
   onTogglePhoto,
   onPreviewPhoto,
@@ -24,13 +22,12 @@ export function PhotoGrid({
     ({ item }: { item: Photo }) => (
       <PhotoItem
         photo={item}
-        isSelected={selectedIds.has(item.id)}
         isSelectionMode={isSelectionMode}
         onToggle={onTogglePhoto}
         onPreview={onPreviewPhoto}
       />
     ),
-    [selectedIds, isSelectionMode, onTogglePhoto, onPreviewPhoto]
+    [isSelectionMode, onTogglePhoto, onPreviewPhoto]
   );
 
   const keyExtractor = useCallback((item: Photo) => item.id, []);

@@ -5,17 +5,19 @@ import { Pressable } from "react-native";
 import { Stack } from "tamagui";
 
 import { PHOTO_SIZE } from "@/src/shared/components/PhotoGrid/constants";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { Photo } from "@/src/types/models";
 
 type PhotoItemProps = {
   photo: Photo;
-  isSelected: boolean;
   isSelectionMode: boolean;
   onToggle?: (photoId: string) => void;
   onPreview?: (photo: Photo) => void;
 };
 
-export const PhotoItem = memo(({ photo, isSelected, isSelectionMode, onToggle, onPreview }: PhotoItemProps) => {
+export const PhotoItem = memo(({ photo, isSelectionMode, onToggle, onPreview }: PhotoItemProps) => {
+  // Access selection from store using activeCategory
+  const isSelected = useSmartCleanerStore((state) => state.isPhotoSelected(photo.id));
   const handlePress = useCallback(() => {
     if (isSelectionMode) {
       onToggle?.(photo.id);

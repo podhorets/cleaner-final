@@ -7,7 +7,6 @@ import { Photo } from "@/src/types/models";
 
 type PhotoRowProps = {
   photos: Photo[];
-  selectedIds: Set<string>;
   isSelectionMode: boolean;
   onTogglePhoto?: (photoId: string) => void;
   onPreviewPhoto?: (photo: Photo) => void;
@@ -16,7 +15,6 @@ type PhotoRowProps = {
 export const PhotoRow = memo(
   ({
     photos,
-    selectedIds,
     isSelectionMode,
     onTogglePhoto,
     onPreviewPhoto,
@@ -27,7 +25,6 @@ export const PhotoRow = memo(
           <PhotoItem
             key={photo.id}
             photo={photo}
-            isSelected={selectedIds.has(photo.id)}
             isSelectionMode={isSelectionMode}
             onToggle={onTogglePhoto}
             onPreview={onPreviewPhoto}
