@@ -1,11 +1,7 @@
 import { LinearGradient } from "@tamagui/linear-gradient";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Text, XStack, YStack } from "tamagui";
 
-import { getScreenshots } from "@/src/services/photo/screenshots";
-import { getSelfies } from "@/src/services/photo/selfies";
-import { getSimilarPhotos } from "@/src/services/photo/similarPhotos";
-import { getLivePhotos, getLongVideos } from "@/src/services/photo/videos";
 import { CategoryDropdown } from "@/src/shared/components/CategoryDropdown";
 import { PhotoGrid } from "@/src/shared/components/PhotoGrid/PhotoGrid";
 import { PhotoGroupGrid } from "@/src/shared/components/PhotoGrid/PhotoGroupGrid";
@@ -13,203 +9,214 @@ import { PhotoGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGri
 import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGroupGridSkeleton";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { useCategoryDropdown } from "@/src/shared/hooks/useCategoryDropdown";
-import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
 import { PhotoCategory } from "@/src/shared/types/categories";
-import { useDeletionStore } from "@/src/stores/useDeletionStore";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { Photo } from "@/src/types/models";
 
 export function ClassicCleaner() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<PhotoCategory>(
-    PhotoCategory.SCREENSHOTS
+  // Store state
+  const activeCategory = useSmartCleanerStore((state) => state.activeCategory);
+  const manualSelections = useSmartCleanerStore(
+    (state) => state.manualSelections
   );
+  const resources = useSmartCleanerStore((state) => state.resources);
+  const isLoading = useSmartCleanerStore((state) => state.isLoading);
+
+  // Store actions
+  const setActiveCategory = useSmartCleanerStore(
+    (state) => state.setActiveCategory
+  );
+  const clearActiveCategory = useSmartCleanerStore(
+    (state) => state.clearActiveCategory
+  );
+  const addToSelection = useSmartCleanerStore((state) => state.addToSelection);
+  const removeFromSelection = useSmartCleanerStore(
+    (state) => state.removeFromSelection
+  );
+  const clearSelections = useSmartCleanerStore(
+    (state) => state.clearSelections
+  );
+  const fetchAllResources = useSmartCleanerStore(
+    (state) => state.fetchAllResources
+  );
+
+  // Local UI state
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [similarPhotos, setSimilarPhotos] = useState<Photo[][]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const lastSyncedPhotosRef = useRef<string>("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSelectionModeActive, setIsSelectionModeActive] = useState(false);
 
   const { categories } = useCategoryDropdown();
 
-  const {
-    addToClassicCleaner,
-    removeFromClassicCleaner,
-    clearClassicCleaner,
-    getClassicCleanerIds,
-  } = useDeletionStore();
-
-  const {
-    selectedIds,
-    isSelectAll,
-    togglePhoto,
-    toggleSelectAll,
-    clearSelection,
-  } = usePhotoSelection({ photos });
-
-  // Load photos when category changes
+  // Initialize/Reset on mount
   useEffect(() => {
-    const loadPhotos = async () => {
-      setIsLoading(true);
-      try {
-        let loadedPhotos: Photo[] = [];
-        let similarPhotos: Photo[][] = [];
+    // Set default category and clear selections
+    setActiveCategory(PhotoCategory.SIMILAR_PHOTOS);
+    clearSelections();
 
-        switch (selectedCategoryId) {
-          case PhotoCategory.SCREENSHOTS:
-            loadedPhotos = await getScreenshots();
-            break;
-          case PhotoCategory.SELFIES:
-            loadedPhotos = await getSelfies();
-            break;
-          case PhotoCategory.SIMILAR_PHOTOS:
-            similarPhotos = await getSimilarPhotos(5);
-            break;
-          case PhotoCategory.LONG_VIDEOS:
-            loadedPhotos = await getLongVideos();
-            break;
-          case PhotoCategory.LIVE_PHOTOS:
-            loadedPhotos = await getLivePhotos();
-            break;
-          default:
-            loadedPhotos = [];
-        }
-
-        setPhotos(loadedPhotos);
-        setSimilarPhotos(similarPhotos);
-        // Clear selection when category changes
-        clearSelection();
-        lastSyncedPhotosRef.current = "";
-      } catch (error) {
-        console.error(
-          `Failed to load photos for ${selectedCategoryId}:`,
-          error
-        );
-        setPhotos([]);
-      } finally {
-        setIsLoading(false);
-      }
+    return () => {
+      clearActiveCategory();
+      clearSelections();
     };
+  }, []);
 
-    loadPhotos();
-  }, [selectedCategoryId, clearSelection]);
-
-  // Sync selectedIds with store when photos are loaded
+  // Load all resources on mount if not already loaded
   useEffect(() => {
-    if (photos.length === 0 || isLoading) return;
+    if (activeCategory && resources[activeCategory] === null && !isLoading) {
+      fetchAllResources();
+    }
+  }, [fetchAllResources, resources, isLoading, activeCategory]);
 
-    // Create a signature for this photo set to avoid re-syncing
-    const photosSignature = photos
-      .map((p) => p.id)
-      .sort()
-      .join(",");
-    if (lastSyncedPhotosRef.current === photosSignature) return;
+  // Load photos for current category from store
+  useEffect(() => {
+    if (!activeCategory) return;
 
-    const storeIds = getClassicCleanerIds(selectedCategoryId);
-
-    if (storeIds.length === 0) {
-      lastSyncedPhotosRef.current = photosSignature;
+    const resource = resources[activeCategory];
+    if (resource === null) {
+      // Still loading
+      setPhotos([]);
+      setSimilarPhotos([]);
       return;
     }
 
-    const currentSet = new Set(selectedIds);
+    if (activeCategory === PhotoCategory.SIMILAR_PHOTOS) {
+      setSimilarPhotos(resource as Photo[][]);
+      setPhotos([]);
+    } else {
+      setPhotos(resource as Photo[]);
+      setSimilarPhotos([]);
+    }
+  }, [activeCategory, resources]);
 
-    // Sync: add IDs from store that aren't selected
-    storeIds.forEach((id) => {
-      if (!currentSet.has(id) && photos.some((p) => p.id === id)) {
-        togglePhoto(id);
-      }
-    });
+  // Get all photos for selection logic
+  const allPhotos = useMemo(() => {
+    if (activeCategory === PhotoCategory.SIMILAR_PHOTOS) {
+      return similarPhotos.flat();
+    }
+    return photos;
+  }, [activeCategory, photos, similarPhotos]);
 
-    lastSyncedPhotosRef.current = photosSignature;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photos.length, isLoading, selectedCategoryId]);
+  // Get current selections for active category
+  const currentSelections = useMemo(() => {
+    if (!activeCategory) return [];
+    return manualSelections[activeCategory] || [];
+  }, [activeCategory, manualSelections]);
 
-  // Wrapper for togglePhoto that syncs with store
-  const handleTogglePhoto = useCallback(
-    (photoId: string) => {
-      // Check current state before toggling
-      const willBeSelected = !selectedIds.has(photoId);
+  // Check if all photos are selected
+  const isSelectAll = useMemo(() => {
+    return (
+      allPhotos.length > 0 && currentSelections.length === allPhotos.length
+    );
+  }, [allPhotos, currentSelections]);
 
-      // Toggle the photo selection
-      togglePhoto(photoId);
-
-      // Update store
-      if (willBeSelected) {
-        addToClassicCleaner(selectedCategoryId, [photoId]);
-      } else {
-        removeFromClassicCleaner(selectedCategoryId, [photoId]);
-      }
+  // Category selection - RESET ALL STATE
+  const handleSelectCategory = useCallback(
+    (categoryId: string) => {
+      setActiveCategory(categoryId as PhotoCategory);
+      clearSelections(); // Clear selections
+      setPhotos([]); // Clear photos
+      setSimilarPhotos([]); // Clear grouped photos
+      setIsSelectionModeActive(false); // Exit selection mode
     },
-    [
-      togglePhoto,
-      selectedIds,
-      selectedCategoryId,
-      addToClassicCleaner,
-      removeFromClassicCleaner,
-    ]
+    [setActiveCategory, clearSelections]
   );
 
-  const handleSelectCategory = useCallback((categoryId: string) => {
-    setSelectedCategoryId(categoryId as PhotoCategory);
-    // Don't call original handler as we're handling navigation internally
+  // Toggle individual photo selection
+  const handleTogglePhoto = useCallback(
+    (photoId: string) => {
+      if (!activeCategory) return;
+
+      const isSelected = currentSelections.includes(photoId);
+      if (isSelected) {
+        removeFromSelection(activeCategory, [photoId]);
+      } else {
+        addToSelection(activeCategory, [photoId]);
+      }
+    },
+    [activeCategory, currentSelections, addToSelection, removeFromSelection]
+  );
+
+  // Select all photos
+  const handleSelectAll = useCallback(() => {
+    if (!activeCategory) return;
+    const allPhotoIds = allPhotos.map((p) => p.id);
+    addToSelection(activeCategory, allPhotoIds);
+  }, [activeCategory, allPhotos, addToSelection]);
+
+  // Cancel - clear all selections and exit selection mode
+  const handleCancel = useCallback(() => {
+    clearSelections();
+    setIsSelectionModeActive(false);
+  }, [clearSelections]);
+
+  // Enter selection mode
+  const handleEnterSelectionMode = useCallback(() => {
+    setIsSelectionModeActive(true);
   }, []);
 
-  const handleToggleSelectAll = useCallback(() => {
-    toggleSelectAll();
-    const allPhotoIds = photos.map((photo) => photo.id);
+  // Delete selected photos
+  const handleDelete = useCallback(async () => {
+    if (currentSelections.length === 0) return;
 
-    if (isSelectAll) {
-      removeFromClassicCleaner(selectedCategoryId, allPhotoIds);
-    } else {
-      addToClassicCleaner(selectedCategoryId, allPhotoIds);
+    setIsDeleting(true);
+    try {
+      console.log("Deleting photos:", currentSelections);
+
+      // TODO: Call store deletion method when available
+      // await deletePhotos(currentSelections);
+
+      // For now, just clear selections
+      clearSelections();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    } finally {
+      setIsDeleting(false);
     }
-  }, [
-    toggleSelectAll,
-    photos,
-    isSelectAll,
-    selectedCategoryId,
-    addToClassicCleaner,
-    removeFromClassicCleaner,
-  ]);
+  }, [currentSelections, clearSelections]);
 
-  const handleCleanFiles = useCallback(() => {
-    // TODO: Implement file cleaning logic
-    console.log("Cleaning files:", Array.from(selectedIds));
-    console.log("Category:", selectedCategoryId);
-  }, [selectedIds, selectedCategoryId]);
-
-  const hasSelectedPhotos = selectedIds.size > 0;
-  const showBottomButton = hasSelectedPhotos;
-
-  // Determine header button
+  // Determine header button (3 states)
   const getHeaderAction = () => {
+    // State 1: Not in selection mode
+    if (!isSelectionModeActive) {
+      return {
+        label: "Select",
+        onPress: handleEnterSelectionMode,
+        color: "blue" as const,
+      };
+    }
+
+    // State 2: In selection mode, all selected
     if (isSelectAll) {
       return {
         label: "Cancel",
-        onPress: () => {
-          clearSelection();
-          clearClassicCleaner(selectedCategoryId);
-        },
+        onPress: handleCancel,
         color: "red" as const,
       };
     }
+
+    // State 3: In selection mode, not all selected
     return {
       label: "Select All",
-      onPress: handleToggleSelectAll,
+      onPress: handleSelectAll,
       color: "blue" as const,
     };
   };
 
-  if (isLoading) {
+  const hasSelectedPhotos = currentSelections.length > 0;
+  const showBottomButton = hasSelectedPhotos;
+
+  if (isLoading || !activeCategory) {
     return (
       <YStack flex={1} bg="$darkBgAlt">
         <ScreenHeader title="Classic Cleaner" rightAction={getHeaderAction()} />
         <XStack px="$4" pb="$2">
           <CategoryDropdown
             categories={categories}
-            selectedCategoryId={selectedCategoryId}
+            selectedCategoryId={activeCategory || PhotoCategory.SCREENSHOTS}
             onSelectCategory={handleSelectCategory}
           />
         </XStack>
-        {PhotoCategory.SIMILAR_PHOTOS === selectedCategoryId ? (
+        {activeCategory === PhotoCategory.SIMILAR_PHOTOS ? (
           <PhotoGroupGridSkeleton />
         ) : (
           <PhotoGridSkeleton />
@@ -224,28 +231,24 @@ export function ClassicCleaner() {
       <XStack px="$4" pb="$2">
         <CategoryDropdown
           categories={categories}
-          selectedCategoryId={selectedCategoryId}
+          selectedCategoryId={activeCategory}
           onSelectCategory={handleSelectCategory}
         />
       </XStack>
-      {PhotoCategory.SIMILAR_PHOTOS === selectedCategoryId ? (
+      {activeCategory === PhotoCategory.SIMILAR_PHOTOS ? (
         <PhotoGroupGrid
           groups={similarPhotos.map((group: Photo[], index: number) => ({
             id: `group-${index}`,
             photos: group,
           }))}
-          selectedIds={selectedIds}
-          isSelectionMode={false}
+          isSelectionMode={isSelectionModeActive}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={undefined}
         />
       ) : (
         <PhotoGrid
           photos={photos}
-          selectedIds={selectedIds}
-          isSelectionMode={false}
+          isSelectionMode={isSelectionModeActive}
           onTogglePhoto={handleTogglePhoto}
-          onPreviewPhoto={undefined}
         />
       )}
       {showBottomButton && (
@@ -276,11 +279,16 @@ export function ClassicCleaner() {
             bg="#0385ff"
             br="$6"
             h={55}
-            onPress={handleCleanFiles}
+            onPress={handleDelete}
             w="100%"
+            disabled={isDeleting}
           >
             <Text fs={17} fw="$semibold" color="$white">
-              Cleaning files
+              {isDeleting
+                ? "Deleting..."
+                : `Delete ${currentSelections.length} item${
+                    currentSelections.length === 1 ? "" : "s"
+                  }`}
             </Text>
           </Button>
         </YStack>
