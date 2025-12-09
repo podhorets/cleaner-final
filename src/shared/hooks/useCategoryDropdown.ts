@@ -2,16 +2,16 @@ import { useMemo } from "react";
 
 import type { CategoryOption } from "@/src/shared/components/CategoryDropdown";
 import { PhotoCategory } from "@/src/shared/types/categories";
-import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 
 export function useCategoryDropdown() {
-  const photoCountStore = usePhotoCountStore();
+  const getCount = useSmartCleanerStore((state) => state.getCount);
 
-  const screenshotsCount = photoCountStore[PhotoCategory.SCREENSHOTS];
-  const selfiesCount = photoCountStore[PhotoCategory.SELFIES];
-  const similarPhotosCount = photoCountStore[PhotoCategory.SIMILAR_PHOTOS];
-  const livePhotosCount = photoCountStore[PhotoCategory.LIVE_PHOTOS];
-  const longVideosCount = photoCountStore[PhotoCategory.LONG_VIDEOS];
+  const screenshotsCount = getCount(PhotoCategory.SCREENSHOTS);
+  const selfiesCount = getCount(PhotoCategory.SELFIES);
+  const similarPhotosCount = getCount(PhotoCategory.SIMILAR_PHOTOS);
+  const livePhotosCount = getCount(PhotoCategory.LIVE_PHOTOS);
+  const longVideosCount = getCount(PhotoCategory.LONG_VIDEOS);
 
   const categories = useMemo<CategoryOption[]>(
     () => [

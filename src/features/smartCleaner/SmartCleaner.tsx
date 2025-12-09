@@ -9,16 +9,18 @@ import Unchecked from "@/assets/images/unchecked_checkbox.svg";
 import { Image, ImageSource } from "expo-image";
 import { Button, Card, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 
+import { LoadingSpinner } from "@/src/shared/components/LoadingSpinner";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { SmartCleanProgressBar } from "@/src/shared/components/SmartCleanProgressBar";
 import { useUser } from "@/src/shared/hooks/useUser";
 import { PhotoCategory } from "@/src/shared/types/categories";
-import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { useUserStore } from "@/src/stores/useUserStore";
 import { router } from "expo-router";
+import { useEffect } from "react";
 
 type CleanItem = {
-  id: string;
+  id: PhotoCategory;
   label: string;
   count: number;
   size: string;
@@ -60,51 +62,76 @@ const CLEAN_ITEMS: readonly CleanItem[] = [
     checked: false,
   },
   {
-    id: "duplicate-contacts",
+    id: PhotoCategory.DUPLICATE_CONTACTS,
     label: "Duplicate contacts",
     count: 0,
     size: "12.00Mb",
     icon: DuplicateContacts,
     checked: false,
   },
-  {
-    id: "internet-speed",
-    label: "Internet speed",
-    count: 0,
-    size: "0Mb",
-    icon: BlurryPhotos,
-    checked: false,
-  },
+  // {
+  //   id: "internet-speed",
+  //   label: "Internet speed",
+  //   count: 0,
+  //   size: "0Mb",
+  //   icon: BlurryPhotos,
+  //   checked: false,
+  // },
 ] as const;
 
 export function SmartCleaner() {
   const { updateField } = useUser();
   const { user } = useUserStore();
-  const photoCountStore = usePhotoCountStore();
 
-  // Map store counts to clean items
-  const cleanItemsWithCounts: CleanItem[] = CLEAN_ITEMS.map((item) => {
-    let count = item.count;
-    switch (item.id) {
-      case PhotoCategory.SIMILAR_PHOTOS:
-        count = photoCountStore[PhotoCategory.SIMILAR_PHOTOS] ?? 0;
-        break;
-      case PhotoCategory.SCREENSHOTS:
-        count = photoCountStore[PhotoCategory.SCREENSHOTS] ?? 0;
-        break;
-      case PhotoCategory.LONG_VIDEOS:
-        count = photoCountStore[PhotoCategory.LONG_VIDEOS] ?? 0;
-        break;
-      case PhotoCategory.SELFIES:
-        count = photoCountStore[PhotoCategory.SELFIES] ?? 0;
-        break;
-      // duplicate-contacts and internet-speed keep their default values
-      default:
-        break;
+  // Use new SmartCleaner store
+  const getCount = useSmartCleanerStore((state) => state.getCount);
+  const isLoading = useSmartCleanerStore((state) => state.isLoading);
+  const getAllIdsToDelete = useSmartCleanerStore(
+    (state) => state.getAllIdsToDelete
+  );
+  const fetchAllResources = useSmartCleanerStore(
+    (state) => state.fetchAllResources
+  );
+  const resources = useSmartCleanerStore((state) => state.resources);
+  const refetchAll = useSmartCleanerStore((state) => state.refetchAll);
+  const clearSelections = useSmartCleanerStore(
+    (state) => state.clearSelections
+  );
+  
+  // Subscribe to manualSelections to trigger re-renders when user selects photos
+  const manualSelections = useSmartCleanerStore((state) => state.manualSelections);
+
+  // Load all resources on component mount
+  useEffect(() => {
+    if (isLoading) {
+      console.log("isLoading", isLoading);
+      return;
     }
-    return { ...item, count };
+    const anyResourcesNull = Object.values(resources).some(
+      (resource) => resource === null
+    );
+    if (!isLoading && anyResourcesNull) {
+      fetchAllResources();
+      console.log("Fetching all resources");
+    } else {
+      console.log("All resources are loaded");
+    }
+  }, [fetchAllResources, resources, isLoading]);
+
+  // Map store counts to clean items using getCount interface
+  const cleanItemsWithCounts: CleanItem[] = CLEAN_ITEMS.map((item) => {
+    // TODO: rethink if this is valid
+    // const count = getCount(item.id as PhotoCategory);
+    // return { ...item, count };
+      const count = manualSelections[item.id]?.length > 0 
+    ? manualSelections[item.id].length 
+    : (resources[item.id]?.length ?? 0);
+  return { ...item, count };
   });
 
+  if (isLoading) {
+    return <LoadingSpinner fullScreen size={50} />;
+  }
   return (
     <ScrollView>
       {/* Header */}
@@ -172,11 +199,13 @@ export function SmartCleaner() {
                   items="center"
                   flex={1}
                   onPress={() => {
-                    item.id === PhotoCategory.DUPLICATE_CONTACTS
-                      ? router.push("/contacts" as any)
-                      : router.push(
-                          `/smart-cleaner-category?category=${item.id}` as any
-                        );
+                    if (item.id === PhotoCategory.DUPLICATE_CONTACTS) {
+                      router.push("/contacts" as any);
+                    } else {
+                      router.push(
+                        `/smart-cleaner-category?category=${item.id}` as any
+                      );
+                    }
                   }}
                 >
                   {/* Icon */}
@@ -234,8 +263,22 @@ export function SmartCleaner() {
           bg="$blueTertiary"
           br="$9"
           height={55}
-          onPress={() => {
-            updateField("lastClean", new Date().toISOString());
+          onPress={async () => {
+            // Get all IDs to delete using smart logic
+            const idsToDelete = getAllIdsToDelete();
+            if (idsToDelete.length > 0) {
+              // TODO: Import and call deletePhotos when ready
+              // const { deletePhotos } = await import("@/src/services/photo/deletePhotos");
+              // const success = await deletePhotos(idsToDelete);
+              // if (success) {
+              //   clearSelections();
+              //   refetchAll();
+              //   updateField("lastClean", new Date().toISOString());
+              // }
+              // For now, just update last clean date
+              console.log(`Would delete ${idsToDelete.length} photos`);
+              updateField("lastClean", new Date().toISOString());
+            }
           }}
         >
           <Text fs={17} fw="$semibold" color="$white">

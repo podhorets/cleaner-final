@@ -2,10 +2,6 @@ import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { YStack } from "tamagui";
 
-import { getScreenshots } from "@/src/services/photo/screenshots";
-import { getSelfies } from "@/src/services/photo/selfies";
-import { getSimilarPhotos } from "@/src/services/photo/similarPhotos";
-import { getLivePhotos, getLongVideos } from "@/src/services/photo/videos";
 import { PhotoGrid } from "@/src/shared/components/PhotoGrid/PhotoGrid";
 import { PhotoGroupGrid } from "@/src/shared/components/PhotoGrid/PhotoGroupGrid";
 import { PhotoGridSkeleton } from "@/src/shared/components/PhotoLoading/PhotoGridSkeleton";
@@ -13,7 +9,7 @@ import { PhotoGroupGridSkeleton } from "@/src/shared/components/PhotoLoading/Pho
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
 import { usePhotoSelection } from "@/src/shared/hooks/usePhotoSelection";
 import { PhotoCategory } from "@/src/shared/types/categories";
-import { useDeletionStore } from "@/src/stores/useDeletionStore";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { Photo } from "@/src/types/models";
 
 export function SmartCleanerCategory() {
@@ -27,12 +23,12 @@ export function SmartCleanerCategory() {
   const [isLoading, setIsLoading] = useState(true);
   const lastSyncedPhotosRef = useRef<string>("");
 
-  const {
-    addToSmartCleaner,
-    removeFromSmartCleaner,
-    clearSmartCleaner,
-    getSmartCleanerIds,
-  } = useDeletionStore();
+  const { addToSelection, removeFromSelection, clearSelections, resources } =
+    useSmartCleanerStore();
+
+  const manualSelectedIds = useSmartCleanerStore(
+    (state) => state.manualSelections[categoryId]
+  );
 
   // Get all photos from groups for selection hook (for similar photos)
   const allPhotos = useMemo(() => {
@@ -50,36 +46,29 @@ export function SmartCleanerCategory() {
     clearSelection,
   } = usePhotoSelection({ photos: allPhotos });
 
-  // 2. Fetch photos based on category
+  // 2. Load photos from store resources instead of refetching
   useEffect(() => {
-    const loadPhotos = async () => {
+    const loadPhotos = () => {
       setIsLoading(true);
       try {
-        let loadedPhotos: Photo[] = [];
-        let similarPhotos: Photo[][] = [];
+        const resource = resources[categoryId];
 
-        switch (categoryId) {
-          case PhotoCategory.SCREENSHOTS:
-            loadedPhotos = await getScreenshots();
-            break;
-          case PhotoCategory.SELFIES:
-            loadedPhotos = await getSelfies();
-            break;
-          case PhotoCategory.SIMILAR_PHOTOS:
-            similarPhotos = await getSimilarPhotos(5);
-            break;
-          case PhotoCategory.LONG_VIDEOS:
-            loadedPhotos = await getLongVideos();
-            break;
-          case PhotoCategory.LIVE_PHOTOS:
-            loadedPhotos = await getLivePhotos();
-            break;
-          default:
-            loadedPhotos = [];
+        // Wait for resources to be loaded
+        if (resource === null) {
+          setIsLoading(false);
+          return;
         }
 
-        setPhotos(loadedPhotos);
-        setSimilarPhotos(similarPhotos);
+        // Handle similar photos (grouped)
+        if (categoryId === PhotoCategory.SIMILAR_PHOTOS) {
+          setSimilarPhotos(resource as Photo[][]);
+          setPhotos([]);
+        } else {
+          // Handle flat arrays
+          setPhotos(resource as Photo[]);
+          setSimilarPhotos([]);
+        }
+
         // Clear selection when category changes
         clearSelection();
         lastSyncedPhotosRef.current = "";
@@ -93,7 +82,7 @@ export function SmartCleanerCategory() {
     };
 
     loadPhotos();
-  }, [categoryId, clearSelection]);
+  }, [categoryId, clearSelection, resources]);
 
   // Sync selectedIds with store when photos are loaded
   useEffect(() => {
@@ -106,21 +95,30 @@ export function SmartCleanerCategory() {
       .join(",");
     if (lastSyncedPhotosRef.current === photosSignature) return;
 
-    const storeIds = getSmartCleanerIds(categoryId);
-
-    if (storeIds.length === 0) {
+    if (manualSelectedIds.length === 0) {
       lastSyncedPhotosRef.current = photosSignature;
       return;
     }
 
-    const currentSet = new Set(selectedIds);
+    // Check if all photos should be selected
+    const allPhotoIds = allPhotos.map((p) => p.id);
+    const allIdsManuallySelected =
+      manualSelectedIds.length === allPhotoIds.length;
 
-    // Sync: add IDs from store that aren't selected
-    storeIds.forEach((id) => {
-      if (!currentSet.has(id) && allPhotos.some((p) => p.id === id)) {
-        togglePhoto(id);
-      }
-    });
+    if (allIdsManuallySelected && !isSelectAll) {
+      // Select all at once instead of toggling each photo
+      toggleSelectAll();
+    } else if (!allIdsManuallySelected) {
+      // Only select specific photos from store
+      const currentSet = new Set(selectedIds);
+      console.log("currentSet selectedIds", selectedIds);
+      // Add photos that should be selected
+      manualSelectedIds.forEach((id) => {
+        if (!currentSet.has(id) && allPhotos.some((p) => p.id === id)) {
+          togglePhoto(id);
+        }
+      });
+    }
 
     lastSyncedPhotosRef.current = photosSignature;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,18 +135,12 @@ export function SmartCleanerCategory() {
 
       // Update store (always use smartCleanerToDelete)
       if (willBeSelected) {
-        addToSmartCleaner(categoryId, [photoId]);
+        addToSelection(categoryId, [photoId]);
       } else {
-        removeFromSmartCleaner(categoryId, [photoId]);
+        removeFromSelection(categoryId, [photoId]);
       }
     },
-    [
-      togglePhoto,
-      selectedIds,
-      categoryId,
-      addToSmartCleaner,
-      removeFromSmartCleaner,
-    ]
+    [togglePhoto, selectedIds, categoryId, addToSelection, removeFromSelection]
   );
 
   const handleToggleSelectAll = useCallback(() => {
@@ -156,17 +148,17 @@ export function SmartCleanerCategory() {
     const allPhotoIds = allPhotos.map((photo) => photo.id);
 
     if (isSelectAll) {
-      removeFromSmartCleaner(categoryId, allPhotoIds);
+      removeFromSelection(categoryId, allPhotoIds);
     } else {
-      addToSmartCleaner(categoryId, allPhotoIds);
+      addToSelection(categoryId, allPhotoIds);
     }
   }, [
     toggleSelectAll,
     allPhotos,
     isSelectAll,
     categoryId,
-    addToSmartCleaner,
-    removeFromSmartCleaner,
+    addToSelection,
+    removeFromSelection,
   ]);
 
   // Determine header button
@@ -176,7 +168,7 @@ export function SmartCleanerCategory() {
         label: "Cancel",
         onPress: () => {
           clearSelection();
-          clearSmartCleaner(categoryId);
+          clearSelections(categoryId);
         },
         color: "red" as const,
       };

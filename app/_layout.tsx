@@ -8,7 +8,7 @@ import { TamaguiProvider } from "tamagui";
 import { initializeDatabase } from "@/src/shared/database/database";
 import { userRepository } from "@/src/shared/database/repositories/UserRepository";
 import { useUser } from "@/src/shared/hooks/useUser";
-import { usePhotoCountStore } from "@/src/stores/usePhotoCountStore";
+import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { useUserStore } from "@/src/stores/useUserStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { navDark } from "../src/theme/navigation";
@@ -17,6 +17,9 @@ import { config } from "../tamagui.config";
 export default function RootLayout() {
   const safeAreaBgColor = navDark.colors.background;
   const { loadUser } = useUser();
+  const fetchAllResources = useSmartCleanerStore(
+    (state) => state.fetchAllResources
+  );
 
   useEffect(() => {
     initializeDatabase()
@@ -43,13 +46,12 @@ export default function RootLayout() {
         }
       })
       .then(() => {
-        const { fetchAllCounts } = usePhotoCountStore.getState();
-        fetchAllCounts();
+        fetchAllResources();
       })
       .catch((error) => {
         console.error("Failed to initialize database or create user:", error);
       });
-  }, [loadUser]);
+  }, [loadUser, fetchAllResources]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: safeAreaBgColor }}>
