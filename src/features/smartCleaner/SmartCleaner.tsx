@@ -16,6 +16,8 @@ import { useUser } from "@/src/shared/hooks/useUser";
 import { PhotoCategory } from "@/src/shared/types/categories";
 import { useSmartCleanerStore } from "@/src/stores/useSmartCleanerStore";
 import { useUserStore } from "@/src/stores/useUserStore";
+import { Photo } from "@/src/types/models";
+import { ExistingContact } from "expo-contacts/build/Contacts";
 import { router } from "expo-router";
 import { useEffect } from "react";
 
@@ -28,110 +30,129 @@ type CleanItem = {
   checked: boolean;
 };
 
-const CLEAN_ITEMS: readonly CleanItem[] = [
-  {
-    id: PhotoCategory.SIMILAR_PHOTOS,
-    label: "Similar photos",
-    count: 0,
-    size: "12.00Mb",
-    icon: SimilarPhotos,
-    checked: true,
-  },
-  {
-    id: PhotoCategory.SCREENSHOTS,
-    label: "Screenshots",
-    count: 0,
-    size: "12.00Mb",
-    icon: Screenshots,
-    checked: false,
-  },
-  {
-    id: PhotoCategory.LONG_VIDEOS,
-    label: "Long videos",
-    count: 0,
-    size: "12.00Mb",
-    icon: BlurryPhotos,
-    checked: true,
-  },
-  {
-    id: PhotoCategory.SELFIES,
-    label: "Selfie",
-    count: 0,
-    size: "12.00Mb",
-    icon: Selfie,
-    checked: false,
-  },
-  {
-    id: PhotoCategory.DUPLICATE_CONTACTS,
-    label: "Duplicate contacts",
-    count: 0,
-    size: "12.00Mb",
-    icon: DuplicateContacts,
-    checked: false,
-  },
-  // {
-  //   id: "internet-speed",
-  //   label: "Internet speed",
-  //   count: 0,
-  //   size: "0Mb",
-  //   icon: BlurryPhotos,
-  //   checked: false,
-  // },
-] as const;
+// Helper functions for category metadata
+const getCategoryLabel = (category: PhotoCategory): string => {
+  const labels: Record<PhotoCategory, string> = {
+    [PhotoCategory.SIMILAR_PHOTOS]: "Similar photos",
+    [PhotoCategory.SCREENSHOTS]: "Screenshots",
+    [PhotoCategory.SELFIES]: "Selfies",
+    [PhotoCategory.LIVE_PHOTOS]: "Live photos",
+    [PhotoCategory.LONG_VIDEOS]: "Long videos",
+    [PhotoCategory.DUPLICATE_CONTACTS]: "Duplicate contacts",
+  };
+  return labels[category];
+};
+
+const getCategoryIcon = (category: PhotoCategory): ImageSource => {
+  const icons: Record<PhotoCategory, ImageSource> = {
+    [PhotoCategory.SIMILAR_PHOTOS]: SimilarPhotos,
+    [PhotoCategory.SCREENSHOTS]: Screenshots,
+    [PhotoCategory.SELFIES]: Selfie,
+    [PhotoCategory.LIVE_PHOTOS]: BlurryPhotos,
+    [PhotoCategory.LONG_VIDEOS]: BlurryPhotos,
+    [PhotoCategory.DUPLICATE_CONTACTS]: DuplicateContacts,
+  };
+  return icons[category];
+};
+
+// Categories to display
+const ACTIVE_CATEGORIES: PhotoCategory[] = [
+  PhotoCategory.SIMILAR_PHOTOS,
+  PhotoCategory.SCREENSHOTS,
+  PhotoCategory.SELFIES,
+  PhotoCategory.LONG_VIDEOS,
+  PhotoCategory.DUPLICATE_CONTACTS,
+];
 
 export function SmartCleaner() {
   const { updateField } = useUser();
   const { user } = useUserStore();
 
-  // Use new SmartCleaner store
-  const getCount = useSmartCleanerStore((state) => state.getCount);
   const isLoading = useSmartCleanerStore((state) => state.isLoading);
+
+  // Subscribe to resources to trigger re-renders when resources are loaded
+  const resources = useSmartCleanerStore((state) => state.resources);
+  // Subscribe to manualSelections to trigger re-renders when user selects photos
+  const manualSelections = useSmartCleanerStore(
+    (state) => state.manualSelections
+  );
+  // Subscribe to checkedCategories to trigger re-renders
+  const checkedCategories = useSmartCleanerStore(
+    (state) => state.checkedCategories
+  );
+
   const getAllIdsToDelete = useSmartCleanerStore(
     (state) => state.getAllIdsToDelete
   );
   const fetchAllResources = useSmartCleanerStore(
     (state) => state.fetchAllResources
   );
-  const resources = useSmartCleanerStore((state) => state.resources);
-  const refetchAll = useSmartCleanerStore((state) => state.refetchAll);
   const clearSelections = useSmartCleanerStore(
     (state) => state.clearSelections
   );
-  
-  // Subscribe to manualSelections to trigger re-renders when user selects photos
-  const manualSelections = useSmartCleanerStore((state) => state.manualSelections);
+  const toggleCategoryChecked = useSmartCleanerStore(
+    (state) => state.toggleCategoryChecked
+  );
+  const resetCheckedCategories = useSmartCleanerStore(
+    (state) => state.resetCheckedCategories
+  );
 
-  // Load all resources on component mount
+  // Load all resources on component mount if not already loaded
   useEffect(() => {
-    if (isLoading) {
-      console.log("isLoading", isLoading);
-      return;
-    }
     const anyResourcesNull = Object.values(resources).some(
       (resource) => resource === null
     );
     if (!isLoading && anyResourcesNull) {
       fetchAllResources();
-      console.log("Fetching all resources");
-    } else {
-      console.log("All resources are loaded");
     }
   }, [fetchAllResources, resources, isLoading]);
 
-  // Map store counts to clean items using getCount interface
-  const cleanItemsWithCounts: CleanItem[] = CLEAN_ITEMS.map((item) => {
-    // TODO: rethink if this is valid
-    // const count = getCount(item.id as PhotoCategory);
-    // return { ...item, count };
-      const count = manualSelections[item.id]?.length > 0 
-    ? manualSelections[item.id].length 
-    : (resources[item.id]?.length ?? 0);
-  return { ...item, count };
-  });
+  // Clear selections and reset checked categories on component mount
+  useEffect(() => {
+    clearSelections();
+    resetCheckedCategories();
+  }, []);
+
+  const getCount = (category: PhotoCategory): number => {
+    // If user has manual selections, return count of selections
+    if (manualSelections[category].length > 0) {
+      return manualSelections[category].length;
+    }
+
+    // Otherwise, return count of all resources
+    const resource = resources[category];
+    if (!resource) return 0;
+
+    // Handle grouped resources (similar photos, duplicate contacts)
+    if (
+      category === PhotoCategory.SIMILAR_PHOTOS ||
+      category === PhotoCategory.DUPLICATE_CONTACTS
+    ) {
+      const groups = resource as Photo[][] | ExistingContact[][];
+      return groups.reduce((total, group) => total + group.length, 0);
+    }
+
+    // Handle flat arrays
+    const items = resource as Photo[];
+    return items.length;
+  };
+
+  // Compute clean items dynamically from categories
+  const cleanItemsWithCounts: CleanItem[] = ACTIVE_CATEGORIES.map(
+    (category) => ({
+      id: category,
+      label: getCategoryLabel(category),
+      icon: getCategoryIcon(category),
+      size: "12.00Mb", // TODO: Calculate actual size
+      count: getCount(category),
+      checked: checkedCategories.has(category),
+    })
+  );
 
   if (isLoading) {
     return <LoadingSpinner fullScreen size={50} />;
   }
+
   return (
     <ScrollView>
       {/* Header */}
@@ -247,11 +268,20 @@ export function SmartCleaner() {
                   <Text fs={16} fw="$medium" color="$blueTertiary">
                     {item.count}
                   </Text>
-                  <Image
-                    source={item.checked ? Checked : Unchecked}
-                    style={{ width: 24, height: 24 }}
-                    contentFit="contain"
-                  />
+                  <Button
+                    unstyled
+                    onPress={() => toggleCategoryChecked(item.id)}
+                    width={24}
+                    height={24}
+                    items="center"
+                    justify="center"
+                  >
+                    <Image
+                      source={item.checked ? Checked : Unchecked}
+                      style={{ width: 24, height: 24 }}
+                      contentFit="contain"
+                    />
+                  </Button>
                 </XStack>
               </XStack>
             </Card>
@@ -266,6 +296,7 @@ export function SmartCleaner() {
           onPress={async () => {
             // Get all IDs to delete using smart logic
             const idsToDelete = getAllIdsToDelete();
+            console.log("idsToDelete", idsToDelete);
             if (idsToDelete.length > 0) {
               // TODO: Import and call deletePhotos when ready
               // const { deletePhotos } = await import("@/src/services/photo/deletePhotos");
