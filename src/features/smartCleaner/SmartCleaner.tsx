@@ -110,6 +110,9 @@ export function SmartCleaner() {
   useEffect(() => {
     clearSelections();
     resetCheckedCategories();
+    return () => {
+      clearSelections();
+    };
   }, []);
 
   // Compute clean items dynamically from categories

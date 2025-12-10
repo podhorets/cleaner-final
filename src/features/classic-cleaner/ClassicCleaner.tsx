@@ -51,8 +51,8 @@ export function ClassicCleaner() {
   // Initialize/Reset on mount
   useEffect(() => {
     // Set default category and clear selections
-    setActiveCategory(PhotoCategory.SIMILAR_PHOTOS);
     clearSelections();
+    setActiveCategory(PhotoCategory.SIMILAR_PHOTOS);
 
     return () => {
       clearActiveCategory();
