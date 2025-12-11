@@ -131,6 +131,7 @@ export function useSpeedTest() {
     const startTime = Date.now();
     let avgMbps = 0;
     let stopped = false;
+    const speedSamples: number[] = []; // Store all samples
 
     // Per-XHR bytes (for debugging/internals)
     const bytesPerXhr = new Array(connections).fill(0);
@@ -181,6 +182,10 @@ export function useSpeedTest() {
       // instantaneous bps and Mbps
       const instantBps = deltaBytes / (sampleIntervalMs / 1000); // bytes per second
       const instantMbps = (instantBps * 8) / 1_000_000;
+      
+      if (instantMbps > 0) {
+        speedSamples.push(instantMbps);
+      }
 
       // rolling average (EMA)
       avgMbps = smoothingAlpha * instantMbps + (1 - smoothingAlpha) * avgMbps;
@@ -224,8 +229,13 @@ export function useSpeedTest() {
         if (stopped) {
           clearInterval(pollEnd);
           const elapsedSeconds = (Date.now() - startTime) / 1000;
+          
+          // Calculate arithmetic mean of all samples
+          const sum = speedSamples.reduce((a, b) => a + b, 0);
+          const finalAvg = speedSamples.length > 0 ? sum / speedSamples.length : 0;
+          
           resolve({
-            finalAvgMbps: Math.round(avgMbps * 100) / 100,
+            finalAvgMbps: Math.round(finalAvg * 100) / 100,
             totalBytes,
             elapsedSeconds,
           });
@@ -243,10 +253,12 @@ export function useUploadSpeedTest() {
     dataSizeBytes: number,
     onUpdate: (u: Update) => void,
     {
+      connections = 3,
       sampleIntervalMs = 200,
       maxTestDurationMs = 15000,
       smoothingAlpha = 0.2,
     }: {
+      connections?: number;
       sampleIntervalMs?: number;
       maxTestDurationMs?: number;
       smoothingAlpha?: number;
@@ -268,31 +280,43 @@ export function useUploadSpeedTest() {
       dummyData += chunk;
     }
 
-    const xhr = new XMLHttpRequest();
-    let lastLoaded = 0;
+    let xhrs: XMLHttpRequest[] = [];
+    let lastTotalBytes = 0;
+    let totalBytes = 0;
     const startTime = Date.now();
     let avgMbps = 0;
     let stopped = false;
-    let totalBytes = 0;
+    let lastLoaded = 0;
+    const speedSamples: number[] = []; // Store all samples
 
-    xhr.open("POST", uploadEndpoint, true);
-    xhr.setRequestHeader("Content-Type", "text/plain");
-    // xhr.setRequestHeader("Content-Length", dataSizeBytes.toString()); // unsafe header
+    // Per-XHR bytes
+    const bytesPerXhr = new Array(connections).fill(0);
 
-    xhr.upload.onprogress = (evt: ProgressEvent) => {
-      if (stopped) return;
-      totalBytes = evt.loaded;
-    };
+    for (let i = 0; i < connections; i++) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", uploadEndpoint, true);
+      xhr.setRequestHeader("Content-Type", "text/plain");
 
-    xhr.onloadend = () => {
-      stopped = true;
-    };
+      xhr.upload.onprogress = (evt: ProgressEvent) => {
+        if (stopped) return;
+        bytesPerXhr[i] = evt.loaded;
+        totalBytes = bytesPerXhr.reduce((a, b) => a + b, 0);
+        // console.log(`[Upload] XHR ${i} progress: ${evt.loaded}/${evt.total}`);
+      };
 
-    xhr.onerror = () => {
-      stopped = true;
-    };
+      xhr.onloadend = () => {
+        // console.log(`[Upload] XHR ${i} finished. Status: ${xhr.status}`);
+        stopped = true;
+      };
 
-    xhr.send(dummyData);
+      xhr.onerror = () => {
+        console.error(`[Upload] XHR ${i} error`);
+        stopped = true;
+      };
+
+      xhr.send(dummyData);
+      xhrs.push(xhr);
+    }
 
     // Sampling loop
     const interval = setInterval(() => {
@@ -310,8 +334,18 @@ export function useUploadSpeedTest() {
 
       const instantBps = deltaBytes / (sampleIntervalMs / 1000);
       const instantMbps = (instantBps * 8) / 1_000_000;
+      
+      if (instantMbps > 0) {
+        speedSamples.push(instantMbps);
+      }
 
       avgMbps = smoothingAlpha * instantMbps + (1 - smoothingAlpha) * avgMbps;
+
+      console.log(
+        `[Upload] Update: instant=${instantMbps.toFixed(
+          2
+        )} Mbps, avg=${avgMbps.toFixed(2)} Mbps, totalBytes=${totalBytes}`
+      );
 
       onUpdate({
         instantaneousMbps: Math.round(instantMbps * 100) / 100,
@@ -320,10 +354,25 @@ export function useUploadSpeedTest() {
         downloadedBytes: totalBytes,
       });
 
-      if (elapsedMs >= maxTestDurationMs || totalBytes >= dataSizeBytes) {
+      // Stop conditions
+      const uploadedExpected = dataSizeBytes * connections;
+      const allFinished = bytesPerXhr.every((b) => b > 0 && b >= dataSizeBytes);
+
+      if (
+        elapsedMs >= maxTestDurationMs ||
+        allFinished ||
+        totalBytes >= uploadedExpected
+      ) {
+        console.log("[Upload] Stopping test. Condition met.");
         stopped = true;
-        xhr.abort();
         clearInterval(interval);
+        xhrs.forEach((x) => {
+          try {
+            x.abort();
+          } catch (e) {
+            /* ignore */
+          }
+        });
       }
     }, sampleIntervalMs);
 
@@ -336,8 +385,16 @@ export function useUploadSpeedTest() {
         if (stopped) {
           clearInterval(pollEnd);
           const elapsedSeconds = (Date.now() - startTime) / 1000;
+          
+          // Calculate arithmetic mean of all samples
+          const sum = speedSamples.reduce((a, b) => a + b, 0);
+          const finalAvg = speedSamples.length > 0 ? sum / speedSamples.length : 0;
+
+          console.log(
+            `[Upload] Resolved. Final Avg: ${finalAvg.toFixed(2)} Mbps`
+          );
           resolve({
-            finalAvgMbps: Math.round(avgMbps * 100) / 100,
+            finalAvgMbps: Math.round(finalAvg * 100) / 100,
             totalBytes,
             elapsedSeconds,
           });
