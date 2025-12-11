@@ -29,4 +29,5 @@ export const baseColors = {
   pink: "#C5256B",
   cyan: "#73E0F8",
   orange: "#F28E1C",
+  green: "#26B13C",
 } as const;
