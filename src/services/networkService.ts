@@ -182,7 +182,7 @@ export function useSpeedTest() {
       // instantaneous bps and Mbps
       const instantBps = deltaBytes / (sampleIntervalMs / 1000); // bytes per second
       const instantMbps = (instantBps * 8) / 1_000_000;
-      
+
       if (instantMbps > 0) {
         speedSamples.push(instantMbps);
       }
@@ -197,12 +197,12 @@ export function useSpeedTest() {
         downloadedBytes: totalBytes,
       });
 
-      // Stop conditions: time exceeded or all xhrs finished or we've downloaded expected bytes
+      // Stop conditions: time exceeded or ANY xhrs finished or we've downloaded expected bytes
       const downloadedExpected = fileSizeBytes * connections;
-      const allFinished = bytesPerXhr.every((b) => b > 0 && b >= fileSizeBytes);
+      const anyFinished = bytesPerXhr.some((b) => b >= fileSizeBytes);
       if (
         elapsedMs >= maxTestDurationMs ||
-        allFinished ||
+        anyFinished ||
         totalBytes >= downloadedExpected
       ) {
         // finalize
@@ -229,11 +229,12 @@ export function useSpeedTest() {
         if (stopped) {
           clearInterval(pollEnd);
           const elapsedSeconds = (Date.now() - startTime) / 1000;
-          
+
           // Calculate arithmetic mean of all samples
           const sum = speedSamples.reduce((a, b) => a + b, 0);
-          const finalAvg = speedSamples.length > 0 ? sum / speedSamples.length : 0;
-          
+          const finalAvg =
+            speedSamples.length > 0 ? sum / speedSamples.length : 0;
+
           resolve({
             finalAvgMbps: Math.round(finalAvg * 100) / 100,
             totalBytes,
@@ -334,18 +335,18 @@ export function useUploadSpeedTest() {
 
       const instantBps = deltaBytes / (sampleIntervalMs / 1000);
       const instantMbps = (instantBps * 8) / 1_000_000;
-      
+
       if (instantMbps > 0) {
         speedSamples.push(instantMbps);
       }
 
       avgMbps = smoothingAlpha * instantMbps + (1 - smoothingAlpha) * avgMbps;
 
-      console.log(
-        `[Upload] Update: instant=${instantMbps.toFixed(
-          2
-        )} Mbps, avg=${avgMbps.toFixed(2)} Mbps, totalBytes=${totalBytes}`
-      );
+      // console.log(
+      //   `[Upload] Update: instant=${instantMbps.toFixed(
+      //     2
+      //   )} Mbps, avg=${avgMbps.toFixed(2)} Mbps, totalBytes=${totalBytes}`
+      // );
 
       onUpdate({
         instantaneousMbps: Math.round(instantMbps * 100) / 100,
@@ -356,11 +357,11 @@ export function useUploadSpeedTest() {
 
       // Stop conditions
       const uploadedExpected = dataSizeBytes * connections;
-      const allFinished = bytesPerXhr.every((b) => b > 0 && b >= dataSizeBytes);
+      const anyFinished = bytesPerXhr.some((b) => b >= dataSizeBytes);
 
       if (
         elapsedMs >= maxTestDurationMs ||
-        allFinished ||
+        anyFinished ||
         totalBytes >= uploadedExpected
       ) {
         console.log("[Upload] Stopping test. Condition met.");
@@ -385,14 +386,12 @@ export function useUploadSpeedTest() {
         if (stopped) {
           clearInterval(pollEnd);
           const elapsedSeconds = (Date.now() - startTime) / 1000;
-          
+
           // Calculate arithmetic mean of all samples
           const sum = speedSamples.reduce((a, b) => a + b, 0);
-          const finalAvg = speedSamples.length > 0 ? sum / speedSamples.length : 0;
+          const finalAvg =
+            speedSamples.length > 0 ? sum / speedSamples.length : 0;
 
-          console.log(
-            `[Upload] Resolved. Final Avg: ${finalAvg.toFixed(2)} Mbps`
-          );
           resolve({
             finalAvgMbps: Math.round(finalAvg * 100) / 100,
             totalBytes,
