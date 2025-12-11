@@ -28,6 +28,8 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 export function InternetSpeed() {
   const { startTest: startDownloadTest } = useSpeedTest();
   const { startUploadTest } = useUploadSpeedTest();
+  
+  const [gradientColors, setGradientColors] = useState(["#3b82f6", "#2563eb"]);
 
   const [testState, setTestState] = useState<TestState>("idle");
   const [animatedSpeed, setAnimatedSpeed] = useState(0);
@@ -92,6 +94,7 @@ export function InternetSpeed() {
   const startTest = async () => {
     setTestState("testing-download");
     setAnimatedSpeed(0);
+    setGradientColors(["#3b82f6", "#2563eb"]); // Blue for download
     progressValue.setValue(0);
     uploadStartedRef.current = false;
     setCurrentTestResult({
@@ -113,10 +116,10 @@ export function InternetSpeed() {
         TEST_FILE_SIZE,
         (update) => {
           setAnimatedSpeed(update.avgMbps);
-          // Map download progress to 0-50% of circle
+          // Map download progress to 0-100% of circle
           const progress = Math.min(
-            0.5,
-            (update.downloadedBytes / (TEST_FILE_SIZE * 3)) * 0.5 // Assuming 3 connections
+            1,
+            update.downloadedBytes / (TEST_FILE_SIZE * 8) // Using 8 connections
           );
           animateProgress(progress);
         },
@@ -149,7 +152,9 @@ export function InternetSpeed() {
     uploadStartedRef.current = true;
     setTestState("testing-upload");
     setAnimatedSpeed(0);
-    animateProgress(0.5); // Ensure we start upload from 50%
+    setGradientColors(["#22c55e", "#16a34a"]); // Green for upload
+    progressValue.setValue(0); // Reset progress for upload
+    animateProgress(0);
 
     try {
       const uploadResult = await startUploadTest(
@@ -157,9 +162,11 @@ export function InternetSpeed() {
         UPLOAD_SIZE,
         (update) => {
           setAnimatedSpeed(update.avgMbps);
-          // Map upload progress to 50-100% of circle
-          const progress =
-            0.5 + Math.min(0.5, (update.downloadedBytes / UPLOAD_SIZE) * 0.5);
+          // Map upload progress to 0-100% of circle
+          const progress = Math.min(
+            1,
+            update.downloadedBytes / (UPLOAD_SIZE * 8)
+          );
           animateProgress(progress);
         },
         {
@@ -241,8 +248,8 @@ export function InternetSpeed() {
             <Svg width={size} height={size}>
               <Defs>
                 <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
-                  <Stop offset="0" stopColor="#3b82f6" stopOpacity="1" />
-                  <Stop offset="1" stopColor="#2563eb" stopOpacity="1" />
+                  <Stop offset="0" stopColor={gradientColors[0]} stopOpacity="1" />
+                  <Stop offset="1" stopColor={gradientColors[1]} stopOpacity="1" />
                 </LinearGradient>
               </Defs>
               {/* Background Circle */}
