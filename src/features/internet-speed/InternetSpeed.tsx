@@ -121,9 +121,9 @@ export function InternetSpeed() {
           animateProgress(progress);
         },
         {
-          connections: 3,
-          sampleIntervalMs: 200,
-          maxTestDurationMs: 15000,
+          connections: 8,
+          sampleIntervalMs: 100,
+          maxTestDurationMs: 8000,
         }
       );
 
@@ -163,8 +163,9 @@ export function InternetSpeed() {
           animateProgress(progress);
         },
         {
-          sampleIntervalMs: 200,
-          maxTestDurationMs: 15000,
+          connections: 8,
+          sampleIntervalMs: 100,
+          maxTestDurationMs: 8000,
         }
       );
 
