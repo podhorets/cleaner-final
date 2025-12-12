@@ -28,7 +28,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 export function InternetSpeed() {
   const { startTest: startDownloadTest } = useSpeedTest();
   const { startUploadTest } = useUploadSpeedTest();
-  
+
   const [gradientColors, setGradientColors] = useState(["#3b82f6", "#2563eb"]);
 
   const [testState, setTestState] = useState<TestState>("idle");
@@ -126,7 +126,9 @@ export function InternetSpeed() {
       );
 
       const downloadSpeed = downloadResult.finalAvgMbps;
-      handleDownloadComplete(downloadSpeed, ping);
+      setTimeout(() => {
+        handleDownloadComplete(downloadSpeed, ping);
+      }, 500);
     } catch (error) {
       console.error("Speed test error:", error);
       setTestState("completed");
@@ -186,20 +188,21 @@ export function InternetSpeed() {
       date: new Date(),
     };
 
-    // Save to history
-    setLastTestResult(finalResult);
-    setTestState("completed");
-    
-    // Reset display values
-    setCurrentTestResult({
-      downloadSpeed: null,
-      uploadSpeed: null,
-      ping: null,
-      date: null,
-    });
-    setAnimatedSpeed(0);
-    setGradientColors(["#3b82f6", "#2563eb"]); // Reset to blue
-    progressValue.setValue(0); // Reset progress bar
+    setCurrentTestResult(finalResult);
+
+    setTimeout(() => {
+      setTestState("completed");
+      setCurrentTestResult({
+        downloadSpeed: null,
+        uploadSpeed: null,
+        ping: null,
+        date: null,
+      });
+      setLastTestResult(finalResult);
+      setAnimatedSpeed(0);
+      progressValue.setValue(0);
+      uploadStartedRef.current = false;
+    }, 800);
   };
 
   // Get current speed value based on test state
@@ -242,8 +245,16 @@ export function InternetSpeed() {
             <Svg width={size} height={size}>
               <Defs>
                 <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
-                  <Stop offset="0" stopColor={gradientColors[0]} stopOpacity="1" />
-                  <Stop offset="1" stopColor={gradientColors[1]} stopOpacity="1" />
+                  <Stop
+                    offset="0"
+                    stopColor={gradientColors[0]}
+                    stopOpacity="1"
+                  />
+                  <Stop
+                    offset="1"
+                    stopColor={gradientColors[1]}
+                    stopOpacity="1"
+                  />
                 </LinearGradient>
               </Defs>
               {/* Background Circle */}

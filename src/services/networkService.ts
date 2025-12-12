@@ -379,7 +379,8 @@ export function useUploadSpeedTest() {
           1,
           elapsedSeconds / (maxTestDurationMs / 1000)
         );
-        const estimatedBytes = connections * dataSizeBytes * estimatedProgressPerXhr;
+        const estimatedBytes =
+          connections * dataSizeBytes * estimatedProgressPerXhr;
         const speedBps = estimatedBytes / elapsedSeconds;
         instantMbps = (speedBps * 8) / 1_000_000;
       }
@@ -400,7 +401,7 @@ export function useUploadSpeedTest() {
 
       // Progress: Smooth estimation based on completed + in-progress uploads
       let estimatedProgress = completedCount / connections;
-      
+
       if (completedCount < connections && completedCount > 0) {
         // We have some completions, estimate remaining based on average completion time
         const avgCompletionTime =
@@ -408,17 +409,21 @@ export function useUploadSpeedTest() {
           completedCount;
         const remainingXhrs = connections - completedCount;
         const estimatedRemainingProgress =
-          Math.min(1, elapsedMs / avgCompletionTime) * (remainingXhrs / connections);
+          Math.min(1, elapsedMs / avgCompletionTime) *
+          (remainingXhrs / connections);
         estimatedProgress += estimatedRemainingProgress;
       } else if (completedCount === 0) {
         // No completions yet, provide linear progress estimation
         // Assume average upload will take ~3 seconds for 2MB at 20Mbps
-        const estimatedTotalTime = (dataSizeBytes * 8 / 20_000_000) * 1000; // ms
+        const estimatedTotalTime = ((dataSizeBytes * 8) / 20_000_000) * 1000; // ms
         estimatedProgress = Math.min(0.9, elapsedMs / estimatedTotalTime); // Cap at 90% until actual completion
       }
-      
+
       // Ensure progress never decreases (monotonic)
-      const progress = Math.max(previousProgress, Math.min(1, estimatedProgress));
+      const progress = Math.max(
+        previousProgress,
+        Math.min(1, estimatedProgress)
+      );
       previousProgress = progress;
 
       onUpdate({
