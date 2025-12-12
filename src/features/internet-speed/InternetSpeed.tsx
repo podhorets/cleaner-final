@@ -108,7 +108,7 @@ export function InternetSpeed() {
       // Measure ping
       const pingStart = Date.now();
       await fetch(TEST_FILE_URL, { method: "HEAD" }).catch(() => {});
-      const ping = Date.now() - pingStart;
+      const ping = (Date.now() - pingStart) / 2;
 
       // Start download test
       const downloadResult = await startDownloadTest(
@@ -186,24 +186,29 @@ export function InternetSpeed() {
       date: new Date(),
     };
 
-    setCurrentTestResult(finalResult);
+    // Save to history
     setLastTestResult(finalResult);
     setTestState("completed");
-    setAnimatedSpeed(uploadSpeed);
-    animateProgress(1); // Ensure full circle
+    
+    // Reset display values
+    setCurrentTestResult({
+      downloadSpeed: null,
+      uploadSpeed: null,
+      ping: null,
+      date: null,
+    });
+    setAnimatedSpeed(0);
+    setGradientColors(["#3b82f6", "#2563eb"]); // Reset to blue
+    progressValue.setValue(0); // Reset progress bar
   };
 
   // Get current speed value based on test state
-  const getCurrentSpeed = (): number => {
+  const getCurrentSpeed = (): number | null => {
     if (testState === "testing-download" || testState === "testing-upload") {
       return animatedSpeed;
     }
-    if (testState === "completed") {
-      return (
-        currentTestResult.uploadSpeed ?? currentTestResult.downloadSpeed ?? 0
-      );
-    }
-    return 0;
+    // When idle or completed, show --.-- instead of last result
+    return null;
   };
 
   // Get status text
@@ -213,10 +218,9 @@ export function InternetSpeed() {
     return "";
   };
 
-  const displayResult =
-    testState === "completed"
-      ? currentTestResult
-      : lastTestResult || currentTestResult;
+  // When completed or idle, show current (reset) values in main card
+  // Last test history always shows lastTestResult
+  const displayResult = currentTestResult;
   const hasHistory =
     lastTestResult !== null ||
     (testState === "completed" && currentTestResult.downloadSpeed !== null);
@@ -367,7 +371,7 @@ export function InternetSpeed() {
               fw="$regular"
               color={hasHistory ? "$white" : "$gray3"}
             >
-              {hasHistory ? formatDate(displayResult.date) : "-"}
+              {hasHistory ? formatDate(lastTestResult?.date ?? null) : "-"}
             </Text>
           </XStack>
 
@@ -377,13 +381,13 @@ export function InternetSpeed() {
               <XStack items="center" justify="space-between">
                 <YStack flex={1} items="center">
                   <Text fs={18} fw="$regular" color="$white">
-                    {formatSpeed(displayResult.downloadSpeed)} Mb/s
+                    {formatSpeed(lastTestResult?.downloadSpeed ?? null)} Mb/s
                   </Text>
                 </YStack>
                 <Stack width={1} height={20} bg="$gray3" o={0.3} />
                 <YStack flex={1} items="center">
                   <Text fs={18} fw="$regular" color="$white">
-                    {formatSpeed(displayResult.uploadSpeed)} Mb/s
+                    {formatSpeed(lastTestResult?.uploadSpeed ?? null)} Mb/s
                   </Text>
                 </YStack>
               </XStack>
