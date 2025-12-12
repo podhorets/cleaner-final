@@ -3,8 +3,9 @@ import {
   useUploadSpeedTest,
 } from "@/src/services/networkService";
 import { ScreenHeader } from "@/src/shared/components/ScreenHeader";
+import { useUserRepository } from "@/src/shared/database/hooks/useUserRepository";
 import { ArrowDown, ArrowUp } from "@tamagui/lucide-icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Animated, Easing } from "react-native";
 import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 import { Button, Card, Stack, Text, XStack, YStack } from "tamagui";
@@ -28,6 +29,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 export function InternetSpeed() {
   const { startTest: startDownloadTest } = useSpeedTest();
   const { startUploadTest } = useUploadSpeedTest();
+  const { getUser, updateUser } = useUserRepository();
 
   const [gradientColors, setGradientColors] = useState(["#3b82f6", "#2563eb"]);
 
@@ -39,7 +41,9 @@ export function InternetSpeed() {
     ping: null,
     date: null,
   });
-  const [lastTestResult, setLastTestResult] = useState<TestResult | null>(null);
+  const [dbDownloadSpeed, setDbDownloadSpeed] = useState<number | null>(null);
+  const [dbUploadSpeed, setDbUploadSpeed] = useState<number | null>(null);
+  const [dbLastSpeedTest, setDbLastSpeedTest] = useState<string | null>(null);
 
   // Animation values
   const progressValue = useRef(new Animated.Value(0)).current;
@@ -51,6 +55,19 @@ export function InternetSpeed() {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const center = size / 2;
+
+  // Load speed history from database on mount
+  useEffect(() => {
+    const loadHistory = async () => {
+      const user = await getUser();
+      if (user) {
+        setDbDownloadSpeed(user.downloadSpeed);
+        setDbUploadSpeed(user.uploadSpeed);
+        setDbLastSpeedTest(user.lastSpeedTest);
+      }
+    };
+    loadHistory();
+  }, [getUser]);
 
   // Format speed value for display
   const formatSpeed = (speed: number | null): string => {
@@ -190,6 +207,18 @@ export function InternetSpeed() {
 
     setCurrentTestResult(finalResult);
 
+    // Save to database
+    const now = new Date().toISOString();
+    updateUser({ 
+      downloadSpeed, 
+      uploadSpeed,
+      lastSpeedTest: now
+    }).then((user) => {
+      setDbDownloadSpeed(user.downloadSpeed);
+      setDbUploadSpeed(user.uploadSpeed);
+      setDbLastSpeedTest(user.lastSpeedTest);
+    });
+
     setTimeout(() => {
       setTestState("completed");
       setCurrentTestResult({
@@ -198,7 +227,6 @@ export function InternetSpeed() {
         ping: null,
         date: null,
       });
-      setLastTestResult(finalResult);
       setAnimatedSpeed(0);
       progressValue.setValue(0);
       uploadStartedRef.current = false;
@@ -222,11 +250,9 @@ export function InternetSpeed() {
   };
 
   // When completed or idle, show current (reset) values in main card
-  // Last test history always shows lastTestResult
+  // History card shows values from database
   const displayResult = currentTestResult;
-  const hasHistory =
-    lastTestResult !== null ||
-    (testState === "completed" && currentTestResult.downloadSpeed !== null);
+  const hasHistory = dbDownloadSpeed !== null || dbUploadSpeed !== null;
 
   // Interpolate progress for SVG strokeDashoffset
   const strokeDashoffset = progressValue.interpolate({
@@ -380,9 +406,9 @@ export function InternetSpeed() {
             <Text
               fs={16}
               fw="$regular"
-              color={hasHistory ? "$white" : "$gray3"}
+              color="$gray3"
             >
-              {hasHistory ? formatDate(lastTestResult?.date ?? null) : "-"}
+              {hasHistory ? formatDate(dbLastSpeedTest ? new Date(dbLastSpeedTest) : null) : "-"}
             </Text>
           </XStack>
 
@@ -392,20 +418,20 @@ export function InternetSpeed() {
               <XStack items="center" justify="space-between">
                 <YStack flex={1} items="center">
                   <Text fs={18} fw="$regular" color="$white">
-                    {formatSpeed(lastTestResult?.downloadSpeed ?? null)} Mb/s
+                    {formatSpeed(dbDownloadSpeed)} Mb/s
                   </Text>
                 </YStack>
                 <Stack width={1} height={20} bg="$gray3" o={0.3} />
                 <YStack flex={1} items="center">
                   <Text fs={18} fw="$regular" color="$white">
-                    {formatSpeed(lastTestResult?.uploadSpeed ?? null)} Mb/s
+                    {formatSpeed(dbUploadSpeed)} Mb/s
                   </Text>
                 </YStack>
               </XStack>
             ) : (
               <YStack items="center" justify="center" minHeight={24}>
                 <Text fs={16} fw="$light" color="$gray3">
-                  --.-- Mb/s | --.-- Mb/s
+                  No data
                 </Text>
               </YStack>
             )}

@@ -28,15 +28,19 @@ export class UserRepository {
         lastSpeedTest,
         cleanedInTotal,
         password,
+        downloadSpeed,
+        uploadSpeed,
         created_at,
         updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user.lastChangeSecretFolder || null,
         user.lastClean || null,
         user.lastSpeedTest || null,
         user.cleanedInTotal ?? 0,
         user.password || null,
+        user.downloadSpeed ?? null,
+        user.uploadSpeed ?? null,
         now,
         now,
       ]
@@ -81,6 +85,14 @@ export class UserRepository {
     if (updates.password !== undefined) {
       fields.push("password = ?");
       values.push(updates.password);
+    }
+    if (updates.downloadSpeed !== undefined) {
+      fields.push("downloadSpeed = ?");
+      values.push(updates.downloadSpeed);
+    }
+    if (updates.uploadSpeed !== undefined) {
+      fields.push("uploadSpeed = ?");
+      values.push(updates.uploadSpeed);
     }
 
     if (fields.length === 0) {

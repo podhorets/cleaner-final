@@ -7,6 +7,8 @@ export interface User {
   lastSpeedTest: string | null;
   cleanedInTotal: number;
   password: string | null;
+  downloadSpeed: number | null;
+  uploadSpeed: number | null;
 }
 
 export interface Database {
