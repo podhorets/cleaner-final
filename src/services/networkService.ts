@@ -314,6 +314,7 @@ export function useUploadSpeedTest() {
     const startTime = Date.now();
     let stopped = false;
     let avgMbps = 0;
+    let previousProgress = 0; // Track to ensure monotonic progress
     const speedSamples: number[] = [];
 
     // Start all XHRs
@@ -359,23 +360,21 @@ export function useUploadSpeedTest() {
       const elapsedMs = now - startTime;
       const elapsedSeconds = Math.max(0.001, elapsedMs / 1000);
 
-      // Calculate bytes uploaded based on completed + in-progress XHRs
-      // Completed XHRs contribute full dataSizeBytes
-      // In-progress XHRs: estimate based on elapsed time vs typical upload time
+      // Calculate bytes uploaded based on completed XHRs
       const uploadedBytes = completedCount * dataSizeBytes;
 
-      // Calculate instantaneous speed based on recent completions
+      // Calculate instantaneous speed based on total progress, not per-XHR average
+      // This provides more stable speed readings
       let instantMbps = 0;
-      if (uploadedBytes > 0) {
-        // Calculate actual upload speed based on completed uploads
-        const avgCompletionTime =
-          completionTimes.filter((t) => t > 0).reduce((a, b) => a + b, 0) /
-          Math.max(1, completedCount);
-        const speedBps = dataSizeBytes / (avgCompletionTime / 1000);
+      if (completedCount > 0) {
+        // Use the time of the most recent completion for more accurate speed
+        const mostRecentCompletionTime = Math.max(...completionTimes);
+        const effectiveElapsedMs = mostRecentCompletionTime - startTime;
+        const speedBps = uploadedBytes / (effectiveElapsedMs / 1000);
         instantMbps = (speedBps * 8) / 1_000_000;
       } else {
-        // Estimate progress for in-flight uploads
-        // Assume all connections are uploading at similar rate
+        // Estimate speed for in-flight uploads based on typical upload speeds
+        // This gives a rough estimate until we have actual data
         const estimatedProgressPerXhr = Math.min(
           1,
           elapsedSeconds / (maxTestDurationMs / 1000)
@@ -418,7 +417,9 @@ export function useUploadSpeedTest() {
         estimatedProgress = Math.min(0.9, elapsedMs / estimatedTotalTime); // Cap at 90% until actual completion
       }
       
-      const progress = Math.min(1, estimatedProgress);
+      // Ensure progress never decreases (monotonic)
+      const progress = Math.max(previousProgress, Math.min(1, estimatedProgress));
+      previousProgress = progress;
 
       onUpdate({
         instantaneousMbps: Math.round(instantMbps * 100) / 100,
