@@ -116,12 +116,7 @@ export function InternetSpeed() {
         TEST_FILE_SIZE,
         (update) => {
           setAnimatedSpeed(update.avgMbps);
-          // Map download progress to 0-100% of circle
-          const progress = Math.min(
-            1,
-            update.downloadedBytes / (TEST_FILE_SIZE * 8) // Using 8 connections
-          );
-          animateProgress(progress);
+          animateProgress(update.progress);
         },
         {
           connections: 8,
@@ -162,12 +157,7 @@ export function InternetSpeed() {
         UPLOAD_SIZE,
         (update) => {
           setAnimatedSpeed(update.avgMbps);
-          // Map upload progress to 0-100% of circle
-          const progress = Math.min(
-            1,
-            update.downloadedBytes / (UPLOAD_SIZE * 8)
-          );
-          animateProgress(progress);
+          animateProgress(update.progress);
         },
         {
           connections: 8,

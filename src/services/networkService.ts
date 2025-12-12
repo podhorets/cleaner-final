@@ -102,6 +102,7 @@ type Update = {
   avgMbps: number; // EMA-smoothed
   elapsedSeconds: number;
   downloadedBytes: number;
+  progress: number;
 };
 
 export function useSpeedTest() {
@@ -190,11 +191,16 @@ export function useSpeedTest() {
       // rolling average (EMA)
       avgMbps = smoothingAlpha * instantMbps + (1 - smoothingAlpha) * avgMbps;
 
+      // Calculate progress based on the connection that is furthest ahead (since we stop when ANY finishes)
+      const maxConnectionBytes = Math.max(...bytesPerXhr);
+      const progress = Math.min(1, maxConnectionBytes / fileSizeBytes);
+
       onUpdate({
         instantaneousMbps: Math.round(instantMbps * 100) / 100,
         avgMbps: Math.round(avgMbps * 100) / 100,
         elapsedSeconds,
         downloadedBytes: totalBytes,
+        progress,
       });
 
       // Stop conditions: time exceeded or ANY xhrs finished or we've downloaded expected bytes
@@ -265,6 +271,11 @@ export function useUploadSpeedTest() {
       smoothingAlpha?: number;
     } = {}
   ) => {
+    console.log("[UploadTest] Starting test:", {
+      uploadEndpoint,
+      dataSizeBytes,
+      connections,
+    });
     if (!uploadEndpoint) throw new Error("uploadEndpoint required");
 
     // Generate dummy data
@@ -280,61 +291,107 @@ export function useUploadSpeedTest() {
       }
       dummyData += chunk;
     }
+    console.log(
+      `[UploadTest] Generated dummy data of size: ${dummyData.length}`
+    );
 
-    let xhrs: XMLHttpRequest[] = [];
-    let lastTotalBytes = 0;
-    let totalBytes = 0;
+    let payload: any = dummyData;
+    try {
+      if (typeof Blob !== "undefined") {
+        payload = new Blob([dummyData], { type: "text/plain" });
+        console.log("[UploadTest] Converted payload to Blob");
+      } else {
+        console.log("[UploadTest] Blob not available, using string payload");
+      }
+    } catch (e) {
+      console.warn("[UploadTest] Failed to create Blob:", e);
+    }
+
+    // Track completion for each XHR
+    const completedXhrs = new Array(connections).fill(false);
+    const completionTimes = new Array(connections).fill(0);
+    let completedCount = 0;
     const startTime = Date.now();
-    let avgMbps = 0;
     let stopped = false;
-    let lastLoaded = 0;
-    const speedSamples: number[] = []; // Store all samples
+    let avgMbps = 0;
+    const speedSamples: number[] = [];
 
-    // Per-XHR bytes
-    const bytesPerXhr = new Array(connections).fill(0);
-
+    // Start all XHRs
     for (let i = 0; i < connections; i++) {
       const xhr = new XMLHttpRequest();
       xhr.open("POST", uploadEndpoint, true);
-      xhr.setRequestHeader("Content-Type", "text/plain");
 
-      xhr.upload.onprogress = (evt: ProgressEvent) => {
-        if (stopped) return;
-        bytesPerXhr[i] = evt.loaded;
-        totalBytes = bytesPerXhr.reduce((a, b) => a + b, 0);
-        // console.log(`[Upload] XHR ${i} progress: ${evt.loaded}/${evt.total}`);
-      };
-
-      xhr.onloadend = () => {
-        // console.log(`[Upload] XHR ${i} finished. Status: ${xhr.status}`);
-        stopped = true;
+      xhr.onload = () => {
+        if (!completedXhrs[i]) {
+          const completionTime = Date.now();
+          completedXhrs[i] = true;
+          completionTimes[i] = completionTime;
+          completedCount++;
+          console.log(
+            `[UploadTest] XHR ${i} completed in ${
+              completionTime - startTime
+            }ms. Status: ${xhr.status}`
+          );
+        }
       };
 
       xhr.onerror = () => {
-        console.error(`[Upload] XHR ${i} error`);
-        stopped = true;
+        console.error(`[UploadTest] XHR ${i} error`);
+        if (!completedXhrs[i]) {
+          completedXhrs[i] = true;
+          completedCount++;
+        }
       };
 
-      xhr.send(dummyData);
-      xhrs.push(xhr);
+      console.log(
+        `[UploadTest] Sending XHR ${i} (payload type: ${
+          payload.constructor?.name || typeof payload
+        })`
+      );
+      xhr.send(payload);
     }
 
-    // Sampling loop
+    // Sampling loop that provides live updates
     const interval = setInterval(() => {
-      if (stopped) {
-        clearInterval(interval);
-        return;
-      }
+      if (stopped) return;
 
       const now = Date.now();
       const elapsedMs = now - startTime;
       const elapsedSeconds = Math.max(0.001, elapsedMs / 1000);
 
-      const deltaBytes = totalBytes - lastLoaded;
-      lastLoaded = totalBytes;
+      // Calculate bytes uploaded based on completed + in-progress XHRs
+      // Completed XHRs contribute full dataSizeBytes
+      // In-progress XHRs: estimate based on elapsed time vs typical upload time
+      const uploadedBytes = completedCount * dataSizeBytes;
 
-      const instantBps = deltaBytes / (sampleIntervalMs / 1000);
-      const instantMbps = (instantBps * 8) / 1_000_000;
+      // Calculate instantaneous speed based on recent completions
+      let instantMbps = 0;
+      if (uploadedBytes > 0) {
+        // Calculate actual upload speed based on completed uploads
+        const avgCompletionTime =
+          completionTimes.filter((t) => t > 0).reduce((a, b) => a + b, 0) /
+          Math.max(1, completedCount);
+        const speedBps = dataSizeBytes / (avgCompletionTime / 1000);
+        instantMbps = (speedBps * 8) / 1_000_000;
+      } else {
+        // Estimate progress for in-flight uploads
+        // Assume all connections are uploading at similar rate
+        const estimatedProgressPerXhr = Math.min(
+          1,
+          elapsedSeconds / (maxTestDurationMs / 1000)
+        );
+        const estimatedBytes = connections * dataSizeBytes * estimatedProgressPerXhr;
+        const speedBps = estimatedBytes / elapsedSeconds;
+        instantMbps = (speedBps * 8) / 1_000_000;
+      }
+
+      console.log(`[UploadTest] Loop:`, {
+        elapsedMs,
+        completedCount,
+        uploadedBytes,
+        instantMbps,
+        avgMbps,
+      });
 
       if (instantMbps > 0) {
         speedSamples.push(instantMbps);
@@ -342,38 +399,44 @@ export function useUploadSpeedTest() {
 
       avgMbps = smoothingAlpha * instantMbps + (1 - smoothingAlpha) * avgMbps;
 
-      // console.log(
-      //   `[Upload] Update: instant=${instantMbps.toFixed(
-      //     2
-      //   )} Mbps, avg=${avgMbps.toFixed(2)} Mbps, totalBytes=${totalBytes}`
-      // );
+      // Progress: Smooth estimation based on completed + in-progress uploads
+      let estimatedProgress = completedCount / connections;
+      
+      if (completedCount < connections && completedCount > 0) {
+        // We have some completions, estimate remaining based on average completion time
+        const avgCompletionTime =
+          completionTimes.filter((t) => t > 0).reduce((a, b) => a + b, 0) /
+          completedCount;
+        const remainingXhrs = connections - completedCount;
+        const estimatedRemainingProgress =
+          Math.min(1, elapsedMs / avgCompletionTime) * (remainingXhrs / connections);
+        estimatedProgress += estimatedRemainingProgress;
+      } else if (completedCount === 0) {
+        // No completions yet, provide linear progress estimation
+        // Assume average upload will take ~3 seconds for 2MB at 20Mbps
+        const estimatedTotalTime = (dataSizeBytes * 8 / 20_000_000) * 1000; // ms
+        estimatedProgress = Math.min(0.9, elapsedMs / estimatedTotalTime); // Cap at 90% until actual completion
+      }
+      
+      const progress = Math.min(1, estimatedProgress);
 
       onUpdate({
         instantaneousMbps: Math.round(instantMbps * 100) / 100,
         avgMbps: Math.round(avgMbps * 100) / 100,
         elapsedSeconds,
-        downloadedBytes: totalBytes,
+        downloadedBytes: uploadedBytes,
+        progress,
       });
 
-      // Stop conditions
-      const uploadedExpected = dataSizeBytes * connections;
-      const anyFinished = bytesPerXhr.some((b) => b >= dataSizeBytes);
-
-      if (
-        elapsedMs >= maxTestDurationMs ||
-        anyFinished ||
-        totalBytes >= uploadedExpected
-      ) {
-        console.log("[Upload] Stopping test. Condition met.");
+      // Stop when all XHRs complete or max duration exceeded
+      if (completedCount >= connections || elapsedMs >= maxTestDurationMs) {
+        console.log("[UploadTest] Stop condition met", {
+          completedCount,
+          connections,
+          elapsedMs,
+        });
         stopped = true;
         clearInterval(interval);
-        xhrs.forEach((x) => {
-          try {
-            x.abort();
-          } catch (e) {
-            /* ignore */
-          }
-        });
       }
     }, sampleIntervalMs);
 
@@ -387,14 +450,22 @@ export function useUploadSpeedTest() {
           clearInterval(pollEnd);
           const elapsedSeconds = (Date.now() - startTime) / 1000;
 
-          // Calculate arithmetic mean of all samples
-          const sum = speedSamples.reduce((a, b) => a + b, 0);
-          const finalAvg =
-            speedSamples.length > 0 ? sum / speedSamples.length : 0;
+          // Calculate final speed based on total bytes and actual time
+          const totalUploadedBytes = completedCount * dataSizeBytes;
+          const finalSpeedBps = totalUploadedBytes / elapsedSeconds;
+          const finalAvgMbps = (finalSpeedBps * 8) / 1_000_000;
+
+          console.log("[UploadTest] Resolving final result", {
+            finalAvgMbps,
+            totalBytes: totalUploadedBytes,
+            elapsedSeconds,
+            completedCount,
+            samplesCount: speedSamples.length,
+          });
 
           resolve({
-            finalAvgMbps: Math.round(finalAvg * 100) / 100,
-            totalBytes,
+            finalAvgMbps: Math.round(finalAvgMbps * 100) / 100,
+            totalBytes: totalUploadedBytes,
             elapsedSeconds,
           });
         }
